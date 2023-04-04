@@ -1,28 +1,30 @@
 <template>
-    <div class="col">
-        <input :type="type" :class="objectForm" :placeholder="placeHolder">
-    </div>
+    <Field :name="Name" :type="type" class="form-control mb-3" :value="value" />
 </template>
 
 <script>
+import { Field } from 'vee-validate';
 export default {
-    data(){
-        return {
-            objectForm: {
-                'form-control': true
-            }
-        }
+    components: {
+        Field
     },
     props: {
+        Label: {
+            type: String,
+            default: "Username"
+        },
         type: {
             type: String,
             default: "text"
-
         },
-        placeHolder: {
+        Name: {
             type: String,
-            default: "Belum Diisi"
+            default: "belumDiisi"
+        },
+        value: {
+            type: String
         }
-    }
+    },
+
 }
 </script>

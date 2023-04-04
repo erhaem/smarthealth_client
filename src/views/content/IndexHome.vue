@@ -1,0 +1,172 @@
+<template>
+  <section id="hero" class="d-flex align-items-start">
+    <div class="container">
+      <div class="px-5 py-5 mt-4" data-aos="fade-right" data-aos-duration="3000">
+        <h1 :class="'display-4 fw-bold ' + colorText">Solusi Kesehatan Anda</h1>
+        <div class="col-lg-6">
+          <p class="lead fw-bold">Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan,
+            Semua bisa
+            di
+            Berobat+</p>
+          <ButtonLayanan Label="get started" Color="btn-primary" />
+        </div>
+      </div>
+    </div>
+  </section>
+  <section>
+    <div class="container">
+      <TitleFeature Label="Layanan Utama" />
+      <div class="row g-4 row-cols-lg-3">
+        <div @click="$redirect('/tanya-dokter')">
+          <SkeletonLoading v-if="isLoading" />
+          <FeaturePrimary v-if="!isLoading" labelTitle="Chat Dengan Dokter" icon="fa-user-doctor"
+            labelParagraph="Konsultasi chat dengan dokter ">
+          </FeaturePrimary>
+        </div>
+        <SkeletonLoading v-if="isLoading" />
+        <FeaturePrimary v-if="!isLoading" labelTitle="Rawat Jalan" icon="fa-user-nurse"
+          labelParagraph="Perawatan dan Penanganan Pasien">
+        </FeaturePrimary>
+        <div @click="$redirect('/toko-kesehatan')">
+          <SkeletonLoading v-if="isLoading" />
+          <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
+            labelParagraph="Obat dan Vitamin">
+          </FeaturePrimary>
+        </div>
+      </div>
+      <div>
+      </div>
+    </div>
+  </section>
+  <section id="services" class="services">
+    <div class="container">
+      <div class="row">
+        <div class="d-flex justify-content-between">
+          <div class="col-sm-6">
+            <TitleFeature Label="Baca Artikel" />
+          </div>
+          <div class="col-sm-6 text-end">
+            <TitleFeature Label="Lihat semua" class="text-primary" />
+          </div>
+        </div>
+      </div>
+      <div class="row g-4">
+        <div class="col-md-4 col-lg-3 rounded" v-for="artikel in limitedDataArtikel" :key="artikel.id">
+          <SkeletonLoading v-if="onLoading" />
+          <CardArtikel v-if="!onLoading" :title="artikel.judulArtikel" :description="artikel.deskripsi"
+            @click="$redirect('/artikel/' + artikel.slugArtikel)">
+          </CardArtikel>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section id="obat">
+    <div class="container">
+      <TitleFeature Label="Obat & Vitamin" />
+      <p class="ms-2">Dapatkan informasi seputar kandungan, aturan, petunjuk penggunaan obat dan vitamin di sini
+      </p>
+      <div class="row g-4 row-cols-lg-4">
+        <div v-for="golongan in golongans" :key="golongan.id">
+          <SkeletonLoading v-if="isLoading"/>
+          <CardMedicine v-if="!isLoading" :labelTitle="golongan.golonganObat" />
+        </div>
+      </div>
+    </div>
+  </section>
+</template>
+<script>
+import ButtonLayanan from '@/components/ButtonLayanan.vue';
+import FeaturePrimary from '@/components/FeaturePrimary.vue';
+import TitleFeature from '@/components/TitleFeature.vue';
+import CardArtikel from '@/components/CardArtikel.vue';
+import LoadingComponent from '@/components/LoadingComponent.vue';
+import CardMedicine from '@/components/CardMedicine.vue';
+import SkeletonLoading from '@/components/SkeletonLoading.vue';
+import Cookies from 'js-cookie'
+export default {
+  props: {
+    colorText: {
+      type: String,
+      default: "text-primary"
+    }
+  },
+  components: {
+    ButtonLayanan, FeaturePrimary, TitleFeature, LoadingComponent, CardArtikel, CardMedicine, SkeletonLoading
+  },
+  data() {
+    return {
+      users: [],
+      artikels: [],
+      golongans: [],
+      limit: 4,
+      maxLength: 20,
+      onLoading: false,
+    }
+  },
+  created() {
+    this.getUsers(),
+      this.getArtikel(),
+      this.getKategoriObat()
+  },
+  computed: {
+    limitedDataArtikel() {
+      return this.artikels.slice(0, this.limit)
+    },
+  },
+  methods: {
+    getUsers() {
+      const selfGet = this
+      var type = "getData"
+      var url = [
+        "create-api", {}
+      ]
+      selfGet.isLoading = true
+      selfGet.$store.dispatch(type, url).then((result) => {
+        console.log(result);
+        Cookies.set("token", result.token);
+        Cookies.set("user", JSON.stringify(result));
+        selfGet.users = result
+        setTimeout(() => {
+          selfGet.isLoading = false
+        }, 1000);
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
+    getArtikel() {
+      const selfGet = this
+      let type = "getData"
+      let url = [
+        "master/artikel", {}
+      ]
+      selfGet.onLoading = true
+      selfGet.$store.dispatch(type, url).then((result) => {
+        console.log(result.data);
+        selfGet.artikels = result.data
+        setTimeout(() => {
+          selfGet.onLoading = false
+        }, 2000);
+      }).catch((err) => {
+        console.log(err);
+      })
+    },
+    getKategoriObat() {
+      const selfGet = this
+      let type = "getData"
+      let url = [
+        "master/obat/golongan_obat", {}
+      ]
+      selfGet.isLoading = true
+      selfGet.$store.dispatch(type, url).then((result) => {
+        console.log(result.data);
+        selfGet.golongans = result.data
+        setTimeout(() => {
+          selfGet.isLoading = false
+        }, 1000);
+      }).catch((err) => {
+        console.log(err);
+      })
+    }
+  }
+}
+</script>

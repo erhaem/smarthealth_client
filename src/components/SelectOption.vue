@@ -3,11 +3,6 @@
         <select :class="formSelect" v-model="selectGender">
             <option v-for="option in options" :value="option.value">{{ option.text }}</option>
         </select>
-        <div>
-            <p>
-                kamu milih {{ selectGender }}
-            </p>
-        </div>
     </div>
 </template>
 
