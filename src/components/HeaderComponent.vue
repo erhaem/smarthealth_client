@@ -18,6 +18,7 @@
             <b>Registrasi</b>
           </a>
           <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+            <li><router-link to="/register" class="dropdown-item" href="#">Konsumen</router-link></li>
             <li><router-link to="/register-dokter" class="dropdown-item" href="#">Dokter</router-link></li>
           </ul>
         </li>

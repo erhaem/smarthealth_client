@@ -1,5 +1,5 @@
 <template>
-    <Field :name="Name" :type="type" class="form-control mb-3" autocomplete="off" :value="value" />
+    <Field :name="Name" :type="type" class="form-control mb-3" autocomplete="on" :value="value" />
 </template>
 
 <script>

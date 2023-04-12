@@ -153,7 +153,6 @@ export default {
             })
         },
         async editData() {
-            // let type = "updateData"
             const cookie = Cookies.get("user");
             const parsing = JSON.parse(cookie);
 
