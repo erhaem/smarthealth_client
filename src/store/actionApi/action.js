@@ -30,11 +30,10 @@ const process = {
             });
         },
         postData(context, param) {
-            return new Promise((resolve) => {
+            return new Promise((resolve, reject) => {
                 Api.init();
                 Api.post(param[0], param[1]).then(
                     (response) => {
-            
                         resolve(response.data);
                     },
                     (error) => {
@@ -52,6 +51,7 @@ const process = {
                     },
                     (error) => {
                         reject(error);
+
                     }
                 );
             });

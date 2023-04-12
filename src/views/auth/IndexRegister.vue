@@ -1,24 +1,7 @@
 <template>
-    <div class="px-2 py-2 my-5 text-center">
-        <img class="d-block mx-auto mb-4 w-25 h-25" src="../../assets/register.png">
-        <h1 class="display-5 fw-bold">Pendaftaran Akun</h1>
-        <div class="col-lg-2 mx-auto">
-            <p class="lead mb-2">Silahkan Pilih Role Akun</p>
-            <div class="w-100 justify-content-sm-center">
-                <!-- Example single danger button -->
-                <div class="btn-group">
-                    <button type="button" class="btn btn-danger dropdown-toggle" data-bs-toggle="dropdown"
-                        aria-expanded="false">
-                        Pilih Role Akun
-                    </button>
-                    <ul class="dropdown-menu">
-                        <li><router-link to="" class="dropdown-item">Umum</router-link></li>
-                        <li><router-link to="/register-dokter" class="dropdown-item">Dokter</router-link></li>
-                        <li><router-link to="" class="dropdown-item">Perawat</router-link></li>
-                        <li><router-link to="" class="dropdown-item">Apotek</router-link></li>
-                    </ul>
-                </div>
-            </div>
+    <div class="container col-xxl-10 col-xl-10 px-4 py-4 bg-primary">
+        <div class="row align-items-center g-lg-5 py-5">
+            
         </div>
     </div>
 </template>

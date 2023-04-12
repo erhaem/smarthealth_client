@@ -13,10 +13,10 @@
       </div>
     </div>
   </section>
-  <section>
+  <section id="feature">
     <div class="container">
       <TitleFeature Label="Layanan Utama" />
-      <div class="row g-4 row-cols-lg-3">
+      <div class="row g-4 row-cols-lg-4">
         <div @click="$redirect('/tanya-dokter')">
           <SkeletonLoading v-if="isLoading" />
           <FeaturePrimary v-if="!isLoading" labelTitle="Chat Dengan Dokter" icon="fa-user-doctor"
@@ -25,12 +25,18 @@
         </div>
         <SkeletonLoading v-if="isLoading" />
         <FeaturePrimary v-if="!isLoading" labelTitle="Rawat Jalan" icon="fa-user-nurse"
-          labelParagraph="Perawatan dan Penanganan Pasien">
+          labelParagraph="Perawatan Pasien">
         </FeaturePrimary>
         <div @click="$redirect('/toko-kesehatan')">
           <SkeletonLoading v-if="isLoading" />
           <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
             labelParagraph="Obat dan Vitamin">
+          </FeaturePrimary>
+        </div>
+        <div @click="$redirect('/hospital')">
+          <SkeletonLoading v-if="isLoading" />
+          <FeaturePrimary v-if="!isLoading" labelTitle="Rumah Sakit" icon="fa-hospital"
+            labelParagraph="Buat janji dengan RS">
           </FeaturePrimary>
         </div>
       </div>
@@ -52,8 +58,8 @@
       </div>
       <div class="row g-4">
         <div class="col-md-4 col-lg-3 rounded" v-for="artikel in limitedDataArtikel" :key="artikel.id">
-          <SkeletonLoading v-if="onLoading" />
-          <CardArtikel v-if="!onLoading" :title="artikel.judulArtikel" :description="artikel.deskripsi"
+          <SkeletonLoading v-if="isLoading" />
+          <CardArtikel v-if="!isLoading" :title="artikel.judulArtikel" :description="artikel.deskripsi"
             @click="$redirect('/artikel/' + artikel.slugArtikel)">
           </CardArtikel>
         </div>
@@ -67,7 +73,7 @@
       </p>
       <div class="row g-4 row-cols-lg-4">
         <div v-for="golongan in golongans" :key="golongan.id">
-          <SkeletonLoading v-if="isLoading"/>
+          <SkeletonLoading v-if="isLoading" />
           <CardMedicine v-if="!isLoading" :labelTitle="golongan.golonganObat" />
         </div>
       </div>
@@ -100,12 +106,12 @@ export default {
       golongans: [],
       limit: 4,
       maxLength: 20,
-      onLoading: false,
+      isLoading: false,
     }
   },
   created() {
     this.getUsers(),
-      this.getArtikel(),
+    this.getArtikel();
       this.getKategoriObat()
   },
   computed: {
@@ -116,22 +122,50 @@ export default {
   methods: {
     getUsers() {
       const selfGet = this
-      var type = "getData"
-      var url = [
+      let type = "getData"
+      let url = [
         "create-api", {}
       ]
       selfGet.isLoading = true
       selfGet.$store.dispatch(type, url).then((result) => {
-        console.log(result);
-        Cookies.set("token", result.token);
-        Cookies.set("user", JSON.stringify(result));
-        selfGet.users = result
+        if (Cookies.get("user") != undefined) {
+          Cookies.set("user", Cookies.get("user"))
+        } else {
+          if (Cookies.get("token") == undefined) {
+            Cookies.set("token", result.token);
+          }
+        }
+        selfGet.users = Cookies.get("token");
         setTimeout(() => {
           selfGet.isLoading = false
         }, 1000);
       }).catch((err) => {
         console.log(err);
       })
+      // if (Cookies.get("token-login") != null) {
+      //   selfGet.$store.dispatch(type, url).then((result) => {
+      //     Cookies.set("user", Cookies.get("user"));
+      //     Cookies.remove('token')
+      //     selfGet.users = Cookies.get("token-login");
+      //     setTimeout(() => {
+      //       selfGet.isLoading = false
+      //     }, 1000);
+      //   }).catch((err) => {
+      //     console.log(err);
+      //   })
+      // } else {
+      //   selfGet.isLoading = true
+      //   selfGet.$store.dispatch(type, url).then((result) => {
+      //     console.log(result)
+      //     Cookies.set("token", result.token);
+      //     selfGet.users = result.data
+      //     setTimeout(() => {
+      //       selfGet.isLoading = false
+      //     }, 1000);
+      //   }).catch((err) => {
+      //     console.log(err);
+      //   })
+      // }
     },
     getArtikel() {
       const selfGet = this
@@ -139,12 +173,11 @@ export default {
       let url = [
         "master/artikel", {}
       ]
-      selfGet.onLoading = true
+      selfGet.isLoading = true
       selfGet.$store.dispatch(type, url).then((result) => {
-        console.log(result.data);
         selfGet.artikels = result.data
         setTimeout(() => {
-          selfGet.onLoading = false
+          selfGet.isLoading = false
         }, 2000);
       }).catch((err) => {
         console.log(err);

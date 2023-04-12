@@ -26,14 +26,14 @@
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
                                 <p>Some representative placeholder content for the second slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Third slide label</h5>
                                 <p>Some representative placeholder content for the third slide.</p>
@@ -65,22 +65,11 @@
                     </p>
                 </div>
                 <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
-                    <div class="col">
+                    <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
                         <i class="fa-solid fa-stethoscope fs-2 text-primary"></i>
-                        <p>Dokter Umum</p>
+                        <p>{{ specialist.namaSpesialis }}</p>
                     </div>
-                    <div class="col">
-                        <i class="fa-solid fa-child-reaching fs-2 text-danger"></i>
-                        <p>Spesialis Anak</p>
-                    </div>
-                    <div class="col">
-                        <i class="fa-solid fa-hand-dots fs-2 text-success"></i>
-                        <p>Spesialis Kulit</p>
-                    </div>
-                    <div class="col">
-                        <i class="fa-solid fa-stethoscope fs-2 text-dark"></i>
-                        <p>Spesialis Penyakit Dalam</p>
-                    </div>
+
                 </div>
                 <div class="text-start ms-2 ">
                     <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
@@ -106,7 +95,7 @@
                                         <p class="rounded mb-1" style="font-size: 10px;"><i
                                                 class="ms-1 fa-solid fa-thumbs-up"></i> 100% &nbsp;</p>
                                     </div>
-                                    <p class="mb-1" style="font-size: 12px;">Rp. 30.000
+                                    <p class="mb-1" style="font-size: 12px;">Rp. {{ dokter.biaya.biaya }}
                                     </p>
                                     <div class="pt-3">
                                         <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
@@ -130,11 +119,19 @@ export default {
     data() {
         return {
             dokters: [],
+            specialist: [],
+            limit: 4,
             isLoading: false
         }
     },
     created() {
-        this.getDokter()
+        this.getDokter(),
+            this.getSpesialis()
+    },
+    computed: {
+        limitedDataSpesialis() {
+            return this.specialist.slice(0, this.limit)
+        },
     },
     components: {
         HeaderComponent, FooterComponent, SmallLoading, BodyDetailDokter
@@ -148,10 +145,22 @@ export default {
                 "akun/dokter", {}
             ]
             selfGet.$store.dispatch(type, url).then((result) => {
+                console.log(result.data);
                 selfGet.dokters = result.data
                 setTimeout(() => {
                     selfGet.isLoading = false;
                 }, 1000);
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        getSpesialis() {
+            let type = "getData"
+            let url = [
+                "master/penyakit/spesialis_penyakit", {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.specialist = result.data
             }).catch((err) => {
                 console.log(err);
             })
@@ -160,6 +169,8 @@ export default {
 }
 </script>
 
-<style>.section-bg {
+<style>
+.section-bg {
     background-color: #f1f7fd;
-}</style>
+}
+</style>

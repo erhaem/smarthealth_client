@@ -1,21 +1,39 @@
 <template>
-    <div class="container col-xxl-8 px-5 py-5">
-        <Form @submit="handleSubmit">
-            {{ user }}
-            <input type="hidden" v-model="user.id_dokter" />
-            <InputField name="nomor" v-model="nomor_str" placeHolder="nomor_str" />
-            <InputField name="kelas" v-model="kelas" placeHolder="kelas" />
-            <InputField name="nama" v-model="user.nama" placeHolder="nama" />
-            <InputField name="jenis_kelamin" v-model="user.jenis_kelamin" placeHolder="jenis_kelamin" />
-            <InputField name="email" v-model="user.email" placeHolder="email"  />
-            <InputField name="nomor_hp" v-model="user.nomor_hp" placeHolder="nomor_hp"  />
-            <InputField name="alamat" v-model="user.alamat" placeHolder="alamat"  />
-            <InputField name="tempat_lahir" v-model="user.tempat_lahir" placeHolder="tempat lahir"  />
-            <InputField name="tanggal_lahir" v-model="user.tanggal_lahir" type="date" placeHolder="tanggal lahir"  />
-            <div class="">
-                <ButtonLayanan Label="Submit" type="submit" />
+    <div class="container col-xl-10 col-xxl-10 px-4 py-5">
+        <div class="row align-items-top g-lg-5">
+            <div class="col-lg-6 text-center text-lg-start">
+                <h5 class="display-5 fw-bold lh-1 mb-3 text-primary">Personal Info</h5>
+                <p class="col-lg-10 fs-5 text-secondary">Provide Your Personal Info</p>
             </div>
-        </Form>
+            <div class="col-md-10 mx-auto col-lg-6">
+                <Form @submit="handleSubmit">
+                    <input type="hidden" v-model="user.id_dokter" />
+                    <div class="row">
+                        <div class="d-flex align-items-center">
+                            <InputField name="nomor" class="input me-2" v-model="nomor_str" placeHolder="nomor_str" />
+                            <select class="form-select mb-3" v-model="kelas" aria-label="Default select example">
+                                <option selected>Open this select menu</option>
+                                <option value="1" selected>1</option>
+                            </select>
+                        </div>
+                    </div>
+                    <InputField name="nama" v-model="user.nama" placeHolder="nama" />
+                    <InputField name="jenis_kelamin" v-model="user.jenis_kelamin" placeHolder="jenis_kelamin" />
+                    <div class="row">
+                        <div class="d-flex align-items-center">
+                            <InputField name="email" class="me-2" v-model="user.email" placeHolder="email" />
+                            <InputField name="nomor_hp" v-model="user.nomor_hp" placeHolder="nomor_hp" />
+                        </div>
+                    </div>
+                    <InputField name="alamat" v-model="user.alamat" placeHolder="alamat" />
+                    <InputField name="tempat_lahir" v-model="user.tempat_lahir" placeHolder="tempat lahir" />
+                    <InputField name="tanggal_lahir" v-model="user.tanggal_lahir" type="date" placeHolder="tanggal lahir" />
+                    <div class="">
+                        <ButtonLayanan Label="Submit" type="submit" />
+                    </div>
+                </Form>
+            </div>
+        </div>
     </div>
 </template>
 
@@ -23,7 +41,7 @@
 import InputField from '@/components/InputField.vue';
 import ButtonLayanan from '@/components/ButtonLayanan.vue';
 import iziToast from 'izitoast'
-import {Form} from 'vee-validate'
+import { Form } from 'vee-validate'
 export default {
     data() {
         return {
@@ -61,11 +79,12 @@ export default {
             selfPost.$store.dispatch(type, url).then((result) => {
                 console.log(result);
                 iziToast.success({
-                    transitionIn: 'fadeInUp',
-                    timeout: 2000,
-                    title: "Berhasil",
-                    message: "Data berhasil ditambah",
-                    position: "topCenter",
+                transitionIn: 'fadeInUp',
+                timeout: 2000,
+                message: "Data kamu sudah tersimpan. silahkan menunggu untuk aktivasi",
+                position: "topCenter",
+            }).then(function () {
+                    window.location = "/register-dokter"
                 })
             }).catch(error => {
                 console.log(error);
@@ -77,3 +96,10 @@ export default {
     }
 }
 </script>
+
+<style>
+.form-select:focus {
+    border-color: #4538db;
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(95, 124, 218, 0.6);
+}
+</style>
