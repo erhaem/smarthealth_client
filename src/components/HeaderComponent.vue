@@ -47,7 +47,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import Cookies from 'js-cookie'
 export default {
   computed:{
@@ -60,19 +59,18 @@ export default {
   },
   methods: {
     logout(){
-      axios.get(
-        "https://berobatplus.shop/api/logout", {},
-        {
-          headers: {
-            Authorization: "Bearer" + Cookies.get('token')
-          }
-        }
-      ).then(()=>{
+      let type = "getData"
+      let url = [
+        "logout", {}
+      ]
+      this.$store.dispatch(type, url).then((result)=>{
         Cookies.remove('token')
         Cookies.remove('user')
         window.location.replace('/')
+      }).catch((err)=>{
+        console.log(err);
       })
-    }
+    },
   },
 }
 </script>

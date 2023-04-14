@@ -14,13 +14,13 @@
                                 <label for="" class="mb-2">Password Baru</label>
                                 <InputField type="password" Name="newPass" :value="newPass" v-model="newPass"
                                     class="w-100" />
-                                <span>{{ errors.newPass }}</span>
+                                <span :class="[errorClass]">{{ errors.newPass }}</span>
                             </div>
                             <div class="col-sm-6 col-6">
                                 <label for="" class="mb-2">Konfirmasi Password</label>
                                 <InputField type="password" Name="confirmPassword" :value="confirmPassword"
                                     v-model="confirmPassword" class="w-100" />
-                                {{ errors.confirmPassword }}
+                                <span :class="[errorClass]">{{ errors.confirmPassword }}</span>
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
@@ -35,7 +35,6 @@
 
 <script>
 import InputField from '@/components/InputField.vue';
-import axios from 'axios'
 import Cookies from 'js-cookie'
 import iziToast from 'izitoast'
 import { Form } from 'vee-validate';
@@ -44,7 +43,8 @@ export default {
     data() {
         return {
             newPass: '',
-            confirmPassword: ''
+            confirmPassword: '',
+            errorClass: 'text-danger'
         }
     },
     components: {
@@ -53,8 +53,8 @@ export default {
     computed: {
         schema() {
             return validate.object({
-                newPass: validate.string().required('wajib diisi'),
-                confirmPassword: validate.string().required('wajib diisi'),
+                newPass: validate.string().required('wajib diisi').min(8, 'minimal 8 karakter'),
+                confirmPassword: validate.string().required('wajib diisi').min(8, 'minimal 8 karakter'),
             })
         }
     },
@@ -69,17 +69,16 @@ export default {
             this.confirmPassword = event
         },
         logout() {
-            axios.get(
-                "https://berobatplus.shop/api/logout", {},
-                {
-                    headers: {
-                        Authorization: "Bearer" + Cookies.get('token')
-                    }
-                }
-            ).then(() => {
+            let type = "getData"
+            let url = [
+                "logout", {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
                 Cookies.remove('token')
                 Cookies.remove('user')
                 window.location.replace('/')
+            }).catch((err) => {
+                console.log(err);
             })
         },
         getUser() {
@@ -109,6 +108,7 @@ export default {
                         }
                     ]
                     this.$store.dispatch(type, url).then((result) => {
+                        this.logout()
                         iziToast.success({
                             title: "berhasil",
                             message: "password diubah",
@@ -116,7 +116,6 @@ export default {
                             onOpened: () => {
                             },
                         })
-                        // this.logout()
                     }).catch((err) => {
                         console.log(err);
                     })

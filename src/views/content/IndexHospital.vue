@@ -79,8 +79,8 @@ export default {
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
+                console.log(result);
                 this.hospitals = result.data
-                console.log(result.data);
                 setTimeout(() => {
                     this.isLoading = false
 
