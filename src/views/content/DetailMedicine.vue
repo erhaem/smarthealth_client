@@ -1,6 +1,6 @@
 <template>
     <div class="container col-sm-12 col-xl-10 px-4 py-4 border-top">
-        <div class="row align-items-top g-lg-5">
+        <!-- <div class="row align-items-top g-lg-5">
             <div class="col-lg-4 px-4 py-4">
                 <img src="../../assets/images/obat.jpg" class="img-fluid img-thumbnail rounded w-75" alt="">
             </div>
@@ -60,16 +60,29 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
+        <h3>
+            {{ detailMedicines.id }}
+        </h3>
     </div>
 </template>
 
 <script>
-import TitleFeature from '@/components/TitleFeature.vue';
-
+import axios from 'axios'
 export default {
-    components: {
-        TitleFeature
+    data(){
+        return {
+            detailMedicines: '',
+            id: ''
+        }
+    },
+    created(){
+        this.id = this.$route.params.id
+        axios.get('https://berobatplus.shop/api/master/obat/data_obat?id=$(this.id)').then((response)=>{
+            console.log(response);
+        }).catch((err)=>{
+            console.log(err);
+        })
     }
 }
 </script>

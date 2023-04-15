@@ -8,6 +8,7 @@
                         <template #anyText>
                             <p class="mb-1 text-secondary"><small>Rp. {{medicine.harga}}</small></p>
                             <button class="btn btn-outline-danger">Tambah +</button>
+                            <router-link :to="'/toko-kesehatan/'+ medicine.idObat">show</router-link>
                         </template>
                     </CardArtikel>
                 </div>

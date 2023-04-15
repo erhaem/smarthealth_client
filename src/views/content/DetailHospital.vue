@@ -40,19 +40,35 @@
                 </div>
             </div>
         </div>
+        <div class="col-md-12">
+            <h5 class="py-2">Spesialisasi Dokter</h5>
+            <div class="row row-cols-1 row-cols-md-3">
+                <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
+                <CardMedicine @click="$redirect('/hospital' + specialist.idRumahSakit + '/' + specialist.idRumahSakit.slugSpesialis)" class="mb-2" icon="fa-user" :labelTitle="specialist.penyakit.namaSpesialis"/>
+            </div>
+            <div class="px-3 py-4 text-center">
+            <p class="text-primary">lihat semua spesialis</p>
+            </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import CardMedicine from '@/components/CardMedicine.vue';
 export default {
     data() {
         return {
             detailHospitals: [],
+            limit: 5
         }
     },
     computed: {
         idFromParams() {
             return this.$route.params.id
+        },
+        limitedDataSpesialis(){
+            return this.detailHospitals.slice(0, this.limit)
         }
     },
     mounted() {
@@ -65,12 +81,14 @@ export default {
                 "master/rumah_sakit/spesialis/" + this.idFromParams, []
             ]
             this.$store.dispatch(type, url).then((result) => {
-                console.log(result.data);
                 this.detailHospitals = result.data
             }).catch((err) => {
                 console.log(err);
             })
         }
     },
+    components:{
+        CardMedicine
+    }
 }
 </script>
