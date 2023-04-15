@@ -24,10 +24,8 @@
                     <div class="col-md-2 themed-grid-col">
                         <div class="text-start">
                             <h6 class="mt-3 mb-0"><b>Fasilitas</b></h6>
-                            <ul style="padding-left: 1rem;">
-                                <li>Farmasi</li>
-                                <li>Ambulan</li>
-                                <li>IGD</li>
+                            <ul style="padding-left: 1rem;" v-for="fasilitas in detailFasilitas" :key="fasilitas.id">
+                                <li class="">{{fasilitas.namaFasilitas}}</li>
                             </ul>
                         </div>
                         <div class="row">
@@ -60,7 +58,8 @@ export default {
     data() {
         return {
             detailHospitals: [],
-            limit: 5
+            limit: 5,
+            detailFasilitas: []
         }
     },
     computed: {
@@ -74,6 +73,9 @@ export default {
     mounted() {
         this.getDetailHospital()
     },
+    created(){
+        this.getDetailFasilitas()
+    },
     methods: {
         getDetailHospital() {
             let type = "getData"
@@ -82,6 +84,18 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.detailHospitals = result.data
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        getDetailFasilitas() {
+            let type = "getData"
+            let url = [
+                "master/rumah_sakit/fasilitas_rs/rs/" + this.idFromParams, []
+            ]
+            this.$store.dispatch(type, url).then((response) => {
+                this.detailFasilitas = response.data
+                console.log(response.data);
             }).catch((err) => {
                 console.log(err);
             })

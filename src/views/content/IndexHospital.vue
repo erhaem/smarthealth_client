@@ -13,17 +13,16 @@
         <div class="row justify-content-start">
             <div class="col-8">
                 <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col" v-for="hospital in hospitals" :key="hospital.id">
+                    <div class="col" v-for="(hospital, idRumahSakit) in hospitals" :key="hospital.idRumahSakit">
                         <SkeletonLoading v-if="isLoading" />
                         <div class="card" v-if="!isLoading">
                             <div class="embed-responsive embed-responsive-16by9">
                                 <img src="../../assets/images/rs.jpg" class="card-img-top" alt="...">
                             </div>
                             <div class="card-body">
-                                <router-link :to="'/hospital/' + hospital.idRumahSakit">
-                                    <h5 class="card-title">{{ hospital.namaRs }}</h5>
-                                </router-link>
+                                <p class="card-text">{{ hospital.namaRs }}</p>
                                 <p class="card-text">{{ hospital.deskripsiRs }}</p>
+                                <router-link :to="{ name: 'UserInfo', params: { userIndex: hospital.idRumahSakit } }">Home</router-link>
                             </div>
                         </div>
                     </div>
@@ -83,7 +82,6 @@ export default {
                 this.hospitals = result.data
                 setTimeout(() => {
                     this.isLoading = false
-
                 }, 2000);
             }).catch((err) => {
                 console.log(err);

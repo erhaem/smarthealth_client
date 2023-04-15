@@ -13,4 +13,9 @@ export default [{
     name: 'DetailHospital',
     component: () => import('@/views/content/DetailHospital.vue'),
 },
+{
+    path: '/hospital/go/:userIndex',
+    name: 'UserInfo',
+    component: () =>import('@/views/content/test.vue')
+}  
 ]

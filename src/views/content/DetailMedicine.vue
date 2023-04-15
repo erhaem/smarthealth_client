@@ -1,13 +1,13 @@
 <template>
     <div class="container col-sm-12 col-xl-10 px-4 py-4 border-top">
-        <!-- <div class="row align-items-top g-lg-5">
+        <div class="row align-items-top g-lg-5">
             <div class="col-lg-4 px-4 py-4">
                 <img src="../../assets/images/obat.jpg" class="img-fluid img-thumbnail rounded w-75" alt="">
             </div>
             <div class="col-lg-4 px-4 py-4">
                 <div class="header">
-                    <h5>Paracetamol</h5>
-                    <h6 class="text-secondary">Rp. 20.000</h6>
+                    <h5>{{ detailMedicines.namaObat }}</h5>
+                    <h6 class="text-secondary">Rp. {{detailMedicines.harga}}</h6>
                     <p class="fw-1">Harga tiap apotek berbeda</p>
                 </div>
                 <div class="d-inline-flex grip-4 pb-3">
@@ -20,7 +20,7 @@
                 </div>
                 <div class="body py-2 border-top">
                     <h6>Deskripsi</h6>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Laborum at porro quis odit eaque assumenda expedita eius, laudantium iusto molestiae ad veritatis praesentium. Blanditiis laudantium ratione soluta, debitis nemo explicabo!</p>
+                    <p>{{detailMedicines.deskripsi}}</p>
                 </div>
                 <div class="body py-2 border-top">
                     <h6>Indikasi Umum</h6>
@@ -60,29 +60,38 @@
                     </div>
                 </div>
             </div>
-        </div> -->
-        <h3>
-            {{ detailMedicines.id }}
-        </h3>
+        </div>
     </div>
 </template>
 
 <script>
 import axios from 'axios'
 export default {
-    data(){
+    data() {
         return {
             detailMedicines: '',
-            id: ''
         }
     },
-    created(){
-        this.id = this.$route.params.id
-        axios.get('https://berobatplus.shop/api/master/obat/data_obat?id=$(this.id)').then((response)=>{
-            console.log(response);
-        }).catch((err)=>{
-            console.log(err);
-        })
-    }
+    computed: {
+        idFromParams(){
+            return this.$route.params.id
+        }
+    },
+    mounted() {
+        this.getdetailMedicines()
+    },
+    methods: {
+        getdetailMedicines() {
+            let type = "getData"
+            let url = [
+                "master/obat/data_obat/" + this.idFromParams + '/edit'
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.detailMedicines = result.data
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
+    },
 }
 </script>
