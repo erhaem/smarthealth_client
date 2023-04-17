@@ -96,7 +96,7 @@ export default {
             if (this.newPass) {
                 if (this.confirmPassword !== this.newPass) {
                     iziToast.error({
-                        title: "galat",
+                        title: "gagal",
                         message: "Password tidak sama",
                         position: "topRight"
                     })

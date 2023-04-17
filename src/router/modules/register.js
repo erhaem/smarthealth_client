@@ -14,8 +14,8 @@ export default [{
     component: () => import('@/views/auth/RegisterKonsumen.vue')
 },
 {
-    path: '/register-apotek/',
-    name: "RegisterApotek",
-    component: () => import('@/views/auth/RegisterApotek.vue')
+    path: '/register-perawat/',
+    name: "RegisterPerawat",
+    component: () => import('@/views/auth/RegisterPerawat.vue')
 }
 ]

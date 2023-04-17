@@ -25,6 +25,7 @@
                             <InputField name="nomor_hp" v-model="user.nomor_hp" placeHolder="nomor_hp" />
                         </div>
                     </div>
+                    <InputField name="password" v-model="user.password" placeHolder="password" />
                     <InputField name="alamat" v-model="user.alamat" placeHolder="alamat" />
                     <InputField name="tempat_lahir" v-model="user.tempat_lahir" placeHolder="tempat lahir" />
                     <InputField name="tanggal_lahir" v-model="user.tanggal_lahir" type="date" placeHolder="tanggal lahir" />
@@ -55,6 +56,7 @@ export default {
                 tanggal_lahir: '',
                 alamat: '',
                 jenis_kelamin: '',
+                password: ''
             }
         }
     },
@@ -71,6 +73,7 @@ export default {
                 jenis_kelamin: selfPost.user.jenis_kelamin,
                 tempat_lahir: selfPost.user.tempat_lahir,
                 tanggal_lahir: selfPost.user.tanggal_lahir,
+                password: selfPost.user.password
             }
             let type = "postData"
             let url = [
