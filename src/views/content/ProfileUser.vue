@@ -38,14 +38,14 @@
                                 <label for="" class="mb-2">Nama Lengkap</label>
                                 <InputField class="w-100" Name="nama" v-model="form.nama" />
                                 <label for="" class="mb-2">Nomor HP</label>
-                                <InputField class="w-100" Name="nomorHp" v-model="form.nomor_hp" />
+                                <InputField class="w-100" Name="nomorHp" v-model="form.nomorHp" />
                                 <span :class="[errorClass]">{{errors.nomorHp}}</span>
                             </div>
                             <div class="col-sm-6 col-6">
                                 <label for="" class="mb-2">Email</label>
                                 <InputField class="w-100" Name="email" v-model="form.email" />
                                 <label for="" class="mb-2">Tempat Lahir</label>
-                                <InputField class="w-100" Name="jenisKelamin" v-model="form.tempat_lahir" />
+                                <InputField class="w-100" Name="jenisKelamin" v-model="form.tempatLahir" />
                             </div>
                         </div>
                         <label for="" class="mb-2">Alamat</label>
@@ -54,15 +54,15 @@
                         <div class="row">
                             <div class="col-sm-6 col-6">
                                 <label for="" class="mb-2">Tinggi Badan</label>
-                                <InputField class="w-100" Name="tinggiBadan" v-model="form.tinggi_badan" />
+                                <InputField class="w-100" Name="tinggiBadan" v-model="form.tinggiBadan" />
                                 <label for="" class="mb-2">Usia</label>
                                 <InputField class="w-100" Name="usia" v-model="form.usia" />
                             </div>
                             <div class="col-sm-6 col-6">
                                 <label for="" class="mb-2">Tanggal Lahir</label>
-                                <InputField class="w-100" Name="tanggal" type="date" v-model="form.tanggal_lahir" />
+                                <InputField class="w-100" Name="tanggal" type="date" v-model="form.tanggalLahir" />
                                 <label for="" class="mb-2">Berat Badan</label>
-                                <InputField class="w-100" Name="beratBadan" v-model="form.berat_badan" />
+                                <InputField class="w-100" Name="beratBadan" v-model="form.beratBadan" />
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
@@ -88,13 +88,13 @@ export default {
             form: {
                 nama: '',
                 email: '',  
-                nomor_hp: '',
-                tempat_lahir: '',
+                nomorHp: '',
+                tempatLahir: '',
                 alamat: '',
-                tinggi_badan: '',
+                tinggiBadan: '',
                 usia: '',
-                tanggal_lahir: '',
-                berat_badan: '',
+                tanggalLahir: '',
+                beratBadan: '',
             },
             nik: '',
             errorClass: 'text-danger'
@@ -140,14 +140,7 @@ export default {
             }
             this.$store.dispatch(type, url).then((result) => {
                 this.form = result.data.user
-                this.form.nomor_hp = result.data.user.nomorHp
-                this.form.tinggi_badan = result.data.user.tinggiBadan
-                this.form.tanggal_lahir = result.data.user.tanggalLahir
-                this.form.berat_badan = result.data.user.beratBadan
-                this.form.tempat_lahir = result.data.user.tempatLahir
-                this.form.jenis_kelamin = result.data.user.jenisKelamin
                 this.nik = result.data.nik
-                console.log(result.data);
             }).catch((err) => {
                 console.log(err);
             })
@@ -161,13 +154,13 @@ export default {
                     nik: 999,
                     nama: this.form.nama,
                     email: this.form.email,
-                    nomor_hp: this.form.nomor_hp,
-                    tanggal_lahir: this.form.tanggal_lahir,
+                    nomor_hp: this.form.nomorHp,
+                    tanggal_lahir: this.form.tanggalLahir,
                     alamat: this.form.alamat,
-                    tinggi_badan: this.form.tinggi_badan,
-                    berat_badan: this.form.berat_badan,
+                    tinggi_badan: this.form.tinggiBadan,
+                    berat_badan: this.form.beratBadan,
                     usia: this.form.usia,
-                    tempat_lahir: this.form.tempat_lahir,
+                    tempat_lahir: this.form.tempatLahir,
                 }
                 const response = await axios({
                     url: "akun/profil/konsumen/profil",

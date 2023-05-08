@@ -92,7 +92,7 @@ export default {
               message: "Berhasil Login",
               position: "bottomCenter",
             })
-            window.location = '/'
+          window.location = '/'
           }, 2000);
         } else {
           iziToast.error({
