@@ -7,14 +7,12 @@ import store from './store'
 import iziToast from 'izitoast';
 import AOS from 'aos';
 import 'aos/dist/aos.css';
-import VueCryptojs from 'vue-cryptojs'
 
 
 const app = createApp(App)
 
 app.use(router)
 app.use(store)
-app.use(VueCryptojs)
 app.use(iziToast)
 app.mount('#app')
 app.config.globalProperties.$redirect = (page) => {router.push(page)}

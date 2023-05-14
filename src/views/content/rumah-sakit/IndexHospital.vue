@@ -9,43 +9,41 @@
             </div>
         </div>
     </div>
-    <div class="container col-xxl-10">
-        <div class="row justify-content-start">
-            <div class="col-8">
-                <div class="row row-cols-1 row-cols-md-3 g-4">
-                    <div class="col" v-for="(hospital, idRumahSakit) in hospitals" :key="hospital.idRumahSakit">
-                        <SkeletonLoading v-if="isLoading" />
-                        <div class="card" v-if="!isLoading">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <img src="../../assets/images/rs.jpg" class="card-img-top" alt="...">
-                            </div>
-                            <div class="card-body">
-                                <p class="card-text">{{ hospital.namaRs }}</p>
-                                <p class="card-text">{{ hospital.deskripsiRs }}</p>
-                                <router-link :to="{ name: 'UserInfo', params: { userIndex: hospital.idRumahSakit } }">Home</router-link>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+    <div class="container">
+        <div class="d-flex justify-content-between">
+            <div class="col-lg-6">
+                <p><i class="fa-solid fa-hospital text-danger"></i>
+                    Daftar Rumah Sakit Terdekat
+                    </p>
             </div>
-            <div class="col-4">
-                <div class="card">
-                    <div class="d-flex justify-content-between px-3 py-2 mb-0">
-                        <p><i class="fas fa-location me-2"></i>Lokasi</p>
-                        <p class="text-danger">Ubah Lokasi</p>
-                    </div>
-                    <div class="px-3 pb-3">
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Semua lokasi
-                            </label>
-                        </div>
-                        <div class="form-check">
-                            <input class="form-check-input" type="radio" name="flexRadioDefault" id="flexRadioDefault1">
-                            <label class="form-check-label" for="flexRadioDefault1">
-                                Terdekat
-                            </label>
+            <div class="col-lg-6 text-end">
+                <p><i class="fa-solid fa-location-dot text-danger"></i>
+                    {{ latitude }}, {{ longitude }}
+                    </p>
+            </div>
+        </div>
+    </div>
+    <div class="container col-xxl-12">
+        <div class="d-flex justify-content-center">
+            <div class="col-12 py-2 px-2">
+                <div class="row row-cols-1 row-cols-md-4 g-4">
+                    <div class="col" v-for="data in nearestResults" :key="data.idRumahSakit">
+                        <SkeletonLoading v-if="isLoading" />
+                        <div class="card shadow border-0" v-if="!isLoading">
+                            <div class="embed-responsive embed-responsive-16by9">
+                                <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
+                            </div>
+                            <div class="card-body" @click="$redirect('/detail_rumah_sakit/' + data.idRumahSakit)">
+                                <p class="mb-0">{{ data.namaRs }}</p>
+                                <div class="text-secondary">
+                                    <p class="mb-0"><small>{{ data.alamatRs }}</small></p>
+                                    <div class="d-flex justify-content-end">
+                                        <p class="mt-2 mb-0"><small><i
+                                                    class="fa-solid fa-location-dot text-danger me-1"></i>{{ Math.floor(data.distance) }}
+                                                km</small></p>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -60,33 +58,51 @@ import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue
 export default {
     data() {
         return {
-            hospitals: [],
-            isLoading: false
+            nearestResults: [],
+            isLoading: false,
+            latitude: null,
+            longitude: null,
+            locationName: ''
         }
     },
     components: {
         CardArtikel, SkeletonLoading
     },
-    created() {
-        this.getHospital()
+    mounted() {
+        this.getLocation()
     },
     methods: {
-        getHospital() {
-            let type = "getData"
+        getNeareset() {
+            let type = "postData"
             let url = [
-                "master/rumah_sakit/data", {}
+                "master/rumah_sakit/data/find_nearest", {
+                    latitude: this.latitude,
+                    longitude: this.longitude
+                }
             ]
-            this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
-                console.log(result);
-                this.hospitals = result.data
-                setTimeout(() => {
-                    this.isLoading = false
-                }, 2000);
+                this.nearestResults = result.data,
+                    console.log(result.data);
             }).catch((err) => {
                 console.log(err);
             })
-        }
+        },
+        getLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        this.latitude = position.coords.latitude;
+                        this.longitude = position.coords.longitude;
+                        this.getNeareset();
+                    },
+                    error => {
+                        console.error(error);
+                    }
+                );
+            } else {
+                console.error("Geolocation is not supported by this browser.");
+            }
+        },
     },
 }
 </script>

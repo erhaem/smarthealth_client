@@ -2,7 +2,7 @@
     <div class="container col-sm-12 col-xl-10 px-4 py-4 border-top">
         <div class="row align-items-top g-lg-5">
             <div class="col-lg-4 px-4 py-4">
-                <img src="../../assets/images/obat.jpg" class="img-fluid img-thumbnail rounded w-75" alt="">
+                <img src="../../../assets/images/obat.jpg" class="img-fluid img-thumbnail rounded w-75" alt="">
             </div>
             <div class="col-lg-4 px-4 py-4">
                 <div class="header">

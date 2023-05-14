@@ -91,9 +91,9 @@
 </template>
 
 <script>
-import InputField from '@/components/InputField.vue';
-import LabelInput from '@/components/LabelInput.vue';
-import ButtonLayanan from '@/components/ButtonLayanan.vue';
+import InputField from '@/components/partials-component/InputField.vue';
+import LabelInput from '@/components/partials-component/LabelInput.vue';
+import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
 import iziToast from 'izitoast'
 import { Form } from 'vee-validate'
 import * as validate from 'yup'

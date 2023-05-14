@@ -19,21 +19,21 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>First slide label</h5>
                                 <p>Some representative placeholder content for the first slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
                                 <p>Some representative placeholder content for the second slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../../assets/images/dokter.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Third slide label</h5>
                                 <p>Some representative placeholder content for the third slide.</p>
@@ -69,7 +69,7 @@
                         <div class="card border-0">
                             <div class="row">
                                 <div class="col-6 py-2">
-                                    <img src="../../assets/dokter.jpg" class="img-fluid rounded" alt="...">
+                                    <img src="../../../assets/images/dokter.jpg" class="img-fluid rounded" alt="...">
                                 </div>
                                 <div class="col-6 py-3 px-3">
                                     <p class="mb-1" style="font-size: 14px;"><b>Rizqa Amaliah</b>
@@ -99,7 +99,7 @@
 <script>
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
-import SmallLoading from '@/components/layouts/SmallLoading.vue';
+import SmallLoading from '@/components/partials-component/SmallLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
 export default {
     data() {

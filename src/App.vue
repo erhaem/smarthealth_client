@@ -1,5 +1,3 @@
-<script setup></script>
-
 <template>
   <HeaderComponent />
   <router-view></router-view>
@@ -7,10 +5,9 @@
 </template>
 
 <script>
-import HeaderComponent from '@/components/HeaderComponent.vue';
-import FooterComponent from '@/components/FooterComponent.vue';
-
-export default{
+import HeaderComponent from '@/components/layouts/HeaderComponent.vue'
+import FooterComponent from '@/components/layouts/FooterComponent.vue'
+export default {
   components: {
     HeaderComponent,
     FooterComponent

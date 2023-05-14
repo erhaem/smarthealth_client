@@ -2,7 +2,7 @@ export default [
     {
         path: '/profil',
         name: 'ProfilUser',
-        component: () => import('@/views/content/ProfileUser.vue'),
+        component: () => import('@/views/content/profile-page/ProfileUser.vue'),
         meta: {
             title: 'Profil'
         }
@@ -10,7 +10,7 @@ export default [
     {
         path: '/account',
         name: 'AccountUser',
-        component: () => import('@/views/content/SettingsAccount.vue'),
+        component: () => import('@/views/content/profile-page/SettingsAccount.vue'),
         meta: {
             title: 'Profil'
         }

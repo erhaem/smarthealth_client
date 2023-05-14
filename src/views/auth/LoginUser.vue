@@ -45,7 +45,7 @@
 import Cookies from "js-cookie";
 import * as validate from 'yup'
 import { Form } from 'vee-validate'
-import InputField from '@/components/InputField.vue';
+import InputField from '@/components/partials-component/InputField.vue';
 import iziToast from "izitoast";
 export default {
   data() {

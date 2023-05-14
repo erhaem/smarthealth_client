@@ -45,11 +45,11 @@
     </div>
 </template>
 <script>
-import InputField from '@/components/InputField.vue';
-import SelectOption from '@/components/SelectOption.vue';
-import HeaderComponent from '@/components/HeaderComponent.vue';
-import FooterComponent from '@/components/FooterComponent.vue';
-import ButtonLayanan from '@/components/ButtonLayanan.vue';
+import InputField from '@/components/partials-component/InputField.vue';
+import SelectOption from '@/components/partials-component/SelectOption.vue';
+import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
+import FooterComponent from '@/components/layouts/FooterComponent.vue';
+import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
 import * as validate from 'yup'
 import { Form } from 'vee-validate'
 export default {

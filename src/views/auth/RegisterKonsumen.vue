@@ -13,7 +13,7 @@
 </template>
 
 <script>
-import InputField from '@/components/InputField.vue';
+import InputField from '@/components/partials-component/InputField.vue';
 import iziToast from 'izitoast'
 export default {
     data() {

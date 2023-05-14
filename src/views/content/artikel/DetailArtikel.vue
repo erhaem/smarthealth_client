@@ -28,7 +28,8 @@
                 <div class="d-flex flex-wrap">
                     <div v-for="relate in relatedArtikels" :key="relate.id">
                         <div class="me-2 bg-secondary rounded">
-                            <router-link style="text-decoration:none" :to="'/artikel/' + relate.slugArtikel">
+                            <router-link style="text-decoration:none" :to="'/artikel/' + relate.slugArtikel"
+                                @click="updateArtikel(relate)">
                                 <p class="text-light">&nbsp; {{ relate.judulArtikel }} &nbsp;</p>
                             </router-link>
                         </div>
@@ -105,6 +106,13 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        updateArtikel(relatedArtikel) {
+            this.isLoading = true
+            setTimeout(() => {
+                this.isLoading = false
+                this.artikel = relatedArtikel;
+            }, 2000);
         }
     },
 }

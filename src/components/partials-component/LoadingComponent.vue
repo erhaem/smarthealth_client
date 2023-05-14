@@ -1,36 +1,7 @@
 <template>
-    <loading :is-full-page="fullPage"
-    :color="color" :background-color="warna" :opacity="opacity" :loader="loader" />
+    <div class="d-flex justify-content-center">
+        <div class="spinner-border text-secondary" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
 </template>
-<script>
-import Loading from 'vue-loading-overlay';
-import 'vue-loading-overlay/dist/css/index.css';
-export default {
-    props: {
-        opacity: {
-            type: Number,
-            default: 0.8
-        },
-        warna: {
-            type: String,
-            default: "#EEEEE"
-        },
-        color: {
-            type: String,
-            default: "black"
-        },
-        loader: {
-            type: String,
-            default: "spinner"
-        }
-    },
-    components: {
-        Loading
-    },
-    data(){
-        return {
-            fullPage: true
-        }
-    }
-}
-</script>
