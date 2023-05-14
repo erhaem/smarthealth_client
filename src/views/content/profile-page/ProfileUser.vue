@@ -78,7 +78,7 @@
 <script>
 import Cookies from 'js-cookie'
 import axios from "axios";
-import InputField from '@/components/InputField.vue';
+import InputField from '@/components/partials-componentInputField.vue';
 import { Form } from 'vee-validate';
 import iziToast from 'izitoast';
 import * as validate from 'yup'

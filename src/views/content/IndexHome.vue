@@ -24,8 +24,7 @@
           </FeaturePrimary>
         </div>
         <SkeletonLoading v-if="isLoading" />
-        <FeaturePrimary v-if="!isLoading" labelTitle="Rawat Jalan" icon="fa-user-nurse"
-          labelParagraph="Perawatan Pasien">
+        <FeaturePrimary v-if="!isLoading" labelTitle="Rawat Jalan" icon="fa-user-nurse" labelParagraph="Perawatan Pasien">
         </FeaturePrimary>
         <div @click="$redirect('/toko-kesehatan')">
           <SkeletonLoading v-if="isLoading" />
@@ -81,13 +80,13 @@
   </section>
 </template>
 <script>
-import ButtonLayanan from '@/components/ButtonLayanan.vue';
+import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
 import FeaturePrimary from '@/components/FeaturePrimary.vue';
-import TitleFeature from '@/components/TitleFeature.vue';
+import TitleFeature from '@/components/partials-component/TitleFeature.vue';
 import CardArtikel from '@/components/CardArtikel.vue';
-import LoadingComponent from '@/components/LoadingComponent.vue';
+import LoadingComponent from '@/components/partials-component/LoadingComponent.vue';
 import CardMedicine from '@/components/CardMedicine.vue';
-import SkeletonLoading from '@/components/SkeletonLoading.vue';
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import Cookies from 'js-cookie'
 export default {
   props: {
@@ -109,10 +108,12 @@ export default {
       isLoading: false,
     }
   },
-  created() {
-    this.getUsers(),
+  mounted() {
     this.getArtikel();
-      this.getKategoriObat()
+    this.getKategoriObat()
+  },
+  created() {
+    this.getUsers()
   },
   computed: {
     limitedDataArtikel() {

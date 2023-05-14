@@ -19,21 +19,21 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>First slide label</h5>
                                 <p>Some representative placeholder content for the first slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Second slide label</h5>
                                 <p>Some representative placeholder content for the second slide.</p>
                             </div>
                         </div>
                         <div class="carousel-item">
-                            <img src="../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../assets/hero-bg.jpg" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>Third slide label</h5>
                                 <p>Some representative placeholder content for the third slide.</p>
@@ -59,34 +59,20 @@
                 </div>
             </div>
             <div class="col-md-10 mx-auto col-lg-7 overflow-auto" data-aos="fade-up" data-aos-duration="500">
-                <div class="text-start ms-2 pt-4">
-                    <p class="fs-4 mb-0"><b>Cari Dokter Spesialis</b></p>
-                    <p>Pilih kategori yang sesuai dengan kondisimu
-                    </p>
-                </div>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
-                    <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
-                        <i class="fa-solid fa-stethoscope fs-2 text-primary"></i>
-                        <p>{{ specialist.namaSpesialis }}</p>
-                    </div>
-
-                </div>
                 <div class="text-start ms-2 ">
-                    <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
-                    <p>Konsultasi online dengan dokter siaga kamii
+                    <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
+                    <p>Perawatan dengan perawat ahli
                     </p>
                 </div>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
-                    <div class="col" v-for="dokter in dokters" :key="dokter.id">
+                    <div class="col">
                         <div class="card border-0">
                             <div class="row">
                                 <div class="col-6 py-2">
-                                    <img src="../../assets/images/dokter.jpg" class="img-fluid rounded" alt="...">
+                                    <img src="../../assets/dokter.jpg" class="img-fluid rounded" alt="...">
                                 </div>
                                 <div class="col-6 py-3 px-3">
-                                    <SmallLoading v-if="isLoading" />
-                                    <p class="mb-1" v-if="!isLoading" style="font-size: 14px;"><b>dr. {{
-                                        dokter.userId.nama }}</b>
+                                    <p class="mb-1" style="font-size: 14px;"><b>Rizqa Amaliah</b>
                                     </p>
                                     <p class="text-secondary text-sm mb-1" style="font-size: 12px;">Dokter Umum</p>
                                     <div class="d-flex justify-content-start text-primary">
@@ -95,7 +81,7 @@
                                         <p class="rounded mb-1" style="font-size: 10px;"><i
                                                 class="ms-1 fa-solid fa-thumbs-up"></i> 100% &nbsp;</p>
                                     </div>
-                                    <p class="mb-1" style="font-size: 12px;">Rp. {{ dokter.biaya.biaya }}
+                                    <p class="mb-1" style="font-size: 12px;">Rp. 30.000
                                     </p>
                                     <div class="pt-3">
                                         <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
@@ -111,27 +97,19 @@
     </div>
 </template>
 <script>
-import HeaderComponent from '@/components/HeaderComponent.vue';
-import FooterComponent from '@/components/FooterComponent.vue';
-import SmallLoading from '@/components/SmallLoading.vue';
+import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
+import FooterComponent from '@/components/layouts/FooterComponent.vue';
+import SmallLoading from '@/components/layouts/SmallLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
 export default {
     data() {
         return {
-            dokters: [],
-            specialist: [],
-            limit: 4,
+            nurses: [],
             isLoading: false
         }
     },
     created() {
-        this.getDokter(),
-            this.getSpesialis()
-    },
-    computed: {
-        limitedDataSpesialis() {
-            return this.specialist.slice(0, this.limit)
-        },
+        this.getDokter()
     },
     components: {
         HeaderComponent, FooterComponent, SmallLoading, BodyDetailDokter
@@ -142,25 +120,13 @@ export default {
             selfGet.isLoading = true
             let type = "getData"
             let url = [
-                "akun/dokter", {}
+                "akun/nurse", {}
             ]
             selfGet.$store.dispatch(type, url).then((result) => {
-                console.log(result.data);
-                selfGet.dokters = result.data
+                selfGet.nurses = result.data
                 setTimeout(() => {
                     selfGet.isLoading = false;
                 }, 1000);
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        getSpesialis() {
-            let type = "getData"
-            let url = [
-                "master/penyakit/spesialis_penyakit", {}
-            ]
-            this.$store.dispatch(type, url).then((result) => {
-                this.specialist = result.data
             }).catch((err) => {
                 console.log(err);
             })

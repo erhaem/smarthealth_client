@@ -17,9 +17,9 @@
     </section>
 </template>
 <script>
-import CardArtikel from '@/components/CardArtikel.vue';
-import SkeletonLoading from '@/components/SkeletonLoading.vue';
-import ButtonLayanan from '@/components/ButtonLayanan.vue';
+import CardArtikel from '@/components/partials-component/CardArtikel.vue';
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
+import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
 export default {
     components: {
         CardArtikel, SkeletonLoading, ButtonLayanan

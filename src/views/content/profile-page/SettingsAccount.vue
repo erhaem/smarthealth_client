@@ -34,7 +34,7 @@
 </template>
 
 <script>
-import InputField from '@/components/InputField.vue';
+import InputField from '@/components/partials-component/InputField.vue';
 import Cookies from 'js-cookie'
 import iziToast from 'izitoast'
 import { Form } from 'vee-validate';

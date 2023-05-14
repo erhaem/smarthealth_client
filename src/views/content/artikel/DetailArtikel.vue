@@ -40,8 +40,8 @@
 </template>
 
 <script>
-import SmallLoading from '@/components/SmallLoading.vue';
-import SkeletonLoading from '@/components/SkeletonLoading.vue';
+import SmallLoading from '@/components/partials-component/SmallLoading.vue';
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 export default {
     data() {
         return {
