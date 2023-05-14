@@ -28,8 +28,10 @@
             <div class="col-12 py-2 px-2">
                 <div class="row row-cols-1 row-cols-md-4 g-4">
                     <div class="col" v-for="data in nearestResults" :key="data.idRumahSakit">
-                        <SkeletonLoading v-if="isLoading" />
-                        <div class="card shadow border-0" v-if="!isLoading">
+                        <template v-if="isLoading">
+                            <SkeletonLoading/>
+                        </template>
+                        <div v-else class="card shadow border-0" v-if="!isLoading">
                             <div class="embed-responsive embed-responsive-16by9">
                                 <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
                             </div>
@@ -39,7 +41,7 @@
                                     <p class="mb-0"><small>{{ data.alamatRs }}</small></p>
                                     <div class="d-flex justify-content-end">
                                         <p class="mt-2 mb-0"><small><i
-                                                    class="fa-solid fa-location-dot text-danger me-1"></i>{{ Math.floor(data.distance) }}
+                                                    class="fa-solid fa-location-dot text-danger me-1"></i>{{ data.jarak }}
                                                 km</small></p>
                                     </div>
                                 </div>
@@ -80,9 +82,12 @@ export default {
                     longitude: this.longitude
                 }
             ]
+            this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
-                this.nearestResults = result.data,
-                    console.log(result.data);
+                setTimeout(() => {
+                this.isLoading = false
+                }, 2000);
+                this.nearestResults = result.data
             }).catch((err) => {
                 console.log(err);
             })
@@ -94,6 +99,8 @@ export default {
                         this.latitude = position.coords.latitude;
                         this.longitude = position.coords.longitude;
                         this.getNeareset();
+                        console.log(this.latitude);
+                        console.log(this.longitude);
                     },
                     error => {
                         console.error(error);

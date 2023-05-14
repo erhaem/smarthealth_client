@@ -34,6 +34,11 @@ export default [{
     component: () => import('@/views/content/rumah-sakit/DetailHospital.vue'),
 },
 {
+    path: '/detail_rumah_sakit/:idPenyakit/:id',
+    name: 'Detail Spesialis Rs',
+    component: () => import('@/views/content/rumah-sakit/DetailSpesialisRs.vue'),
+},
+{
     path: '/reservasi-perawat',
     name: 'Reservasi Perawat',
     component: () =>import('@/views/content/perawat/IndexNurse.vue')
