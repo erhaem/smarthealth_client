@@ -2,6 +2,9 @@
     <div class="container col-xxl-12">
         <div class="d-flex justify-content-start">
             <div class="col-lg-10 py-2 px-5">
+                <div class="border-bottom border-2 w-25 mb-3" v-for="data in dokterSpesialis">
+                    <h5 class="fw-1 text-secondary">Daftar {{data.idKeahlian.namaKeahlian}}</h5>
+                </div>
                     <div class="row row-cols-1 row-cols-md-4 g-4">
                         <div v-if="isLoading">
                             <SkeletonLoading/>

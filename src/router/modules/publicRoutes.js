@@ -47,5 +47,14 @@ export default [{
     path: '/produk_kategori/:id',
     name: 'Kategori Produk',
     component: () =>import('@/views/content/obat-produk/KategoriProduk.vue')
+},
+{
+    path: '/apotek',
+    name: 'Apotek Terdekat',
+    component: () =>import('@/views/content/apotek/IndexApotek.vue')
+},
+{
+    path: '/test_ongkir',
+    component: ()=>import('@/views/content/test-ongkir/IndexOngkir.vue')
 }
 ]

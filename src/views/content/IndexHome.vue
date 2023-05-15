@@ -8,7 +8,7 @@
             Semua bisa
             di
             Berobat+</p>
-          <ButtonLayanan Label="get started" Color="btn-primary" />
+          <ButtonLayanan Label="get started" Color=" btn-primary" />
         </div>
       </div>
     </div>
@@ -33,7 +33,7 @@
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
-        <div v-else @click="$redirect('/toko-kesehatan')">
+        <div v-else @click="$redirect('/apotek')">
           <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>
@@ -195,7 +195,7 @@ export default {
       }).catch((err) => {
         console.log(err);
       })
-    }
+    },
   }
 }
 </script>

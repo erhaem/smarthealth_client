@@ -3,35 +3,58 @@
         <div class="row mb-3 mt-3 text-center">
             <div class="col-md-12 themed-grid-col">
                 <div class="pb-1 text-start">
-                    <h5>Rumah Sakit {{$route.params.id}}</h5>
+                    <h5>{{ detailRS.namaRs }}</h5>
                 </div>
                 <div class="row">
                     <div class="col-md-6 themed-grid-col">
-                        <img src="../../../assets/images/rs.jpg" class="img-fluid" alt="">
+                        <div v-if="isLoading">
+                            <LoadingComponent />
+                        </div>
+                        <div v-else-if="detailRS.foto === null">
+                            <img src="../../../assets/images/9.png" class="img-fluid" alt="">
+                        </div>
+                        <div v-else>
+                            <img src="" alt="">
+                        </div>
                     </div>
                     <div class="col-md-4 themed-grid-col text-start">
                         <h6 class="mt-2"><b>Deskripsi</b></h6>
-                        <p>placeat, ducimus explicabo nam fugiat
-                            recusandae? Ipsam, perspiciatis repellat dolorem exercitationem aut hic?</p>
+                        <div v-if="isLoading">
+                            <LoadingComponent />
+                        </div>
+                        <div v-else-if="detailRS.deskripsiRs === null">
+                            data ga ada
+                        </div>
+                        <div v-else>
+                            <p>
+                                {{ detailRS.deskripsiRs }}
+                            </p>
+                        </div>
                         <h6><b>Alamat</b></h6>
-                        <div class="d-inline-flex align-items-start">
-                            <iframe
-                                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3962.557138513222!2d108.47898077420345!3d-6.701638593293944!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e6ee04fdc5dd811%3A0x4d0342bacbbba99d!2sRS%20Mitra%20Plumbon!5e0!3m2!1sid!2sid!4v1681476493034!5m2!1sid!2sid"
-                                width="330" height="210" style="border:0;" allowfullscreen="" loading="lazy"
-                                referrerpolicy="no-referrer-when-downgrade"></iframe>
+                        <div v-if="isLoading">
+                            <LoadingComponent />
+                        </div>
+                        <div v-else-if="detailRS.deskripsiRs === null">
+                            data ga ada
+                        </div>
+                        <div v-else class="d-inline-flex align-items-start">
+                            <p>
+                                {{ detailRS.alamatRs }}
+                            </p>
                         </div>
                     </div>
                     <div class="col-md-2 themed-grid-col">
                         <div class="text-start mb-3">
                             <h6 class="mt-3 mb-0"><b>Fasilitas</b></h6>
                             <div v-if="isLoading">
-                                <LoadingComponent/>
+                                <LoadingComponent />
                             </div>
                             <div v-else-if="detailFasilitas.length === 0" class="text-danger text-center">
                                 <p><strong><i>data belum tersedia</i></strong></p>
                             </div>
                             <div v-else>
-                                <ul style="padding-left: 1rem;" class="mt-2" v-for="fasilitas in detailFasilitas" :key="fasilitas.id">
+                                <ul style="padding-left: 1rem;" class="mt-2" v-for="fasilitas in detailFasilitas"
+                                    :key="fasilitas.id">
                                     <li class="">{{ fasilitas.namaFasilitas }}</li>
                                 </ul>
                             </div>
@@ -55,7 +78,7 @@
                 <div v-else></div>
             </div>
             <div v-if="isLoading">
-                <LoadingComponent/>
+                <LoadingComponent />
             </div>
             <div v-else-if="limitedDataSpesialis.length === 0" class="alert p-0 pt-2 alert-danger text-center">
                 <p>
@@ -66,11 +89,11 @@
                     </strong>
                 </p>
             </div>
-            <div v-else class="row row-cols-1 row-cols-md-3">
+            <div v-else class="row row-cols-1 row-cols-md-5 g-3">
                 <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
                     <CardMedicine
                         @click="$redirect('/detail_rumah_sakit/' + specialist.penyakit.idPenyakit + '/' + specialist.idRumahSakit)"
-                        class="mb-2" icon="fa-user" :labelTitle="specialist.penyakit.namaSpesialis" />
+                        class="mb-2 rounded-circle" icon="fa-user-doctor" :labelTitle="specialist.penyakit.namaSpesialis" />
                 </div>
                 <div class="px-3 py-4 text-center">
                 </div>
@@ -85,9 +108,10 @@ import LoadingComponent from '@/components/partials-component/LoadingComponent.v
 export default {
     data() {
         return {
-            detailHospitals: [] ,
-            limit: 4,
-            detailFasilitas: []
+            detailHospitals: [],
+            limit: 12,
+            detailFasilitas: [],
+            detailRS: []
         }
     },
     computed: {
@@ -100,7 +124,8 @@ export default {
     },
     created() {
         this.getDetailFasilitas(),
-        this.getDetailHospital()
+            this.getDetailHospital(),
+            this.getRumahSakit()
     },
     methods: {
         getDetailHospital() {
@@ -125,6 +150,19 @@ export default {
             this.$store.dispatch(type, url).then((response) => {
                 this.isLoading = false
                 this.detailFasilitas = response.data
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        getRumahSakit() {
+            let type = "getData"
+            let url = [
+                "master/rumah_sakit/data/" + this.idFromParams + "/edit", {}
+            ]
+            this.isLoading = true
+            this.$store.dispatch(type, url).then((result) => {
+                this.isLoading = false
+                this.detailRS = result.data
             }).catch((err) => {
                 console.log(err);
             })
