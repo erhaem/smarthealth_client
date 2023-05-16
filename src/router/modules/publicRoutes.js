@@ -1,27 +1,32 @@
 export default [{
     path: '/artikel/:slug',
-    name:'Detail Artikel',
-    component: () =>import('@/views/content/artikel/DetailArtikel.vue')
+    name: 'Detail Artikel',
+    component: () => import('@/views/content/artikel/DetailArtikel.vue')
 },
 {
-    path: '/tanya-dokter',
-    name: 'Reservasi Dokter',
-    component: () =>import('@/views/content/dokter/IndexDokter.vue')
-},
-{
-    path: '/tanya-dokter/:id',
-    name: 'Detail Dokter',
-    component: () =>import('@/views/content/dokter/DetailDokter.vue')
+    path: '/tanya-dokter/',
+    component: () => import('@/views/content/dokter/IndexDokter.vue'),
+    children: [
+        {
+            path: 'tes',
+            component: () => import('@/views/content/dokter/SpesialisDokter.vue')
+        },
+        {
+            path: ':id',
+            name: 'Detail Dokter',
+            component: () => import('@/views/content/dokter/DetailDokter.vue')
+        },
+    ]
 },
 {
     path: '/toko-kesehatan',
     name: 'Toko Kesehatan',
-    component: () =>import('@/views/content/obat-produk/IndexShop.vue')
+    component: () => import('@/views/content/obat-produk/IndexShop.vue')
 },
 {
     path: '/toko-kesehatan/detail-medicine/:id',
     name: 'Detail Medicine',
-    component: () =>import('@/views/content/obat-produk/DetailMedicine.vue')
+    component: () => import('@/views/content/obat-produk/DetailMedicine.vue')
 },
 {
     path: '/hospital',
@@ -41,20 +46,24 @@ export default [{
 {
     path: '/reservasi-perawat',
     name: 'Reservasi Perawat',
-    component: () =>import('@/views/content/perawat/IndexNurse.vue')
+    component: () => import('@/views/content/perawat/IndexNurse.vue')
 },
 {
     path: '/produk_kategori/:id',
     name: 'Kategori Produk',
-    component: () =>import('@/views/content/obat-produk/KategoriProduk.vue')
+    component: () => import('@/views/content/obat-produk/KategoriProduk.vue')
 },
 {
     path: '/apotek',
     name: 'Apotek Terdekat',
-    component: () =>import('@/views/content/apotek/IndexApotek.vue')
+    component: () => import('@/views/content/apotek/IndexApotek.vue')
 },
 {
     path: '/test_ongkir',
-    component: ()=>import('@/views/content/test-ongkir/IndexOngkir.vue')
+    component: () => import('@/views/content/test-ongkir/IndexOngkir.vue')
+},
+{
+    path: '/keranjang',
+    component: () => import('@/views/content/checkout-page/IndexCheckout.vue')
 }
 ]

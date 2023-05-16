@@ -58,70 +58,14 @@
                     <BodyDetailDokter />
                 </div>
             </div>
-            <div class="col-md-10 mx-auto col-lg-7 overflow-auto" data-aos="fade-up" data-aos-duration="500">
-                <div class="text-start ms-2 pt-4">
-                    <p class="fs-4 mb-0"><b>Cari Dokter Spesialis</b></p>
-                    <p>Pilih kategori yang sesuai dengan kondisimu
-                    </p>
-                </div>
-                <div class="row row-cols-1 row-cols-sm-2 row-cols-md-4 text-center">
-                    <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
-                        <i class="fa-solid fa-stethoscope fs-2 text-primary"></i>
-                        <p>{{ specialist.namaSpesialis }}</p>
-                    </div>
-
-                </div>
-                <div class="text-start ms-2 ">
-                    <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
-                    <p>Konsultasi online dengan dokter siaga kamii
-                    </p>
-                </div>
-                <div class="row row-cols-1 row-cols-md-2 g-3">
-                    <div v-if="dokters.length === 0">
-                        <div class="alert alert-danger text-center">
-                            <i><strong>
-                                data tidak ada
-                            </strong></i>
-                        </div>
-                    </div>
-                    <template v-else>
-                        <div class="col" v-for="dokter in dokters" :key="dokter.id">
-                            <div class="card border-0" @click="$redirect('/tanya-dokter/' + dokter.idDokterKeahlian)">
-                                <div class="row">
-                                    <div class="col-6 py-2">
-                                        <img src="../../../assets/images/dokter.jpg" class="img-fluid rounded" alt="...">
-                                    </div>
-                                    <div class="col-6 py-3 px-3">
-                                        <SmallLoading v-if="isLoading" />
-                                        <p class="mb-1" v-if="!isLoading" style="font-size: 14px;"><b>dr. {{
-                                            dokter.getDokter.nama }}</b>
-                                        </p>
-                                        <p class="text-secondary text-sm mb-1" style="font-size: 12px;">
-                                            {{dokter.getKeahlian.namaKeahlian}}
-                                        </p>
-                                        <div class="d-flex justify-content-start text-primary">
-                                            <p class="rounded mb-1 me-1" style="font-size: 10px;"><i
-                                                    class="ms-1 fa-solid fa-briefcase"></i> 1 tahun &nbsp;</p>
-                                            <p class="rounded mb-1" style="font-size: 10px;"><i
-                                                    class="ms-1 fa-solid fa-thumbs-up"></i> 100% &nbsp;</p>
-                                        </div>
-                                        <p class="mb-1" style="font-size: 12px;">Rp. 20.000 {{ dokter.getDokter.biayaAdmin }}
-                                        </p>
-                                        <div class="pt-3">
-                                            <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-
+            <div class="col-md-10 mx-auto col-lg-7 overflow-auto" data-aos="fade-up" data-aos-duration="500" style="overflow-y: auto; max-height: 600px">
+                <router-view></router-view>
             </div>
         </div>
     </div>
 </template>
 <script>
+import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
 import SmallLoading from '@/components/partials-component/SmallLoading.vue';
@@ -131,7 +75,8 @@ export default {
         return {
             dokters: [],
             specialist: [],
-            limit: 4,
+            dokterLimit: 3,
+            specialistLimit: 12,
             isLoading: false
         }
     },
@@ -140,12 +85,19 @@ export default {
             this.getSpesialis()
     },
     computed: {
-        limitedDataSpesialis() {
-            return this.specialist.slice(0, this.limit)
-        },
+        limitData(){
+            return {
+                dokters: this.dokters.slice(0, this.dokterLimit),
+                specialist: this.specialist.slice(0, this.specialistLimit)
+            }
+        }
     },
     components: {
-        HeaderComponent, FooterComponent, SmallLoading, BodyDetailDokter
+        HeaderComponent,
+        FooterComponent,
+        SmallLoading,
+        BodyDetailDokter,
+        LoadingComponent
     },
     methods: {
         getDokter() {
@@ -170,7 +122,9 @@ export default {
             let url = [
                 "master/penyakit/spesialis_penyakit", {}
             ]
+            this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
+                this.isLoading = false
                 this.specialist = result.data
             }).catch((err) => {
                 console.log(err);

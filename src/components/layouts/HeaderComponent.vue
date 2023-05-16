@@ -40,6 +40,14 @@
         </div>
         <div v-else>
         </div>
+        <li class="nav-item"><b><router-link to="/keranjang" class="nav-link">
+              <i class="fas fa-cart-shopping text-primary">
+                <span class="badge bg-primary">
+                  {{ totalQuantity }}
+                </span>
+              </i>
+            </router-link>
+          </b></li>
       </ul>
     </header>
   </div>
@@ -49,28 +57,51 @@
 <script>
 import Cookies from 'js-cookie'
 export default {
-  computed:{
-    isAuthenticated(){
+  data() {
+    return {
+      items: []
+    }
+  },
+  computed: {
+    isAuthenticated() {
       return Cookies.get('user') != null
     },
     user() {
       return JSON.parse(Cookies.get('user'));
     },
+    totalQuantity() {
+      return this.items.reduce((total, item) => total + item.qty, 0);
+    }
+  },
+  mounted() {
+    this.getItemsFromStorage()
   },
   methods: {
-    logout(){
+    logout() {
       let type = "getData"
       let url = [
         "logout", {}
       ]
-      this.$store.dispatch(type, url).then((result)=>{
+      this.$store.dispatch(type, url).then((result) => {
         Cookies.remove('token')
         Cookies.remove('user')
+        this.resetCart()
         window.location.replace('/')
-      }).catch((err)=>{
+      }).catch((err) => {
         console.log(err);
       })
     },
+    resetCart() {
+      this.cart = [];
+      localStorage.removeItem('cart');
+    },
+    getItemsFromStorage() {
+      const cartData = localStorage.getItem('cart');
+      console.log(cartData)
+      if (cartData) {
+        this.items = JSON.parse(cartData);
+      }
+    }
   },
 }
 </script>

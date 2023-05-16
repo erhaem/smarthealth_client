@@ -20,7 +20,7 @@
               <Form @submit="handleSubmit" :validation-schema="schema" v-slot="{ errors }">
                 <div class="form-outline mb-2 text-start">
                   <label class="form-label" for="form3Example3">Phone number</label>
-                  <InputField Name="phoneNumber" v-model="user.nomor_hp"/>
+                  <InputField Name="phoneNumber" v-model="user.nomor_hp" />
                   <span :class="[errorClass]">{{ errors.phoneNumber }}</span>
                 </div>
                 <div class="form-outline mb-2 text-start">
@@ -32,7 +32,8 @@
                   Sign In
                 </button>
               </Form>
-              <p class="text-center">dont have any account? <span class="text-primary"><router-link style="text-decoration: none;" to="/register">register</router-link></span></p>
+              <p class="text-center">dont have any account? <span class="text-primary"><router-link
+                    style="text-decoration: none;" to="/register">register</router-link></span></p>
             </div>
           </div>
         </div>
@@ -92,7 +93,8 @@ export default {
               message: "Berhasil Login",
               position: "bottomCenter",
             })
-          window.location = '/'
+            this.resetCart()
+            window.location = '/'
           }, 2000);
         } else {
           iziToast.error({
@@ -114,7 +116,11 @@ export default {
           position: "topCenter",
         })
       })
-    }
+    },
+    resetCart() {
+      this.cart = [];
+      localStorage.removeItem('cart');
+    },
   },
 }
 </script>
