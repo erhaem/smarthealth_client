@@ -1,23 +1,44 @@
-export default [{
-    path: '/artikel/:slug',
-    name: 'Detail Artikel',
-    component: () => import('@/views/content/artikel/DetailArtikel.vue')
-},
+export default [
+    {
+        path: '/artikel',
+        name: 'Detail Artikel',
+        component: () => import('@/views/content/artikel/DetailArtikel.vue'),
+        children: [
+          {
+            path: 'kategori/:id',
+            name: 'Kategori Artikel',
+            component: () => import('@/views/content/artikel/ArtikelByKategori.vue')
+          },
+          {
+            path: ':slug',
+            component: () => import('@/views/content/artikel/ArtikelBySlug.vue'),
+          },
+          {
+            path: 'kategori/*', // Catch-all route for "/artikel/kategori/*"
+            component: () => import('@/views/content/not-found-page/NotFound.vue')
+          }
+        ]
+      },
 {
-    path: '/tanya-dokter/',
+    path: '/chat-dokter/',
     component: () => import('@/views/content/dokter/IndexDokter.vue'),
     children: [
         {
-            path: 'tes',
-            component: () => import('@/views/content/dokter/SpesialisDokter.vue')
+            path: '',
+            redirect: 'dokter',
         },
         {
-            path: ':id',
-            name: 'Detail Dokter',
-            component: () => import('@/views/content/dokter/DetailDokter.vue')
+            path: 'dokter',
+            component: () => import('@/views/content/dokter/SpesialisDokter.vue'),
         },
-    ]
+        {
+            path: 'dokter/:id',
+            name: 'Detail Dokter',
+            component: () => import('@/views/content/dokter/DetailDokter.vue'),
+        },
+    ],
 },
+
 {
     path: '/toko-kesehatan',
     name: 'Toko Kesehatan',
@@ -54,9 +75,14 @@ export default [{
     component: () => import('@/views/content/obat-produk/KategoriProduk.vue')
 },
 {
-    path: '/apotek',
+    path: '/produk-obat',
     name: 'Apotek Terdekat',
     component: () => import('@/views/content/apotek/IndexApotek.vue')
+},
+{
+    path: '/produk-obat/:id',
+    name: 'Detail Produk',
+    component: () => import('@/views/content/apotek/DetailProduk.vue')
 },
 {
     path: '/test_ongkir',

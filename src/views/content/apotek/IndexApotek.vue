@@ -43,7 +43,7 @@
                                         <p class="mb-2"><small>{{ data.hargaProduk }}</small></p>
                                     </div>
                                     <div class="d-flex justify-content-between">
-                                        <button @click="$redirect('/detail_produk/' + data.kodeProduk)"
+                                        <button @click="$redirect('/produk-obat/' + data.kodeProduk)"
                                             class="btn btn-sm btn-outline-primary w-75">
                                             detail
                                         </button>

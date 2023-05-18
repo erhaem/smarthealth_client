@@ -17,7 +17,7 @@
     <div class="container">
       <TitleFeature Label="Layanan Utama" />
       <div class="row g-4 row-cols-lg-4">
-        <div @click="$redirect('/tanya-dokter')">
+        <div @click="$redirect('/chat-dokter/dokter')">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
@@ -33,7 +33,7 @@
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
-        <div v-else @click="$redirect('/apotek')">
+        <div v-else @click="$redirect('/produk-obat')">
           <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>

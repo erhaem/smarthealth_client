@@ -1,37 +1,42 @@
 <template>
-    <div class="container col-xxl-10 px-4 py-2">
-        <div class="row align-items-top g-lg-5 py-5">
-            <div class="col-lg-7 text-center text-lg-start">
-                <SmallLoading v-if="isLoading" />
-                <div v-if="!isLoading">
-                    <h4 class="fw-bold lh-1 mb-3">{{ artikel.judulArtikel }}</h4>
-                    <p class="text-secondary">author: {{ artikel.getUser.nama }}</p>
-                    <p class="col-lg-10 fs-5">{{ artikel.deskripsi }}</p>
-                </div>
+    <div class="container px-5 py-5">
+        <div class="row g-5">
+            <div class="col-md-8">
+                <router-view></router-view>
             </div>
-            <div class="col-lg-5">
-                <div>
-                    <p>Topik Terkini</p>
-                </div>
-                <div class="d-flex flex-wrap">
-                    <div v-for="kategori in kategoris" :key="kategori.id">
-                        <div class="me-2 bg-secondary rounded">
-                            <div>
-                                <p class="text-light">&nbsp; {{ kategori.namaKategori }} &nbsp;</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div>
-                    <p>Artikel Terkait</p>
-                </div>
-                <div class="d-flex flex-wrap">
-                    <div v-for="relate in relatedArtikels" :key="relate.id">
-                        <div class="me-2 bg-secondary rounded">
-                            <router-link style="text-decoration:none" :to="'/artikel/' + relate.slugArtikel"
-                                @click="updateArtikel(relate)">
-                                <p class="text-light">&nbsp; {{ relate.judulArtikel }} &nbsp;</p>
-                            </router-link>
+            <div class="col-md-4">
+                <div class="position-sticky" style="top: 2rem;">
+                    <div class="p-4" style="overflow-y: auto; max-height: 400px">
+                        <h4 class="fst-italic">Artikel terkait</h4>
+                        <div v-for="data in relatedArtikels" :key="data.id">
+                            <ol class="list-unstyled mb-0">
+                                <li>
+                                    <div class="row">
+                                        <div class="col-4 mb-2">
+                                            <img src="../../../assets/images/28.png" class="img-fluid rounded border"
+                                                alt="">
+                                        </div>
+                                        <div class="col-8">
+                                            <router-link class="text-dark" style="text-decoration: none;"
+                                                :to="'/artikel/kategori/' + data.idGroupingArtikel"
+                                                @click="updateRelatedArtikel">
+                                                <p class="mb-0">
+                                                    <small>
+                                                        <b>
+                                                            {{ data.getArtikel.judulArtikel }}
+                                                        </b>
+                                                    </small>
+                                                </p>
+                                                <p class="rounded ps-2 text-dark" style="background-color:honeydew">
+                                                    <small>
+                                                        {{ data.getKategoriArtikel.namaKategori }}
+                                                    </small>
+                                                </p>
+                                            </router-link>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ol>
                         </div>
                     </div>
                 </div>
@@ -46,59 +51,21 @@ import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue
 export default {
     data() {
         return {
-            artikel: [],
-            kategoris: [],
             relatedArtikels: [],
-            isLoading: false,
-            onLoading: false
+            isLoading: false
         }
     },
     components: {
         SmallLoading, SkeletonLoading
     },
     created() {
-        const slug = this.$route.params.slug
-        this.getDetailArtikel(slug),
-            this.getKategoriArtikel(),
-            this.getRelatedArtikel()
+        this.getRelatedArtikel()
     },
     methods: {
-        getDetailArtikel(slug) {
-            let type = "getData"
-            let url = [
-                "master/artikel/" + slug, []
-            ]
-            this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                console.log(result.data);
-                this.artikel = result.data
-                setTimeout(() => {
-                    this.isLoading = false
-                }, 1000);
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        getKategoriArtikel() {
-            let type = "getData"
-            let url = [
-                "master/kategori_artikel", {}
-            ]
-            this.onLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                console.log(result);
-                this.kategoris = result.data
-                setTimeout(() => {
-                    this.onLoading = false
-                }, 2000);
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
         getRelatedArtikel() {
             let type = "getData"
             let url = [
-                "master/artikel", {}
+                "master/grouping_artikel", {}
             ]
             this.$store.dispatch(type, url).then((result) => {
                 console.log(result);
@@ -107,13 +74,11 @@ export default {
                 console.log(err);
             })
         },
-        updateArtikel(relatedArtikel) {
-            this.isLoading = true
-            setTimeout(() => {
-                this.isLoading = false
-                this.artikel = relatedArtikel;
-            }, 2000);
+        clicked(){
+            const userId = this.data.idGroupingArtikel
+            this.$router.push('/artikel/kategori/${userId}')
         }
+        
     },
 }
 </script>

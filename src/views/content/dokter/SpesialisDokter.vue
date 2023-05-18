@@ -12,10 +12,18 @@
                 </div>
             </template>
             <template v-else-if="!isLoading">
-                <div class="card border-0" @click="$redirect('/tanya-dokter/' + dokter.idDokterKeahlian)">
+                <div class="card border-0" @click="$redirect('/chat-dokter/dokter/' + dokter.idDokterKeahlian)">
                     <div class="row">
                         <div class="col-6 py-2">
-                            <img src="../../../assets/images/dokter.jpg" class="img-fluid rounded" alt="...">
+                            <div v-if="dokter.getDokter.jenisKelamin === 'P'">
+                                <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="">
+                            </div>
+                            <div v-else-if="dokter.getDokter.jenisKelamin === 'L'">
+                                <img src="../../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
+                            </div>
+                            <div v-else-if="dokter.getDokter.jenisKelamin === null">
+                                <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="...">
+                            </div>
                         </div>
                         <div class="col-6 py-3 px-3">
                             <p class="mb-1" style="font-size: 14px;"><b>dr. {{ dokter.getDokter.nama }}</b></p>
