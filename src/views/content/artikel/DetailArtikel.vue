@@ -46,7 +46,6 @@
 </template>
 
 <script>
-import SmallLoading from '@/components/partials-component/SmallLoading.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 export default {
     data() {
@@ -56,7 +55,7 @@ export default {
         }
     },
     components: {
-        SmallLoading, SkeletonLoading
+        SkeletonLoading
     },
     created() {
         this.getRelatedArtikel()

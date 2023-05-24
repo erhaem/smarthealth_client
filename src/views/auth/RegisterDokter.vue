@@ -30,7 +30,7 @@
                     <InputField name="tempat_lahir" v-model="user.tempat_lahir" placeHolder="tempat lahir" />
                     <InputField name="tanggal_lahir" v-model="user.tanggal_lahir" type="date" placeHolder="tanggal lahir" />
                     <div class="">
-                        <ButtonLayanan Label="Submit" type="submit" />
+                        <ButtonComponent Label="Submit" type="submit" />
                     </div>
                 </Form>
             </div>
@@ -40,7 +40,7 @@
 
 <script>
 import InputField from '@/components/partials-component/InputField.vue';
-import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue';
 import iziToast from 'izitoast'
 import { Form } from 'vee-validate'
 export default {
@@ -95,7 +95,7 @@ export default {
         }
     },
     components: {
-        InputField, Form, ButtonLayanan
+        InputField, Form, ButtonComponent
     }
 }
 </script>

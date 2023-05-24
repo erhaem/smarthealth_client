@@ -103,7 +103,7 @@
 </template>
 
 <script>
-import CardMedicine from '@/components/CardMedicine.vue';
+import CardMedicine from '@/components/card/CardMedicine.vue';
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
 export default {
     data() {

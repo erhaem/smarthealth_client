@@ -81,7 +81,7 @@
                             </div>
                         </div>
                         <div class="">
-                            <ButtonLayanan Label="Submit" class="btn-primary" type="submit" />
+                            <ButtonComponent Label="Submit" class="btn-primary" type="submit" />
                         </div>
                     </div>
                 </Form>
@@ -93,7 +93,7 @@
 <script>
 import InputField from '@/components/partials-component/InputField.vue';
 import LabelInput from '@/components/partials-component/LabelInput.vue';
-import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue';
 import iziToast from 'izitoast'
 import { Form } from 'vee-validate'
 import * as validate from 'yup'
@@ -165,7 +165,7 @@ export default {
         }
     },
     components: {
-        InputField, Form, ButtonLayanan, LabelInput
+        InputField, Form, ButtonComponent, LabelInput
     }
 }
 </script>

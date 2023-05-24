@@ -65,14 +65,14 @@
                     </p>
                 </div>
                 <div class="row row-cols-1 row-cols-md-2 g-3">
-                    <div class="col">
+                    <div class="col" v-for="data in nurses">
                         <div class="card border-0">
                             <div class="row">
                                 <div class="col-6 py-2">
-                                    <img src="../../../assets/images/dokter.jpg" class="img-fluid rounded" alt="...">
+                                    <img src="../../../assets/images/avaperawat.jpg" class="img-fluid rounded" alt="...">
                                 </div>
                                 <div class="col-6 py-3 px-3">
-                                    <p class="mb-1" style="font-size: 14px;"><b>Rizqa Amaliah</b>
+                                    <p class="mb-1" style="font-size: 14px;"><b>{{data.getUser.nama}}</b>
                                     </p>
                                     <p class="text-secondary text-sm mb-1" style="font-size: 12px;">Dokter Umum</p>
                                     <div class="d-flex justify-content-start text-primary">
@@ -99,7 +99,7 @@
 <script>
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
-import SmallLoading from '@/components/partials-component/SmallLoading.vue';
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
 export default {
     data() {
@@ -112,20 +112,19 @@ export default {
         this.getDokter()
     },
     components: {
-        HeaderComponent, FooterComponent, SmallLoading, BodyDetailDokter
+        HeaderComponent, FooterComponent, SkeletonLoading, BodyDetailDokter
     },
     methods: {
         getDokter() {
-            const selfGet = this
-            selfGet.isLoading = true
+            this.isLoading = true
             let type = "getData"
             let url = [
-                "akun/nurse", {}
+                "akun/perawat", {}
             ]
-            selfGet.$store.dispatch(type, url).then((result) => {
-                selfGet.nurses = result.data
+            this.$store.dispatch(type, url).then((result) => {
+                this.nurses = result.data
                 setTimeout(() => {
-                    selfGet.isLoading = false;
+                    this.isLoading = false;
                 }, 1000);
             }).catch((err) => {
                 console.log(err);

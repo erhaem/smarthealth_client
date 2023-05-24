@@ -46,7 +46,7 @@
                                     </div>
                                     <div class="card-footer">
                                         <div class="d-flex justify-content-end">
-                                            <ButtonLayanan Color=" btn-danger" Label="buat janji" />
+                                            <ButtonComponent Color=" btn-danger" Label="buat janji" />
                                         </div>
                                     </div>
                                 </div>
@@ -59,7 +59,7 @@
 </template>
 <script>
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
-import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue'
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 export default {
     data() {
         return {
@@ -97,7 +97,7 @@ export default {
         }
     },
     components: {
-        ButtonLayanan, SkeletonLoading
+        ButtonComponent, SkeletonLoading
     }
 };
 </script>

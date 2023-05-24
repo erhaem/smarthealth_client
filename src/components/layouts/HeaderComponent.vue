@@ -40,14 +40,18 @@
         </div>
         <div v-else>
         </div>
-        <li class="nav-item"><b><router-link to="/keranjang" class="nav-link">
-              <i class="fas fa-cart-shopping text-primary">
-                <span class="badge bg-primary">
-                  {{ totalQuantity }}
-                </span>
-              </i>
-            </router-link>
-          </b></li>
+        <div v-if="isAuthenticated && user.data.getRole.idRole === 'RO-2003064'">
+          <li class="nav-item"><b><router-link to="/keranjang" class="nav-link">
+                <i class="fas fa-cart-shopping text-primary">
+                  <span class="badge bg-primary">
+                    {{ totalQuantity }}
+                  </span>
+                </i>
+              </router-link>
+            </b></li>
+        </div>
+        <div v-else>
+        </div>
       </ul>
     </header>
   </div>
@@ -70,8 +74,11 @@ export default {
       return JSON.parse(Cookies.get('user'));
     },
     totalQuantity() {
+      if (!this.isAuthenticated || this.user.data.getRole.idRole !== 'RO-2003064') {
+        return 0;
+      }
       return this.items.reduce((total, item) => total + item.qty, 0);
-    }
+    },
   },
   mounted() {
     this.getItemsFromStorage()

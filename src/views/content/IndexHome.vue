@@ -8,7 +8,7 @@
             Semua bisa
             di
             Berobat+</p>
-          <ButtonLayanan Label="get started" Color=" btn-primary" />
+          <ButtonComponent Label="get started" Color=" btn-primary" />
         </div>
       </div>
     </div>
@@ -28,8 +28,10 @@
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
-        <FeaturePrimary v-else labelTitle="Rawat Jalan" icon="fa-user-nurse" labelParagraph="Perawatan Pasien">
-        </FeaturePrimary>
+        <div v-else @click="$redirect('/reservasi-perawat')">          
+          <FeaturePrimary labelTitle="Rawat Jalan" icon="fa-user-nurse" labelParagraph="Perawatan Pasien">
+          </FeaturePrimary>
+        </div>
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
@@ -101,12 +103,12 @@
   </section>
 </template>
 <script>
-import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue';
 import FeaturePrimary from '@/components/FeaturePrimary.vue';
 import TitleFeature from '@/components/partials-component/TitleFeature.vue';
-import CardArtikel from '@/components/CardArtikel.vue';
+import CardArtikel from '@/components/card/CardArtikel.vue';
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue';
-import CardMedicine from '@/components/CardMedicine.vue';
+import CardMedicine from '@/components/card/CardMedicine.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import Cookies from 'js-cookie'
 export default {
@@ -117,7 +119,7 @@ export default {
     }
   },
   components: {
-    ButtonLayanan, FeaturePrimary, TitleFeature, LoadingComponent, CardArtikel, CardMedicine, SkeletonLoading
+    ButtonComponent, FeaturePrimary, TitleFeature, LoadingComponent, CardArtikel, CardMedicine, SkeletonLoading
   },
   data() {
     return {

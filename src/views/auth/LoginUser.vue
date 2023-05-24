@@ -81,8 +81,8 @@ export default {
         "autentikasi/login", data
       ]
       this.$store.dispatch(type, url).then((response) => {
-        const cekRole = response.data.getRole.namaRole;
-        if (cekRole == "Konsumen") {
+        const cekRole = response.data.getRole.idRole;
+        if (cekRole == "RO-2003064") {
           Cookies.set("token", response.data.token);
           Cookies.set("user", JSON.stringify(response));
           setTimeout(() => {

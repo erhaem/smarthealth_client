@@ -68,7 +68,7 @@
 import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
-import SmallLoading from '@/components/partials-component/SmallLoading.vue';
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
 export default {
     data() {
@@ -95,7 +95,7 @@ export default {
     components: {
         HeaderComponent,
         FooterComponent,
-        SmallLoading,
+        SkeletonLoading,
         BodyDetailDokter,
         LoadingComponent
     },

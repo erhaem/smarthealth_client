@@ -60,7 +60,6 @@
 
 <script>
 import iziToast from 'izitoast'
-import CardArtikel from '@/components/CardArtikel.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 export default {
     data() {
@@ -76,7 +75,7 @@ export default {
         }
     },
     components: {
-        CardArtikel, SkeletonLoading
+        SkeletonLoading
     },
     computed: {
         idFromParams() {

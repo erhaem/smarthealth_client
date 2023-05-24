@@ -4,7 +4,8 @@ export default [
         name: 'ProfilUser',
         component: () => import('@/views/content/profile-page/ProfileUser.vue'),
         meta: {
-            title: 'Profil'
+            title: 'Profil',
+            requiresAuth: true
         }
     },
     {
@@ -12,7 +13,8 @@ export default [
         name: 'AccountUser',
         component: () => import('@/views/content/profile-page/SettingsAccount.vue'),
         meta: {
-            title: 'Profil'
+            title: 'Profil',
+            requiresAuth: true
         }
     }
 

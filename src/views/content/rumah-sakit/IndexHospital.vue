@@ -55,7 +55,7 @@
 </template>
 
 <script>
-import CardArtikel from '@/components/CardArtikel.vue'
+import CardArtikel from '@/components/card/CardArtikel.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 export default {
     data() {

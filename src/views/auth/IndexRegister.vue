@@ -32,7 +32,7 @@
                                 <p class="mb-1 mt-0 text-end text-danger">{{ errors.password }}</p>
                             </div>
                         </div>
-                        <ButtonLayanan class="btn-primary p-lg-2 rounded-2 py-2 w-100" Label="Register" />
+                        <ButtonComponent class="btn-primary p-lg-2 rounded-2 py-2 w-100" Label="Register" />
                     </Form>
                 </div>
                 <div class="col-lg-7">
@@ -49,7 +49,7 @@ import InputField from '@/components/partials-component/InputField.vue';
 import SelectOption from '@/components/partials-component/SelectOption.vue';
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
-import ButtonLayanan from '@/components/partials-component/ButtonLayanan.vue';
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue';
 import * as validate from 'yup'
 import { Form } from 'vee-validate'
 export default {
@@ -67,7 +67,7 @@ export default {
         }
     },
     components: {
-        InputField, SelectOption, HeaderComponent, FooterComponent, Form, ButtonLayanan
+        InputField, SelectOption, HeaderComponent, FooterComponent, Form, ButtonComponent
     },
     computed: {
         schema(){
