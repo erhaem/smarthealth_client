@@ -3,30 +3,57 @@
         <div class="d-flex justify-content-between">
             <h6 class="font-weight-bold text-primary">{{ $route.name }}</h6>
             <p v-if="hasLocation">
-                <i class="fa fa-map-marker text-danger"></i>
+                <i class="fa fa-location-dot text-danger"></i>
                 {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
             </p>
+        </div>
+        <div class="mb-3 d-flex justify-content-start">
+            <input type="text" class="form-control me-2 w-25" style="background-color: #F1F6F9"
+                placeholder="cari rumah sakit">
+            <input type="text" class="form-select me-2 w-25" style="background-color: #F1F6F9"
+                placeholder="kategori rumah sakit">
+            <input type="text" class="form-select me-2 w-25" style="background-color: #F1F6F9" placeholder="cari spesialis">
+            <button class="btn btn-sm btn-dark w-25">enter</button>
         </div>
         <div class="row">
             <div class="col-6">
                 <div class="row">
                     <template v-for="data in nearestResults" :key="data.id">
                         <div class="col-sm-6 mb-3 mb-sm-3">
-                            <div class="card shadow rounded border-0">
+                            <div v-if="isLoading">
+                                <SkeletonLoading />
+                            </div>
+                            <div v-if="!isLoading" class="card shadow rounded border-0">
                                 <div class="card-body">
                                     <img src="../../../assets/images/bg.png" class="img-fluid rounded mb-2" alt="">
-                                    <h5 class="card-title">{{ data.namaRs }}</h5>
-                                    <p class="card-text">{{ data.deskripsiRs }}</p>
+                                    <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
+                                    <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
+                                    <div class="d-flex justify-content-start text-secondary mt-1">
+                                        <div class="rounded me-3" style="background-color: #F1F6F9; font-size: 12px;">
+                                            <i class="fas fa-user-doctor px-3 mt-1 mb-1"> 1</i>
+                                        </div>
+                                        <div class="rounded me-3" style="background-color: #F1F6F9; font-size: 12px;">
+                                            <i class="fas fa-user-nurse px-3 mt-1 mb-1"> 1</i>
+                                        </div>
+                                        <div class="rounded me-3" style="background-color: #F1F6F9; font-size: 12px;">
+                                            <i class="fas fa-ambulance px-3 mt-1 mb-1"> 1</i>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </template>
                 </div>
+                <div class="d-flex justify-content-center">
+                    <button class="btn btn-sm btn-primary">
+                        lihat selanjutnya
+                    </button>
+                </div>
             </div>
-            <div class="col-6">
+            <div class="col-6 mt-2">
                 <div v-if="latitude !== null && longitude !== null" style="height: 400px; width: 650px">
-                    <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds">
-                        <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" :layer-type="base"
+                    <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" class="rounded">
+                        <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             name="OpenStreetMap"></l-tile-layer>
                         <l-marker :lat-lng="[latitude, longitude]" :icon="customIcon"></l-marker>
                         <div v-for="result in nearestResults" :key="result.id">
@@ -48,24 +75,16 @@
                 </div>
             </div>
         </div>
-        <button class="btn btn-sm btn-primary">
-            lihat selanjutnya
-        </button>
     </div>
 </template>
   
 <script>
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import axios from 'axios';
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import iconMarker from '../../../assets/images/maps.png'
 export default {
-    components: {
-        LMap,
-        LTileLayer,
-        LMarker,
-        LPopup,
-    },
     data() {
         return {
             latitude: null,
@@ -75,10 +94,18 @@ export default {
             locationName: null,
             bounds: null,
             popupOptions: {
-                maxWidth: 200, 
+                maxWidth: 200,
             },
             customIcon: null,
+            isLoading: false,
         };
+    },
+    components: {
+        LMap,
+        LTileLayer,
+        LMarker,
+        LPopup,
+        SkeletonLoading,
     },
     mounted() {
         this.getCurrentLocation();
@@ -117,9 +144,7 @@ export default {
             this.$store
                 .dispatch(type, url)
                 .then(result => {
-                    setTimeout(() => {
-                        this.isLoading = false;
-                    }, 2000);
+                    this.isLoading = false;
                     this.nearestResults = result.data;
                     this.calculateBounds();
                 })
