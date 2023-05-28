@@ -4,3 +4,4 @@
 @import url('https://fonts.cdnfonts.com/css/poppins');
 @import '../node_modules/izitoast/dist/css/iziToast.min.css';
 /* @import './assets/css/select2.css' */
+@import url('https://unpkg.com/leaflet/dist/leaflet.css');

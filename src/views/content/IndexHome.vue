@@ -58,9 +58,13 @@
           <div class="col-sm-6">
             <TitleFeature Label="Baca Artikel" />
           </div>
-          <div class="col-sm-6 text-end">
-            <TitleFeature Label="Lihat semua" class="text-primary" />
-          </div>
+          <template v-if="artikels.length > 4">
+            <div class="col-sm-6 text-end">
+              <TitleFeature Label="Lihat semua" class="text-primary" />
+            </div>
+          </template>
+          <template v-else>
+          </template>
         </div>
       </div>
       <div class="row g-4">

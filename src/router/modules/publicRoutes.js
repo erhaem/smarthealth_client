@@ -1,23 +1,23 @@
 export default [
     {
         path: '/artikel',
-        name: 'Detail Artikel',
-        component: () => import('@/views/content/artikel/DetailArtikel.vue'),
-        children: [
-            {
-                path: 'kategori/:id',
-                name: 'Kategori Artikel',
-                component: () => import('@/views/content/artikel/ArtikelByKategori.vue')
-            },
-            {
-                path: ':slug',
-                component: () => import('@/views/content/artikel/ArtikelBySlug.vue'),
-            },
-            {
-                path: 'kategori/*', // Catch-all route for "/artikel/kategori/*"
-                component: () => import('@/views/content/not-found-page/NotFound.vue')
-            }
-        ]
+        name: 'Halaman Artikel',
+        component: ()=>import('@/views/content/artikel/IndexArtikel.vue')
+    },
+    {
+        path: '/artikel/:slug',
+        name: 'Isi Artikel',
+        component: ()=>import('@/views/content/artikel/ArtikelBySlug.vue')
+    },
+    {
+        path: '/download-app',
+        name: 'Download App',
+        component: ()=>import('@/views/content/download-page/IndexDownload.vue')
+    },
+    {
+        path: '/riwayat',
+        name: 'Riwayat Konsumen',
+        component: ()=>import('@/views/content/riwayat/IndexRiwayat.vue')
     },
     {
         path: '/chat-dokter/',
@@ -51,7 +51,7 @@ export default [
     },
     {
         path: '/hospital',
-        name: "Hospital Name",
+        name: "Rumah Sakit Terdekat",
         component: () => import('@/views/content/rumah-sakit/IndexHospital.vue')
     },
     {
@@ -83,6 +83,11 @@ export default [
         path: '/produk-obat/:id',
         name: 'Detail Produk',
         component: () => import('@/views/content/apotek/DetailProduk.vue')
+    },
+    {
+        path: '/produk-obat/apotek/:id',
+        name: 'Produk Apotek',
+        component: () => import('@/views/content/apotek/IndexObatApotek.vue')
     },
     {
         path: '/test_ongkir',

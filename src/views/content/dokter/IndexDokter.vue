@@ -75,7 +75,7 @@ export default {
         return {
             dokters: [],
             specialist: [],
-            dokterLimit: 3,
+            dokterLimit: 4,
             specialistLimit: 12,
             isLoading: false
         }

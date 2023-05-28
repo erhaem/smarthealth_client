@@ -87,7 +87,7 @@
                             <div class="embed-responsive embed-responsive-16by9">
                                 <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
                             </div>
-                            <div class="card-body" @click="$redirect('/detail_apotek/' + data.idProfilApotek)">
+                            <div class="card-body" @click="$redirect('/produk-obat/apotek/' + data.idProfilApotek)">
                                 <p class="mb-0">{{ data.namaApotek }}</p>
                                 <div class="text-secondary">
                                     <p class="mb-0"><small>{{ data.alamatApotek }}</small></p>

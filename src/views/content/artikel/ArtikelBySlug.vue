@@ -1,14 +1,19 @@
 <template>
-    <SkeletonLoading v-if="isLoading" />
-    <article class="blog-post" v-if="!isLoading">
-        <h2 class="blog-post-title mb-1">{{ artikel.judulArtikel }}</h2>
-        <p class="blog-post-meta">December 23, 2020 by <a style="text-decoration: none;">{{ artikel.getUser.nama
-        }}</a></p>
-        <img src="../../../assets/images/rs.jpg" class="img-fluid h-75 w-75" alt="">
-        <p class="mt-3">
-            {{ artikel.deskripsi }}
-        </p>
-    </article>
+    <div class="container">
+        <div class="col-xxl-10 px-5 py-5">
+            <SkeletonLoading v-if="isLoading" />
+            <article class="blog-post" v-if="!isLoading">
+                <h2 class="blog-post-title mb-2">{{ artikel.judulArtikel }}</h2>
+                <div class="rounded px-4 w-50" style="background-color:cadetblue;">
+                    <p class="blog-post-meta text-light">Mei 23, 2022 by <a style="text-decoration: none;">{{ artikel.getUser.nama
+                    }}</a></p>
+                </div>
+                <p class="mt-3">
+                    {{ artikel.deskripsi }}
+                </p>
+            </article>
+        </div>
+    </div>
 </template>
 <script>
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
@@ -23,7 +28,7 @@ export default {
         SkeletonLoading
     },
     computed: {
-        slugFromParams(){
+        slugFromParams() {
             return this.$route.params.slug
         }
     },
@@ -38,7 +43,6 @@ export default {
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
-                console.log(result.data);
                 this.artikel = result.data
                 setTimeout(() => {
                     this.isLoading = false

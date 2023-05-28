@@ -1,125 +1,184 @@
 <template>
-    <div class="container col-xxl-6 px-3 py-3">
-        <div class="d-flex justify-content-center">
-            <div class="col-lg-8">
-                <div class="input-group mb-3">
-                    <span class="input-group-text border-0" id="search-addon"><i class="fas fa-magnifying-glass"></i></span>
-                    <input type="search" class="form-control rounded" placeholder="Cari nama rumah sakit atau poliklinik" />
-                </div>
-            </div>
-        </div>
-    </div>
     <div class="container">
         <div class="d-flex justify-content-between">
-            <div class="col-lg-6">
-                <p><i class="fa-solid fa-hospital text-danger"></i>
-                    Daftar Rumah Sakit Terdekat
-                    </p>
-            </div>
-            <div class="col-lg-6 text-end">
-                <p><i class="fa-solid fa-location-dot text-danger"></i>
-                    {{ latitude }}, {{ longitude }}
-                    </p>
-            </div>
+            <h6 class="font-weight-bold text-primary">{{ $route.name }}</h6>
+            <p v-if="hasLocation">
+                <i class="fa fa-map-marker text-danger"></i>
+                {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
+            </p>
         </div>
-    </div>
-    <div class="container col-xxl-12">
-        <div class="d-flex justify-content-center">
-            <div class="col-12 py-2 px-2">
-                <div class="row row-cols-1 row-cols-md-4 g-4">
-                    <div class="col" v-for="data in nearestResults" :key="data.idRumahSakit">
-                        <template v-if="isLoading">
-                            <SkeletonLoading/>
-                        </template>
-                        <div v-else class="card shadow border-0" v-if="!isLoading">
-                            <div class="embed-responsive embed-responsive-16by9">
-                                <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
-                            </div>
-                            <div class="card-body" @click="$redirect('/detail_rumah_sakit/' + data.idRumahSakit)">
-                                <p class="mb-0">{{ data.namaRs }}</p>
-                                <div class="text-secondary">
-                                    <p class="mb-0"><small>{{ data.alamatRs }}</small></p>
-                                    <div class="d-flex justify-content-end">
-                                        <p class="mt-2 mb-0"><small><i
-                                                    class="fa-solid fa-location-dot text-danger me-1"></i>{{ data.jarak }}
-                                                km</small></p>
-                                    </div>
+        <div class="row">
+            <div class="col-6">
+                <div class="row">
+                    <template v-for="data in nearestResults" :key="data.id">
+                        <div class="col-sm-6 mb-3 mb-sm-3">
+                            <div class="card shadow rounded border-0">
+                                <div class="card-body">
+                                    <img src="../../../assets/images/bg.png" class="img-fluid rounded mb-2" alt="">
+                                    <h5 class="card-title">{{ data.namaRs }}</h5>
+                                    <p class="card-text">{{ data.deskripsiRs }}</p>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </template>
+                </div>
+            </div>
+            <div class="col-6">
+                <div v-if="latitude !== null && longitude !== null" style="height: 400px; width: 650px">
+                    <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds">
+                        <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" :layer-type="base"
+                            name="OpenStreetMap"></l-tile-layer>
+                        <l-marker :lat-lng="[latitude, longitude]" :icon="customIcon"></l-marker>
+                        <div v-for="result in nearestResults" :key="result.id">
+                            <l-marker :lat-lng="[result.latitude, result.longitude]">
+                                <l-popup :options="popupOptions">
+                                    <template v-slot:default>
+                                        <div class="custom-popup">
+                                            <p class="mb-0">{{ result.namaRs }}</p>
+                                            <div v-if="hasLocation">
+                                                <p>{{ Math.floor(result.distance) }} km dari {{ locationName.address.village
+                                                }}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </l-popup>
+                            </l-marker>
+                        </div>
+                    </l-map>
                 </div>
             </div>
         </div>
+        <button class="btn btn-sm btn-primary">
+            lihat selanjutnya
+        </button>
     </div>
 </template>
-
+  
 <script>
-import CardArtikel from '@/components/card/CardArtikel.vue'
-import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
+import axios from 'axios';
+import "leaflet/dist/leaflet.css";
+import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
+import iconMarker from '../../../assets/images/maps.png'
 export default {
+    components: {
+        LMap,
+        LTileLayer,
+        LMarker,
+        LPopup,
+    },
     data() {
         return {
-            nearestResults: [],
-            isLoading: false,
             latitude: null,
             longitude: null,
-            locationName: ''
-        }
-    },
-    components: {
-        CardArtikel, SkeletonLoading
+            nearestResults: [],
+            zoom: 15,
+            locationName: null,
+            bounds: null,
+            popupOptions: {
+                maxWidth: 200, 
+            },
+            customIcon: null,
+        };
     },
     mounted() {
-        this.getLocation()
+        this.getCurrentLocation();
+        this.createCustomIcon()
+    },
+    computed: {
+        hasLocation() {
+            return this.locationName && this.locationName.address;
+        },
     },
     methods: {
-        getNeareset() {
-            let type = "postData"
-            let url = [
-                "master/rumah_sakit/data/find_nearest", {
-                    latitude: this.latitude,
-                    longitude: this.longitude
-                }
-            ]
-            this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                setTimeout(() => {
-                this.isLoading = false
-                }, 2000);
-                this.nearestResults = result.data
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        getLocation() {
+        getCurrentLocation() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     position => {
                         this.latitude = position.coords.latitude;
                         this.longitude = position.coords.longitude;
-                        this.getNeareset();
-                        console.log(this.latitude);
-                        console.log(this.longitude);
+                        this.getNearest();
+                        this.fetchLocationDetails();
                     },
                     error => {
-                        console.error(error);
+                        console.error('Error occurred while retrieving current location:', error);
                     }
                 );
             } else {
-                console.error("Geolocation is not supported by this browser.");
+                console.error('Geolocation is not supported by this browser.');
             }
         },
-    },
-}
-</script>
+        getNearest() {
+            let type = 'postData';
+            let url = ['master/rumah_sakit/data/find_nearest', {
+                latitude: this.latitude,
+                longitude: this.longitude,
+            }];
+            this.isLoading = true;
+            this.$store
+                .dispatch(type, url)
+                .then(result => {
+                    setTimeout(() => {
+                        this.isLoading = false;
+                    }, 2000);
+                    this.nearestResults = result.data;
+                    this.calculateBounds();
+                })
+                .catch(err => {
+                    console.log(err);
+                });
+        },
+        fetchLocationDetails() {
+            axios
+                .get('https://nominatim.openstreetmap.org/reverse', {
+                    params: {
+                        lat: this.latitude,
+                        lon: this.longitude,
+                        format: 'jsonv2',
+                    },
+                })
+                .then(response => {
+                    // Extract the desired location details from the response
+                    this.locationName = response.data;
+                    const { address } = response.data;
+                    console.log('Location:', address);
+                })
+                .catch(error => {
+                    console.error('Error occurred while fetching location details:', error);
+                });
+        },
+        calculateBounds() {
+            if (this.nearestResults.length === 0) {
+                this.bounds = null;
+                return;
+            }
 
+            const minLat = Math.min(...this.nearestResults.map(result => result.latitude));
+            const maxLat = Math.max(...this.nearestResults.map(result => result.latitude));
+            const minLng = Math.min(...this.nearestResults.map(result => result.longitude));
+            const maxLng = Math.max(...this.nearestResults.map(result => result.longitude));
+
+            this.bounds = [[minLat, minLng], [maxLat, maxLng]];
+        },
+        createCustomIcon() {
+            // Create a custom icon with the desired color
+            this.customIcon = L.icon({
+                iconUrl: iconMarker, // Path to the custom marker icon image
+                iconSize: [40, 45], // Size of the icon image
+            });
+        },
+    },
+};
+</script>
+  
 <style>
-.form-control:focus {
-    border-color: #4538db;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(95, 124, 218, 0.6);
+.leaflet-container {
+    height: 100%;
+    width: 100%;
+}
+
+.custom-popup {
+    max-width: 200px;
 }
 </style>
 
-<script>
-</script>
+  

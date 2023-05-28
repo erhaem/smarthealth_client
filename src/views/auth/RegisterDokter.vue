@@ -11,10 +11,6 @@
                     <div class="row">
                         <div class="d-flex align-items-center">
                             <InputField name="nomor" class="input me-2" v-model="nomor_str" placeHolder="nomor_str" />
-                            <select class="form-select mb-3" v-model="kelas" aria-label="Default select example">
-                                <option selected>Open this select menu</option>
-                                <option value="1" selected>1</option>
-                            </select>
                         </div>
                     </div>
                     <InputField name="nama" v-model="user.nama" placeHolder="nama" />
@@ -47,7 +43,7 @@ export default {
     data() {
         return {
             nomor_str: '',
-            kelas: '',
+            kelas: 1,
             user: {
                 nama: '',
                 email: '',
@@ -56,7 +52,7 @@ export default {
                 tanggal_lahir: '',
                 alamat: '',
                 jenis_kelamin: '',
-                password: ''
+                password: '',
             }
         }
     },

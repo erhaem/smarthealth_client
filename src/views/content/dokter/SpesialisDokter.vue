@@ -5,7 +5,7 @@
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
-        <div class="col" v-for="dokter in limitData.dokters" :key="dokter.id">
+        <div class="col" v-for="dokter in filteredDokter" :key="dokter.id">
             <template v-if="isLoading">
                 <div class="col">
                     <SkeletonLoading />
@@ -80,7 +80,7 @@ export default {
         return {
             dokters: [],
             specialist: [],
-            dokterLimit: 3,
+            dokterLimit: 4,
             specialistLimit: 12,
             isLoading: false
         }
@@ -95,7 +95,11 @@ export default {
                 dokters: this.dokters.slice(0, this.dokterLimit),
                 specialist: this.specialist.slice(0, this.specialistLimit)
             }
-        }
+        },
+        filteredDokter() {
+            const dokterUmum = this.dokters.filter((d) => d.getKeahlian.namaKeahlian === 'Dokter Umum');
+            return dokterUmum.sort((a, b) => a.getDokter.nama.localeCompare(b.getDokter.nama));
+        },
     },
     components: {
         HeaderComponent,
@@ -113,8 +117,8 @@ export default {
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 setTimeout(() => {
-                this.isLoading = false
-                    
+                    this.isLoading = false
+
                 }, 3000);
                 this.dokters = result.data
             }).catch((err) => {

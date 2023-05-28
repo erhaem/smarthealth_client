@@ -2,7 +2,7 @@
     <div class="container py-3 px-3">
         <div class="d-flex justify-content-center">
             <div class="card shadow pt-3 px-3 w-100">
-                    <div class="row">
+                <div class="row">
                     <div class="col-1">
                         <input type="checkbox" name="" id="" v-model="selectAll">
                     </div>
@@ -17,11 +17,6 @@
                     <div class="col-2">
                         <p><b>
                                 qty
-                            </b></p>
-                    </div>
-                    <div class="col-2">
-                        <p><b>
-                                total harga
                             </b></p>
                     </div>
                     <div class="col-2">
@@ -56,9 +51,6 @@
                         </div>
                     </div>
                     <div class="col-2">
-                        {{ item.hargaProduk }}
-                    </div>
-                    <div class="col-2">
                         <button class="btn" @click="deleteItem(item.id)">
                             <i class="fas fa-trash text-danger"></i>
                             hapus
@@ -67,27 +59,19 @@
                 </div>
             </div>
         </div>
-        <div class="d-flex justify-content-center">
-            <div class="w-100">
-                <div class="row">
-                    <div class="col-4">
-                    </div>
-                    <div class="col-4">
-                    </div>
-
-                </div>
-            </div>
+        <div class="d-flex justify-content-end">
+            <button @click="withBui" class="btn btn-dark btn-sm mt-3">checkout</button>
         </div>
+        <h6>
+            Total Price: {{ totalPrice }}
+        </h6>
+        <h6>
+            Total Produk : {{ calculateTotalProduct() }}
+        </h6>
     </div>
-
-    Total Price: {{ totalPrice }}
-    Total Produk : {{ calculateTotalProduct() }}
-
-    <button @click="withBui">pesen kontol</button>
 </template>
   
 <script>
-import iziToast from 'izitoast';
 export default {
     data() {
         return {
@@ -149,16 +133,27 @@ export default {
         },
         deleteItem(idProduct) {
             const index = this.items.findIndex((item) => item.id === idProduct);
-            if (index !== -1) {
-                iziToast.success({
-                    title: 'success',
-                    message: 'data berhasil dihapus'
-                })
-                this.items.splice(index, 1);
-                this.updateLocalStorage();
-            }
+            this.$swal({
+                icon: 'question',
+                title: 'Apakah Anda yakin ingin menghapus?',
+                showCancelButton: true,
+                confirmButtonText: 'Ya',
+                cancelButtonText: 'Tidak',
+                reverseButtons: true
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    if (index !== -1) {
+                        this.items.splice(index, 1);
+                        this.updateLocalStorage();
+                        this.$swal({
+                            icon: 'success',
+                            title: 'Berhasil',
+                            text: 'Item berhasil dihapus.'
+                        });
+                    }
+                }
+            });
         },
-
         updateLocalStorage() {
             localStorage.setItem('cart', JSON.stringify(this.items));
         },
