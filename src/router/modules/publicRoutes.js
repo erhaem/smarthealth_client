@@ -38,17 +38,6 @@ export default [
             },
         ],
     },
-
-    {
-        path: '/toko-kesehatan',
-        name: 'Toko Kesehatan',
-        component: () => import('@/views/content/obat-produk/IndexShop.vue')
-    },
-    {
-        path: '/toko-kesehatan/detail-medicine/:id',
-        name: 'Detail Medicine',
-        component: () => import('@/views/content/obat-produk/DetailMedicine.vue')
-    },
     {
         path: '/hospital',
         name: "Rumah Sakit Terdekat",
@@ -68,11 +57,6 @@ export default [
         path: '/reservasi-perawat',
         name: 'Reservasi Perawat',
         component: () => import('@/views/content/perawat/IndexPerawat.vue')
-    },
-    {
-        path: '/produk_kategori/:id',
-        name: 'Kategori Produk',
-        component: () => import('@/views/content/obat-produk/KategoriProduk.vue')
     },
     {
         path: '/produk-obat',

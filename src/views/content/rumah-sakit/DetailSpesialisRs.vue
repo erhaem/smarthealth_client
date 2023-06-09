@@ -18,7 +18,7 @@
                             <div v-for="data in dokterSpesialis">
                                 <div class="card shadow border-0">
                                     <div class="card-header">
-                                        <img src="../../../assets/images/dokter.jpg" class="img-fluid rounded" alt="">
+                                        <img src="../../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
                                     </div>
                                     <div class="card-body">
                                         <p class="mb-0">

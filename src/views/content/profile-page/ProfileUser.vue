@@ -5,7 +5,7 @@
                 <div class="card text-center mb-3" style="width: 18rem;">
                     <div class="card-header rounded text-bg-danger px-5 py-5">
                         <div class="">
-                            <img src="../../../assets/images/dokter.jpg" class="bg-info rounded-circle" style="width:30%;"
+                            <img src="../../../assets/images/avadoktercowo.png" class="bg-info rounded-circle" style="width:30%;"
                                 alt="">
                         </div>
                         <p class="mb-0">{{ form.nama }}</p>
@@ -27,7 +27,7 @@
                 <div class="position-relative text-center">
                     <!-- <p class="text-bg-success pb-1 pt-1 rounded position-absolute" style="top:5%; right: 65%">
                         {{ form.data.getRole.namaRole }} </p> -->
-                    <img src="../../../assets/images/dokter.jpg" class="bg-info rounded-circle" style="width:30%;" alt="">
+                    <img src="../../../assets/images/avadoktercowo.png" class="bg-info rounded-circle" style="width:30%;" alt="">
                     <p class="text-bg-primary pb-1 pt-1 rounded-circle position-absolute" style="bottom:3%; left: 60%"><span
                             class="px-2 py-2" style="font-size: 14px;"><i class="fas fa-pencil"></i></span></p>
                 </div>
