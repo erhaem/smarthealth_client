@@ -99,10 +99,32 @@
                 </div>
             </div>
         </div>
+        <div class="row">
+            <div v-for="data in praktekDokter" class="col-12 col-md-6">
+                <h5 class="text-primary">Dokter</h5>
+                <div class="card shadow border-0 rounded">
+                    <div class="card-body">
+                        <div class="d-flex">
+                            <img src="../../../assets/images/avadoktercowo.png" class="img-fluid w-25 mt-3" alt="">
+                            <div class="mt-4 px-5">
+                                <p class="mb-0">dr. {{ data.ahli.nama }}</p>
+                                <p class="mb-2"><i class="text-secondary">spesialis paru-paru</i></p>
+                                <p class="mb-0"><b>biaya konsultasi:</b> Rp. {{ data.biayaPraktek.toLocaleString('id-ID') }}
+                                </p>
+                            </div>
+                        </div>
+                        <div class="d-flex justify-content-end">
+                            <ButtonComponent Color="btn-outline-dark" @click="$redirect('/detail_rumah_sakit/buat_janji'  + '/' + data.ahli.id + '/' + data.idDetailPraktek)" Label="buat janji" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </template>
 
 <script>
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import CardMedicine from '@/components/card/CardMedicine.vue';
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
 export default {
@@ -111,7 +133,8 @@ export default {
             detailHospitals: [],
             limit: 12,
             detailFasilitas: [],
-            detailRS: []
+            detailRS: [],
+            praktekDokter: []
         }
     },
     computed: {
@@ -125,7 +148,8 @@ export default {
     created() {
         this.getDetailFasilitas(),
             this.getDetailHospital(),
-            this.getRumahSakit()
+            this.getRumahSakit(),
+            this.getPraktek()
     },
     methods: {
         getDetailHospital() {
@@ -166,11 +190,24 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        getPraktek() {
+            let type = "getData"
+            let url = [
+                "master/ahli/detail_praktek/" + this.idFromParams, {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.praktekDokter = result.data
+                console.log(result.data);
+            }).catch((err) => {
+                console.log(err);
+            })
         }
     },
     components: {
         CardMedicine,
-        LoadingComponent
+        LoadingComponent,
+        ButtonComponent
     }
 }
 </script>

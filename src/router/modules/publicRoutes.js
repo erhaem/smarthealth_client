@@ -2,7 +2,7 @@ export default [
     {
         path: '/artikel',
         name: 'Halaman Artikel',
-        component: ()=>import('@/views/content/artikel/IndexArtikel.vue')
+        component: ()=>import('@/views/content/artikel/IndexArtikel.vue'),
     },
     {
         path: '/artikel/:slug',
@@ -52,6 +52,19 @@ export default [
         path: '/detail_rumah_sakit/:idPenyakit/:id',
         name: 'Detail Spesialis Rs',
         component: () => import('@/views/content/rumah-sakit/DetailSpesialisRs.vue'),
+    },
+    {
+        path: '/detail_rumah_sakit/buat_janji/:idAhli/:idDetailPraktek',
+        name: 'Detail Janji Rs',
+        component: () => import('@/views/content/rumah-sakit/IndexJanjiRs.vue'),
+    },
+    {
+        path: '/tes/:idAhli/:idJadwalPraktek',
+        name: 'Detail Janji',
+        component: () => import('@/views/content/rumah-sakit/DetailJanjiRs.vue'),
+        // meta: {
+        //     requiresAuth: true
+        // }
     },
     {
         path: '/reservasi-perawat',

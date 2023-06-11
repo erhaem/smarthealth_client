@@ -44,7 +44,7 @@
 
 <script>
 import Cookies from "js-cookie";
-import * as validate from 'yup'
+// import * as validate from 'yup'
 import { Form } from 'vee-validate'
 import InputField from '@/components/partials-component/InputField.vue';
 import iziToast from "izitoast";
@@ -62,14 +62,14 @@ export default {
   components: {
     Form, InputField
   },
-  computed: {
-    schema() {
-      return validate.object({
-        phoneNumber: validate.string().required('⚠ kolom password wajib diisi'),
-        password: validate.string().required('⚠ kolom password wajib diisi').min(8, '⚠ password minimal 8 karakter').max(20, 'password maksimal 20 karakter')
-      })
-    }
-  },
+  // computed: {
+  //   schema() {
+  //     return validate.object({
+  //       phoneNumber: validate.string().required('⚠ kolom password wajib diisi'),
+  //       password: validate.string().required('⚠ kolom password wajib diisi').min(8, '⚠ password minimal 8 karakter').max(20, 'password maksimal 20 karakter')
+  //     })
+  //   }
+  // },
   methods: {
     handleSubmit() {
       let type = "postData"

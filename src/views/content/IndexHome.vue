@@ -67,21 +67,21 @@
           </template>
         </div>
       </div>
-      <div class="row g-4">
-        <template v-if="loadingArtikel">
-          <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-            <SkeletonLoading />
-          </div>
-        </template>
-        <template v-else>
-          <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-            <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
-              @click="$redirect('/artikel/' + data.slugArtikel)">
-            </CardArtikel>
-          </div>
-        </template>
-      </div>
-    </div>
+        <div class="row g-4">
+          <template v-if="loadingArtikel">
+            <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+              <SkeletonLoading />
+            </div>
+          </template>
+          <template v-else>
+            <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+              <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
+                @click="$redirect('/artikel/' + data.slugArtikel)">
+              </CardArtikel>
+            </div>
+          </template>
+        </div>
+      </div>       
   </section>
   <section id="obat">
     <div class="container">
@@ -205,3 +205,15 @@ export default {
   }
 }
 </script>
+<style>
+@media (max-width: 767px) {
+  .row {
+    overflow-x: auto;
+    flex-wrap: nowrap;
+  }
+  .col-md-4.col-lg-3 {
+    flex: 0 0 auto;
+    width: auto;
+  }
+}
+</style>

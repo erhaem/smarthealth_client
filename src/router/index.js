@@ -27,8 +27,9 @@ router.beforeEach((to, from, next) => {
 router.beforeEach((to, from, next) => {
   const allowedRoles = ["RO-2003064"];
   const token = Cookies.get("token");
+  const routeName = ["", "Profile User"]
 
-  if (to.name === 'ProfilUser') {
+  if (routeName.includes(to.name)) {
     if (!token) {
       // Redirect to the login page if the user is not logged in
       next({ name: "LoginUser" });

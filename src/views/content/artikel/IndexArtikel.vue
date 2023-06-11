@@ -3,9 +3,11 @@
       <div class="container">
         <h5>Topik Terkini</h5>
         <div class="d-flex justify-content-start">
-            <p class="me-2 rounded border px-3">cacar</p>
-            <p class="me-2 rounded border px-3">demam</p>
-            <p class="me-2 rounded border px-3">kehamilan</p>
+          <div v-for="data in kategoriArtikel">
+            <p class="me-2 rounded border px-3">
+              {{ data.namaKategori }}
+            </p>
+          </div>
         </div>
         <div class="row g-4">
           <div class="col-md-4 col-lg-3 rounded" v-for="(item, index) in visibleData" :key="index">
@@ -45,6 +47,7 @@
           { title: 'judul 9', description: 'deskripsi 9' },
           { title: 'judul 10', description: 'deskripsi 10' },
         ],
+        kategoriArtikel: [],
         visibleData: [],
         currentIndex: 0,
         increment: 4,
@@ -56,6 +59,9 @@
         return this.currentIndex < this.data.length;
       }
     },
+    created(){
+      this.getKategori()
+    },
     methods: {
       loadMore() {
         this.isLoading = true
@@ -64,6 +70,18 @@
         }, 1000);
         this.visibleData = this.data.slice(0, this.currentIndex + this.increment);
         this.currentIndex += this.increment;
+      },
+      getKategori(){
+        let type = "getData"
+        let url = [
+          "master/kategori_artikel", {}
+        ]
+        this.$store.dispatch(type, url).then((result)=>{
+          this.kategoriArtikel = result.data
+          console.log(result);
+        }).catch((err)=>{
+          console.log(err);
+        })
       }
     },
     mounted() {
