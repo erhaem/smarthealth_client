@@ -34,13 +34,29 @@
                         <div v-if="isLoading">
                             <LoadingComponent />
                         </div>
-                        <div v-else-if="detailRS.deskripsiRs === null">
-                            data ga ada
-                        </div>
-                        <div v-else class="d-inline-flex align-items-start">
-                            <p>
-                                {{ detailRS.alamatRs }}
-                            </p>
+                        <div v-else style="height: 300px">
+                            <l-map v-if="detailRS && detailRS.latitude && detailRS.longitude" :zoom="zoom"
+                                :center="[detailRS.latitude, detailRS.longitude]">
+                                <l-tile-layer :url="url"></l-tile-layer>
+                                <l-marker :lat-lng="[detailRS.latitude, detailRS.longitude]" :icon="hospitalIcon">
+                                    <l-popup :options="popupOptions">
+                                        <template v-slot:default>
+                                            <div class="custom-popup">
+                                                <p class="mb-0">{{ detailRS.namaRs }}</p>
+                                                <div class="d-flex justify-content-end">
+                                                    <p class="mb-0">
+                                                        <a :href="getGoogleMapsLink(detailRS.latitude, detailRS.longitude)"
+                                                            style="text-decoration: none;">
+                                                            rute <i class="fas fa-arrow-right"></i>
+                                                        </a>
+                                                    </p>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </l-popup>
+                                </l-marker>
+                            </l-map>
+
                         </div>
                     </div>
                     <div class="col-md-2 themed-grid-col">
@@ -57,12 +73,6 @@
                                     :key="fasilitas.id">
                                     <li class="">{{ fasilitas.namaFasilitas }}</li>
                                 </ul>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="d-flex justify-content-bottom">
-                                <button class="btn btn-sm btn-danger me-2">Buat Janji</button>
-                                <button class="btn btn-sm btn-outline-danger">telepon</button>
                             </div>
                         </div>
                     </div>
@@ -114,27 +124,43 @@
                             </div>
                         </div>
                         <div class="d-flex justify-content-end">
-                            <ButtonComponent Color="btn-outline-dark" @click="$redirect('/detail_rumah_sakit/buat_janji'  + '/' + data.ahli.id + '/' + data.idDetailPraktek)" Label="buat janji" />
+                            <ButtonComponent Color="btn-outline-dark"
+                                @click="$redirect('/detail_rumah_sakit/buat_janji' + '/' + data.ahli.id + '/' + data.idDetailPraktek)"
+                                Label="buat janji" />
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <br>
+        <br>
     </div>
 </template>
 
 <script>
+import "leaflet/dist/leaflet.css"
+import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet"
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import CardMedicine from '@/components/card/CardMedicine.vue';
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
+import hospitalMarker from '../../../assets/images/hospital-marker.png'
+
 export default {
     data() {
         return {
             detailHospitals: [],
+            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             limit: 12,
             detailFasilitas: [],
-            detailRS: [],
-            praktekDokter: []
+            detailRS: {},
+            praktekDokter: [],
+            zoom: 15,
+            latitude: null,
+            longitude: null,
+            popupOptions: {
+                maxWidth: 200,
+            },
+            hospitalIcon: null
         }
     },
     computed: {
@@ -145,10 +171,13 @@ export default {
             return this.detailHospitals.slice(0, this.limit)
         }
     },
+    mounted() {
+        this.createCustomIcon()
+    },
     created() {
         this.getDetailFasilitas(),
-            this.getDetailHospital(),
-            this.getRumahSakit(),
+            this.getRumahSakit()
+        this.getDetailHospital(),
             this.getPraktek()
     },
     methods: {
@@ -164,6 +193,9 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        getGoogleMapsLink(latitude, longitude) {
+            return `https://www.google.com/maps/@${latitude},${longitude},15z?entry=ttu`;
         },
         getDetailFasilitas() {
             let type = "getData"
@@ -183,10 +215,12 @@ export default {
             let url = [
                 "master/rumah_sakit/data/" + this.idFromParams + "/edit", {}
             ]
+            console.log('getrs');
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.isLoading = false
                 this.detailRS = result.data
+                console.log('detailRS:', this.detailRS);
             }).catch((err) => {
                 console.log(err);
             })
@@ -202,12 +236,25 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
-        }
+        },
+        createCustomIcon(){
+            this.hospitalIcon = L.icon({
+                iconUrl: hospitalMarker,
+                iconSize: [40, 45]
+            })
+        },
     },
     components: {
         CardMedicine,
         LoadingComponent,
-        ButtonComponent
+        ButtonComponent,
+        LMap, LMarker, LPopup, LTileLayer
     }
 }
 </script>
+
+<style>
+.custom-popup {
+    max-width: 200px;
+}
+</style>

@@ -73,7 +73,23 @@
             </div>
         </div>
         <input type="text" v-model="detailKunjungan.idJadwalPraktek" hidden>
-    </div>
+        <div class="col-lg-12 col-md-6">
+            <div class="d-flex justify-content-center">
+                <!-- <div v-for="data in antrian"> -->
+                    <div class="card shadow">
+                        <div class="card-body">
+                            <div class="card-text">
+                                <h1 class="text-primary text-center">
+                                    {{ dataa.antrian }}
+                                </h1>
+                                <p>Nomor Antrian</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    <!-- </div> -->
 </template>
 <script>
 export default {
@@ -82,6 +98,7 @@ export default {
             detailKunjungan: {
                 praktek: {}
             },
+            dataa: []
         }
     },
     computed: {
@@ -93,7 +110,8 @@ export default {
         }
     },
     created() {
-        this.getDetail()
+        this.getDetail(),
+        this.getAntrian()
     },
     methods: {
         getDetail() {
@@ -121,7 +139,18 @@ export default {
                     icon: 'success',
                     title: 'berhasil daftar kunjungan'
                 })
-                this.$router.back()
+                this.dataa = result.data
+                console.log(result);
+            }).catch((err)=>{
+                console.log(err);
+            })
+        },
+        getAntrian(){
+            let type = "getData"
+            let url = [
+                "master/ahli/jadwal_antrian", {}
+            ]
+            this.$store.dispatch(type, url).then((result)=>{
                 console.log(result);
             }).catch((err)=>{
                 console.log(err);

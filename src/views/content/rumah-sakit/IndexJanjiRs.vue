@@ -90,15 +90,17 @@ export default {
             return this.selectedId !== null;
         },
     },
-    created() {
+    mounted() {
         this.getJadwalPraktek()
     },
+    
     methods: {
         getJadwalPraktek() {
             let type = "getData"
             let url = [
                 "master/ahli/jadwal_praktek/" + this.idFromParams, {}
             ]
+            console.log("get jadwal")
             this.$store.dispatch(type, url).then((result) => {
                 this.jadwalPraktek = result.data
                 console.log(result)

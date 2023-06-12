@@ -55,9 +55,9 @@
                     <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" class="rounded">
                         <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             name="OpenStreetMap"></l-tile-layer>
-                        <l-marker :lat-lng="[latitude, longitude]" :icon="customIcon"></l-marker>
+                        <l-marker :lat-lng="[latitude, longitude]"></l-marker>
                         <div v-for="result in nearestResults" :key="result.id">
-                            <l-marker :lat-lng="[result.latitude, result.longitude]">
+                            <l-marker :lat-lng="[result.latitude, result.longitude]" :icon="hospitalIcon">
                                 <l-popup :options="popupOptions">
                                     <template v-slot:default>
                                         <div class="custom-popup">
@@ -84,6 +84,7 @@ import axios from 'axios';
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import iconMarker from '../../../assets/images/maps.png'
+import hospitalMarker from '../../../assets/images/hospital-marker.png'
 export default {
     data() {
         return {
@@ -97,6 +98,7 @@ export default {
                 maxWidth: 200,
             },
             customIcon: null,
+            hospitalIcon: null,
             isLoading: false,
         };
     },
@@ -190,6 +192,10 @@ export default {
                 iconUrl: iconMarker, // Path to the custom marker icon image
                 iconSize: [40, 45], // Size of the icon image
             });
+            this.hospitalIcon = L.icon({
+                iconUrl: hospitalMarker,
+                iconSize: [40, 45]
+            })
         },
     },
 };
