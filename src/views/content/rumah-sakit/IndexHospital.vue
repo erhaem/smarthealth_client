@@ -40,7 +40,7 @@
                 </div>
             </div>
             <div class="col-6 mt-2">
-                <div v-if="latitude !== null && longitude !== null" style="height: 400px; width: 650px">
+                <div v-if="latitude !== null && longitude !== null" style="height: 550px; width: 650px">
                     <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" class="rounded">
                         <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             name="OpenStreetMap"></l-tile-layer>

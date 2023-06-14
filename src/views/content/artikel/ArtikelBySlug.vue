@@ -1,17 +1,17 @@
 <template>
-    <div class="container">
-        <div class="col-xxl-10 px-5 py-5">
-            <SkeletonLoading v-if="isLoading" />
-            <article class="blog-post" v-if="!isLoading">
-                <h2 class="blog-post-title mb-2">{{ artikel.judulArtikel }}</h2>
-                <div class="rounded px-4 w-50" style="background-color:cadetblue;">
-                    <p class="blog-post-meta text-light">Mei 23, 2022 by <a style="text-decoration: none;">{{ artikel.getUser.nama
-                    }}</a></p>
+    <div class="container mt-3">
+        <div class="row">
+            <div class="col-md-8">
+                <SkeletonLoading v-if="isLoading" />
+                <div class="blog-detail" v-if="!isLoading">
+                    <h1 class="blog-title">{{ artikel.judulArtikel }}</h1>
+                    <p class="blog-meta">Published on Mei 23, 2022 by {{ artikel.getUser.nama }}</p>
+                    <img src="../../../assets/images/rs.jpg" alt="Blog Image" class="blog-image img-fluid">
+                    <div class="blog-content">
+                        {{ artikel.deskripsi }}
+                    </div>
                 </div>
-                <p class="mt-3">
-                    {{ artikel.deskripsi }}
-                </p>
-            </article>
+            </div>
         </div>
     </div>
 </template>
@@ -54,3 +54,27 @@ export default {
     },
 }
 </script>
+<style>
+.blog-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 10px;
+}
+
+.blog-meta {
+    font-size: 14px;
+    color: #888;
+    margin-bottom: 20px;
+}
+
+.blog-image {
+    width: 50%;
+    height: auto;
+    margin-bottom: 20px;
+}
+
+.blog-content {
+    font-size: 16px;
+    line-height: 1.6;
+}
+</style>

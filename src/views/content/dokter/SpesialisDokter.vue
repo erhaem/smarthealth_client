@@ -35,14 +35,21 @@
                                         class="ms-1 fa-solid fa-briefcase"></i> 1 tahun &nbsp;</p>
                                 <p class="rounded mb-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-thumbs-up"></i>
                                     100% &nbsp;</p>
+                                <!-- {{ getDokterKeahlian(data.userId.id) }} -->
                             </div>
-                            <p class="mb-1" style="font-size: 12px;">Rp. {{ data.biaya.biaya }}</p>
+                            <div v-if="data.biaya">
+                                <p class="mb-1" style="font-size: 12px;">Rp. {{ data.biaya.biaya }}</p>
+                            </div>
+                            <div v-else>
+                                <p>belum ada biaya</p>
+                            </div>
                             <div class="pt-3">
                                 <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
                             </div>
                         </div>
                     </div>
                 </div>
+                
             </template>
             <template v-else>
                 <div v-if="dokters.length === 0">
@@ -118,15 +125,18 @@ export default {
             dokters: [],
             specialist: [],
             nurses: [],
-            dokterLimit: 4,
+            dokterLimit: 2,
             specialistLimit: 12,
-            isLoading: false
+            isLoading: false,
+            idAhkii: []
         }
     },
+    mounted() {        
+        this.getPerawat(),
+        this.getDokter()
+    },
     created() {
-        this.getDokter(),
-            this.getSpesialis(),
-            this.getPerawat()
+        this.getSpesialis()
     },
     computed: {
         limitData() {
@@ -139,6 +149,11 @@ export default {
             const dokterUmum = this.dokters.filter((d) => d.getKeahlian.namaKeahlian === 'Dokter Umum');
             return dokterUmum.sort((a, b) => a.getDokter.nama.localeCompare(b.getDokter.nama));
         },
+        idAhli() {
+            return {
+                idAhkii: this.dokters[0].userId
+            }
+        }
     },
     components: {
         HeaderComponent,
@@ -152,7 +167,7 @@ export default {
         getDokter() {
             let type = "getData"
             let url = [
-                "akun/dokter", {}
+                "akun/dokter/data", {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
@@ -193,7 +208,29 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        getDokterKeahlian(dokterId) {
+            return new Promise((resolve, reject) => {
+                let type = "getData";
+                let keahlian = {};
+                let url = [`master/ahli/keahlian/master/${dokterId}/get`, {}];
+
+                this.$store
+                    .dispatch(type, url)
+                    .then((result) => {
+                        result.data.forEach((element) => {
+                            keahlian = element.keahlianId;
+                            console.log(keahlian);
+                        });
+                        resolve(keahlian);
+                    })
+                    .catch((err) => {
+                        console.log(err);
+                        reject(err);
+                    });
+            });
         }
+
     },
 }
 </script>

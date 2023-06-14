@@ -60,9 +60,6 @@
                 style="overflow-y: auto; max-height: 600px">
                 <div class="d-flex justify-content-between sticky-top"  v-if="$route.name !== 'Detail Dokter'">
                     <InputField placeholder="cari dokter, spesialis, atau gejala" v-model="search" class="me-2 p-sm-2" />
-                    <b class="text-primary fw-3 font-weight-bold">
-                        <i class="fas fa-search mt-3" @click="searchKeahlian"></i>
-                    </b>
                 </div>
                 <router-view :valueSearch="valueSearch"></router-view>
             </div>

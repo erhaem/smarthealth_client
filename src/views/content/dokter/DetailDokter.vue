@@ -26,11 +26,16 @@
                             <p class="mb-0">
                                 dr. {{ detailDokter.userId.nama }}
                             </p>
-                            <p class="mb-0 text-secondary">
-                                <small>
-                                  biaya: Rp. {{ detailDokter.biaya.biaya.toLocaleString('id-ID') }}
-                                </small>
-                            </p>
+                            <div v-if="detailDokter.biaya">
+                                <p class="mb-0 text-secondary">
+                                    <small>
+                                      biaya: Rp. {{ detailDokter.biaya.biaya.toLocaleString('id-ID') }}
+                                    </small>
+                                </p>
+                            </div>
+                            <div v-else>
+                                kosong
+                            </div>
                             <div class="d-flex justify-content-start mt-2">
                                 <p class="me-2 pe-2 px-2 bg-secondary rounded text-light text-size">
                                     <small>
@@ -64,7 +69,6 @@
                                 chat
                             </button>
                         </div>
-                        
                     </div>
                 </div>
             </div>

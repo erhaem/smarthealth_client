@@ -1,104 +1,160 @@
 <template>
-    <div class="container col-xl-10 col-xxl-10 px-4 py-5">
-        <div class="row align-items-top g-lg-5">
-            <div class="col-lg-6 text-center text-lg-start">
-                <h5 class="display-5 fw-bold lh-1 mb-3 text-primary">Personal Info</h5>
-                <p class="col-lg-10 fs-5 text-secondary">Provide Your Personal Info</p>
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 mt-3">
+                <h4>Welcome <span class="text-primary">back</span></h4>
+                <p class="text-secondary">
+                    <small>
+                        start the adventure
+                    </small>
+                </p>
+                <div class="card shadow">
+                    <div class="card-header bg-primary text-white">
+                        <h4 class="mb-0">Register</h4>
+                    </div>
+                    <div class="card-body">
+                        <form @submit.prevent="registerUser">
+                            <div class="row mb-3">
+                                <div :class="['col-md-6', { 'has-error': submitted && !form.nama }]">
+                                    <label for="name" class="form-label">Nama</label>
+                                    <input type="text" id="name" class="form-control" v-model="form.nama">
+                                </div>
+                                <div :class="['col-md-6', { 'has-error': submitted && !form.nomorHp }]">
+                                    <label for="nomor hp" class="form-label">Nomor HP</label>
+                                    <input type="text" class="form-control" v-model="form.nomorHp">
+                                </div>
+                            </div>
+                            <div class="row mb-3">
+                                <div :class="['col-md-6', { 'has-error': submitted && !form.password }]">
+                                    <label for="name" class="form-label">Password</label>
+                                    <input type="password" class="form-control" v-model="form.password">
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="selectOption" class="form-label">Jenis Kelamin</label>
+                                    <select class="form-select" v-model="form.jenisKelamin">
+                                        <option value="" disabled>----Pilih Jenis Kelamin----</option>
+                                        <option value="L">Laki-laki</option>
+                                        <option value="P">Perempuan</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="selectOption" class="form-label">Jenis Akun</label>
+                                <select id="selectOption" class="form-select" v-model="form.option">
+                                    <option value="" disabled>----Pilih Jenis Akun----</option>
+                                    <option value="dokter">Dokter</option>
+                                    <option value="perawat">Perawat</option>
+                                </select>
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileInput" class="form-label me-2">Foto Pribadi *formal</label> <br>
+                                <input type="file" class="form-control-file" @change="handleFoto">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileInput" class="form-label me-2">Dokumen Pendukung STR atau STRP</label>
+                                <input type="file" class="form-control-file" @change="handleFileDokumen">
+                            </div>
+                            <div class="text-center">
+                                <button class="btn btn-primary">Register</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-10 mx-auto col-lg-6">
-                <Form @submit="handleSubmit">
-                    <input type="hidden" v-model="user.id_dokter" />
-                    <div class="row">
-                        <div class="d-flex align-items-center">
-                            <InputField name="nomor" class="input me-2" v-model="nomor_str" placeHolder="nomor_str" />
-                        </div>
-                    </div>
-                    <InputField name="nama" v-model="user.nama" placeHolder="nama" />
-                    <InputField name="jenis_kelamin" v-model="user.jenis_kelamin" placeHolder="jenis_kelamin" />
-                    <div class="row">
-                        <div class="d-flex align-items-center">
-                            <InputField name="email" class="me-2" v-model="user.email" placeHolder="email" />
-                            <InputField name="nomor_hp" v-model="user.nomor_hp" placeHolder="nomor_hp" />
-                        </div>
-                    </div>
-                    <InputField name="password" v-model="user.password" placeHolder="password" />
-                    <InputField name="alamat" v-model="user.alamat" placeHolder="alamat" />
-                    <InputField name="tempat_lahir" v-model="user.tempat_lahir" placeHolder="tempat lahir" />
-                    <InputField name="tanggal_lahir" v-model="user.tanggal_lahir" type="date" placeHolder="tanggal lahir" />
-                    <div class="">
-                        <ButtonComponent Label="Submit" type="submit" />
-                    </div>
-                </Form>
+            <div class="col-lg-6 d-none d-sm-block mt-5">
+                <img src="../../assets/images/register.png" class="img-fluid" alt="">
             </div>
         </div>
     </div>
 </template>
-
+  
 <script>
-import InputField from '@/components/partials-component/InputField.vue';
-import ButtonComponent from '@/components/partials-component/ButtonComponent.vue';
-import iziToast from 'izitoast'
-import { Form } from 'vee-validate'
+import iziToast from 'izitoast';
 export default {
     data() {
         return {
-            nomor_str: '',
-            kelas: 1,
-            user: {
+            form: {
                 nama: '',
-                email: '',
-                nomor_hp: '',
-                tempat_lahir: '',
-                tanggal_lahir: '',
-                alamat: '',
-                jenis_kelamin: '',
+                nomorHp: '',
                 password: '',
-            }
+                jenisKelamin: '',
+                option: '',
+                foto: null,
+                fileDokumen: null
+            },
+            submitted: false
+        };
+    },
+    computed: {
+        formData() {
+            const formData = new FormData()
+
+            formData.append('nama', this.form.nama)
+            formData.append('nomor_hp', this.form.nomorHp)
+            formData.append('password', this.form.password)
+            formData.append('option', this.form.option)
+            formData.append('jenis_kelamin', this.form.jenisKelamin)
+            formData.append('foto', this.form.foto)
+            formData.append('file_dokumen', this.form.fileDokumen)
+
+            return formData
+
         }
     },
     methods: {
-        handleSubmit() {
-            const selfPost = this
-            const data = {
-                nomor_str: selfPost.nomor_str,
-                kelas: selfPost.kelas,
-                nama: selfPost.user.nama,
-                email: selfPost.user.email,
-                nomor_hp: selfPost.user.nomor_hp,
-                alamat: selfPost.user.alamat,
-                jenis_kelamin: selfPost.user.jenis_kelamin,
-                tempat_lahir: selfPost.user.tempat_lahir,
-                tanggal_lahir: selfPost.user.tanggal_lahir,
-                password: selfPost.user.password
+        registerUser() {
+            this.submitted = true; // Set submitted to true at the beginning of the method
+            const allowedFormats = ['image/jpeg', 'image/png', 'image/jpg'];
+            const file = this.form.foto;
+            const maxSizeInBytes = 5 * 1024 * 1024;
+
+            if (file && allowedFormats.includes(file.type)) {
+                if (file.size <= maxSizeInBytes) {
+                    this.$store
+                        .dispatch("postDataUpload", {
+                            url: "autentikasi/register",
+                            formData: this.formData
+                        })
+                        .then((result) => {
+                            iziToast.success({
+                                title: 'Success',
+                                position: 'topRight',
+                                message: 'Data Artikel Berhasil Ditambahkan',
+                                timeout: 1000
+                            });
+                            // this.goBack();
+                        })
+                        .catch((err) => {
+                            console.log(err);
+                        });
+                } else {
+                    iziToast.error({
+                        title: 'Error',
+                        message: 'Maaf, ukuran file gambar terlalu besar. Maksimum ukuran file adalah 5MB.',
+                        position: 'topRight'
+                    });
+                }
+            } else {
+                iziToast.error({
+                    title: 'Error',
+                    message: 'Maaf, format yang diperbolehkan hanya jpg, png, jpeg',
+                    position: 'topRight'
+                });
             }
-            let type = "postData"
-            let url = [
-                "akun/dokter", data
-            ]
-            selfPost.$store.dispatch(type, url).then((result) => {
-                console.log(result);
-                iziToast.success({
-                transitionIn: 'fadeInUp',
-                timeout: 2000,
-                message: "Data kamu sudah tersimpan. silahkan menunggu untuk aktivasi",
-                position: "topCenter",
-            }).then(function () {
-                    window.location = "/register-dokter"
-                })
-            }).catch(error => {
-                console.log(error);
-            })
+        },
+        handleFoto(event) {
+            this.form.foto = event.target.files[0];
+        },
+        handleFileDokumen(event) {
+            this.form.fileDokumen = event.target.files[0];
         }
     },
-    components: {
-        InputField, Form, ButtonComponent
-    }
-}
+};
 </script>
-
-<style>
-.form-select:focus {
-    border-color: #4538db;
-    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(95, 124, 218, 0.6);
-}
+  
+<style scoped>
+.has-error input {
+    border-color: red;
+  }
 </style>
+  

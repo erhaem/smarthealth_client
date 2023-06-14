@@ -42,20 +42,32 @@ const process = {
                 );
             });
         },
-        postDataUpload(context, param) {
-            return new Promise((resolve) => {
-                Api.init();
-                Api.postFormData(param[1], param[0]).then(
-                    (response) => {
-                        resolve(response.data);
-                    },
-                    (error) => {
-                        reject(error);
+        // postDataUpload(context, param) {
+        //     return new Promise((resolve) => {
+        //         Api.init();
+        //         Api.postFormData(param[1], param[0]).then(
+        //             (response) => {
+        //                 resolve(response.data);
+        //             },
+        //             (error) => {
+        //                 reject(error);
 
-                    }
-                );
+        //             }
+        //         );
+        //     });
+        // },
+        postDataUpload(context, payload) {
+            return new Promise((resolve, reject) => {
+              Api.init();
+              Api.postFormData(payload.url, payload.formData)
+                .then((response) => {
+                  resolve(response.data);
+                })
+                .catch((error) => {
+                  reject(error);
+                });
             });
-        },
+          },          
         updateData(state, param) {
             return new Promise((resolve) => {
                 Api.init();

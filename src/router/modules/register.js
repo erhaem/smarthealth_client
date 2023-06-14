@@ -14,8 +14,8 @@
         component: () => import('@/views/auth/RegisterKonsumen.vue')
     },
     {
-        path: '/register-perawat/',
+        path: '/page-register/',
         name: "RegisterPerawat",
-        component: () => import('@/views/auth/RegisterPerawat.vue')
+        component: () => import('@/views/auth/Index.vue')
     }
     ]

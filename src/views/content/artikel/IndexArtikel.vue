@@ -59,7 +59,6 @@ export default {
     }
   },
   methods: {
-
     selectKategori(id) {
       this.selectedKategori = id;
     },
