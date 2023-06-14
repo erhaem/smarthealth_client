@@ -102,38 +102,13 @@
             <div v-else class="row row-cols-1 row-cols-md-5 g-3">
                 <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
                     <CardMedicine
-                        @click="$redirect('/detail_rumah_sakit/' + specialist.penyakit.idPenyakit + '/' + specialist.idRumahSakit)"
+                        @click="$redirect('/detail_rumah_sakit/' + specialist.penyakit.idSpesialisPenyakit + '/' + specialist.idRumahSakit)"
                         class="mb-2 rounded-circle" icon="fa-user-doctor" :labelTitle="specialist.penyakit.namaSpesialis" />
                 </div>
                 <div class="px-3 py-4 text-center">
                 </div>
             </div>
         </div>
-        <div class="row">
-            <div v-for="data in praktekDokter" class="col-12 col-md-6">
-                <h5 class="text-primary">Dokter</h5>
-                <div class="card shadow border-0 rounded">
-                    <div class="card-body">
-                        <div class="d-flex">
-                            <img src="../../../assets/images/avadoktercowo.png" class="img-fluid w-25 mt-3" alt="">
-                            <div class="mt-4 px-5">
-                                <p class="mb-0">dr. {{ data.ahli.nama }}</p>
-                                <p class="mb-2"><i class="text-secondary">spesialis paru-paru</i></p>
-                                <p class="mb-0"><b>biaya konsultasi:</b> Rp. {{ data.biayaPraktek.toLocaleString('id-ID') }}
-                                </p>
-                            </div>
-                        </div>
-                        <div class="d-flex justify-content-end">
-                            <ButtonComponent Color="btn-outline-dark"
-                                @click="$redirect('/detail_rumah_sakit/buat_janji' + '/' + data.ahli.id + '/' + data.idDetailPraktek)"
-                                Label="buat janji" />
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <br>
-        <br>
     </div>
 </template>
 
@@ -160,7 +135,9 @@ export default {
             popupOptions: {
                 maxWidth: 200,
             },
-            hospitalIcon: null
+            hospitalIcon: null,
+            latitudeMe: null,
+            longitudeMe: null
         }
     },
     computed: {
@@ -178,7 +155,8 @@ export default {
         this.getDetailFasilitas(),
             this.getRumahSakit()
         this.getDetailHospital(),
-            this.getPraktek()
+            this.getPraktek(),
+            this.getCurrentLocation()
     },
     methods: {
         getDetailHospital() {
@@ -195,7 +173,24 @@ export default {
             })
         },
         getGoogleMapsLink(latitude, longitude) {
-            return `https://www.google.com/maps/@${latitude},${longitude},15z?entry=ttu`;
+            const origin = `${this.latitudeMe},${this.longitudeMe}`;
+            const destination = `${latitude},${longitude}`;
+            return `https://www.google.com/maps/dir/${origin}/${destination}`;
+        },
+        getCurrentLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        this.latitudeMe = position.coords.latitude;
+                        this.longitudeMe = position.coords.longitude;
+                    },
+                    error => {
+                        console.error('Error occurred while retrieving current location:', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
         },
         getDetailFasilitas() {
             let type = "getData"
@@ -237,7 +232,7 @@ export default {
                 console.log(err);
             })
         },
-        createCustomIcon(){
+        createCustomIcon() {
             this.hospitalIcon = L.icon({
                 iconUrl: hospitalMarker,
                 iconSize: [40, 45]

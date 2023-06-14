@@ -11,7 +11,9 @@
                 </div>
                 <div class="col-md-8 col-9">
                     <div class="card-body pt-0 mt-0 pt-sm-4 mt-sm-2">
-                        <h5 class="card-title mb-0">dr. Muhamad Rafli Septian</h5>
+                        <div v-for="item in limitedData">
+                            <h5 class="card-title mb-0">dr. {{item.praktek.dokter}}</h5>
+                        </div>
                         <p class="card-text text-secondary"><i>Dokter Kandungan</i></p>
                         <hr>
                         <div class="d-flex justify-content-between">
@@ -73,7 +75,8 @@ export default {
     data() {
         return {
             jadwalPraktek: [],
-            selectedIdJdwl: null
+            selectedIdJdwl: null,
+            limit: 1
         }
     },
     components: {
@@ -89,6 +92,9 @@ export default {
         isAnyClicked() {
             return this.selectedId !== null;
         },
+        limitedData(){
+            return this.jadwalPraktek.slice(0, this.limit)
+        }
     },
     mounted() {
         this.getJadwalPraktek()

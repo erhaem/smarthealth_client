@@ -7,16 +7,10 @@
                 {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
             </p>
         </div>
-        <div class="mb-3 d-flex justify-content-start">
-            <input type="text" class="form-control me-2 w-25" style="background-color: #F1F6F9"
-                placeholder="cari rumah sakit">
-            <input type="text" class="form-select me-2 w-25" style="background-color: #F1F6F9"
-                placeholder="kategori rumah sakit">
-            <input type="text" class="form-select me-2 w-25" style="background-color: #F1F6F9" placeholder="cari spesialis">
-            <button class="btn btn-sm btn-dark w-25">enter</button>
-        </div>
         <div class="row">
             <div class="col-6">
+                <InputField
+                    placeholder="cari rumah sakit" class="mt-3"/>
                 <div class="row">
                     <template v-for="data in nearestResults" :key="data.id">
                         <div class="col-sm-6 mb-3 mb-sm-3">
@@ -43,11 +37,6 @@
                             </div>
                         </div>
                     </template>
-                </div>
-                <div class="d-flex justify-content-center">
-                    <button class="btn btn-sm btn-primary">
-                        lihat selanjutnya
-                    </button>
                 </div>
             </div>
             <div class="col-6 mt-2">
@@ -79,6 +68,7 @@
 </template>
   
 <script>
+import InputField from '../../../components/partials-component/InputField.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import axios from 'axios';
 import "leaflet/dist/leaflet.css";
@@ -108,6 +98,7 @@ export default {
         LMarker,
         LPopup,
         SkeletonLoading,
+        InputField
     },
     mounted() {
         this.getCurrentLocation();

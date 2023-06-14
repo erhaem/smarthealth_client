@@ -1,41 +1,42 @@
 <template>
-    <div class="text-start ms-2 ">
+    <div class="text-start ms-2">
         <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
         <p>Konsultasi online dengan dokter siaga kamii
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
-        <div class="col" v-for="dokter in filteredDokter" :key="dokter.id">
+        <div class="col" v-for="data in dokters" :key="data.id">
             <template v-if="isLoading">
                 <div class="col">
                     <SkeletonLoading />
                 </div>
             </template>
             <template v-else-if="!isLoading">
-                <div class="card border-0" @click="$redirect('/chat-dokter/dokter/' + dokter.idDokterKeahlian)">
+                <div class="card border-0" @click="$redirect('/chat-dokter/dokter/' + data.idDokter)">
                     <div class="row">
                         <div class="col-6 py-2">
-                            <div v-if="dokter.getDokter.jenisKelamin === 'P'">
+                            <div v-if="data.userId.jenisKelamin === 'P'">
                                 <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="">
                             </div>
-                            <div v-else-if="dokter.getDokter.jenisKelamin === 'L'">
+                            <div v-else-if="data.userId.jenisKelamin === 'L'">
                                 <img src="../../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
                             </div>
-                            <div v-else-if="dokter.getDokter.jenisKelamin === null">
-                                <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="...">
+                            <div v-else-if="data.userId.jenisKelamin === null">
+                                <img src="../../../assets/images/user.png" class="img-fluid rounded" alt="...">
                             </div>
                         </div>
                         <div class="col-6 py-3 px-3">
-                            <p class="mb-1" style="font-size: 14px;"><b>dr. {{ dokter.getDokter.nama }}</b></p>
-                            <p class="text-secondary text-sm mb-1" style="font-size: 12px;">{{
-                                dokter.getKeahlian.namaKeahlian }}</p>
+                            <p class="mb-1" style="font-size: 14px;"><b>dr. {{ data.userId.nama }}</b></p>
+                            <p class="text-secondary text-sm mb-1" style="font-size: 12px;">
+                                Dokter Umum
+                            </p>
                             <div class="d-flex justify-content-start text-primary">
                                 <p class="rounded mb-1 me-1" style="font-size: 10px;"><i
                                         class="ms-1 fa-solid fa-briefcase"></i> 1 tahun &nbsp;</p>
                                 <p class="rounded mb-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-thumbs-up"></i>
                                     100% &nbsp;</p>
                             </div>
-                            <p class="mb-1" style="font-size: 12px;">Rp. 20.000 {{ dokter.getDokter.biayaAdmin }}</p>
+                            <p class="mb-1" style="font-size: 12px;">Rp. {{ data.biaya.biaya }}</p>
                             <div class="pt-3">
                                 <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
                             </div>
@@ -68,6 +69,41 @@
             </div>
         </div>
     </template>
+    <div class="text-start ms-2 ">
+        <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
+        <p>Konsultasi online dengan perawat siaga kamii
+        </p>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-3">
+        <template v-if="isLoading">
+            <SkeletonLoading />
+        </template>
+        <div v-else-if="!isLoading" class="col" v-for="data in nurses">
+            <div class="card border-0">
+                <div class="row">
+                    <div class="col-6 py-2">
+                        <img src="../../../assets/images/avaperawat.jpg" class="img-fluid rounded" alt="...">
+                    </div>
+                    <div class="col-6 py-3 px-3">
+                        <p class="mb-1" style="font-size: 14px;"><b>{{ data.user.nama }}</b>
+                        </p>
+                        <p class="text-secondary text-sm mb-1" style="font-size: 12px;">Perawat Umum</p>
+                        <div class="d-flex justify-content-start text-primary">
+                            <p class="rounded mb-1 me-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-briefcase"></i>
+                                1 tahun &nbsp;</p>
+                            <p class="rounded mb-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-thumbs-up"></i> 100%
+                                &nbsp;</p>
+                        </div>
+                        <p class="mb-1" style="font-size: 12px;">Rp. 30.000
+                        </p>
+                        <div class="pt-3">
+                            <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </template>
 <script>
 import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
@@ -75,11 +111,13 @@ import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 export default {
     data() {
         return {
             dokters: [],
             specialist: [],
+            nurses: [],
             dokterLimit: 4,
             specialistLimit: 12,
             isLoading: false
@@ -87,7 +125,8 @@ export default {
     },
     created() {
         this.getDokter(),
-            this.getSpesialis()
+            this.getSpesialis(),
+            this.getPerawat()
     },
     computed: {
         limitData() {
@@ -106,13 +145,14 @@ export default {
         FooterComponent,
         SkeletonLoading,
         BodyDetailDokter,
-        LoadingComponent
+        LoadingComponent,
+        ButtonComponent
     },
     methods: {
         getDokter() {
             let type = "getData"
             let url = [
-                "master/dokter_keahlian", {}
+                "akun/dokter", {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
@@ -121,6 +161,7 @@ export default {
 
                 }, 3000);
                 this.dokters = result.data
+                console.log(result);
             }).catch((err) => {
                 console.log(err);
             })
@@ -134,6 +175,21 @@ export default {
             this.$store.dispatch(type, url).then((result) => {
                 this.isLoading = false
                 this.specialist = result.data
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        getPerawat() {
+            this.isLoading = true
+            let type = "getData"
+            let url = [
+                "akun/perawat", {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.nurses = result.data
+                setTimeout(() => {
+                    this.isLoading = false;
+                }, 1000);
             }).catch((err) => {
                 console.log(err);
             })

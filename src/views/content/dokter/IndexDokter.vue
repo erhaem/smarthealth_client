@@ -54,42 +54,39 @@
                 <div class="body py-4">
                     <p class="fw-bold lh-1 mb-3">Mengapa chat di berobat+ ?</p>
                     <BodyDetailDokter />
-                    <BodyDetailDokter />
-                    <BodyDetailDokter />
                 </div>
             </div>
-            <div class="col-md-10 mx-auto col-lg-7 overflow-auto" data-aos="fade-up" data-aos-duration="500" style="overflow-y: auto; max-height: 600px">
-                <router-view></router-view>
+            <div class="col-md-10 mx-auto col-lg-7 overflow-auto" data-aos="fade-up" data-aos-duration="500"
+                style="overflow-y: auto; max-height: 600px">
+                <div class="d-flex justify-content-between sticky-top"  v-if="$route.name !== 'Detail Dokter'">
+                    <InputField placeholder="cari dokter, spesialis, atau gejala" v-model="search" class="me-2 p-sm-2" />
+                    <b class="text-primary fw-3 font-weight-bold">
+                        <i class="fas fa-search mt-3" @click="searchKeahlian"></i>
+                    </b>
+                </div>
+                <router-view :valueSearch="valueSearch"></router-view>
             </div>
         </div>
     </div>
 </template>
 <script>
+import InputField from '@/components/partials-component/InputField.vue'
 import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
+import { debounce } from 'lodash';
+
 export default {
     data() {
         return {
-            dokters: [],
-            specialist: [],
+            search: '',
             dokterLimit: 4,
             specialistLimit: 12,
-            isLoading: false
-        }
-    },
-    created() {
-        this.getDokter(),
-            this.getSpesialis()
-    },
-    computed: {
-        limitData(){
-            return {
-                dokters: this.dokters.slice(0, this.dokterLimit),
-                specialist: this.specialist.slice(0, this.specialistLimit)
-            }
+            isLoading: false,
+            isSearching: false,
+            valueSearch: []
         }
     },
     components: {
@@ -97,40 +94,51 @@ export default {
         FooterComponent,
         SkeletonLoading,
         BodyDetailDokter,
-        LoadingComponent
+        LoadingComponent,
+        InputField
+    },
+    watch: {
+        search: debounce(function (val) {
+            if (val !== '') {
+                this.$router.push({
+                    path: '/chat-dokter/cari',
+                    query: { search: val }
+                });
+                this.searchKeahlian();
+            } else {
+                if (this.$route.path === '/chat-dokter/cari') {
+                    this.$router.replace({ query: null });
+                } else {
+                    this.$router.push('/chat-dokter/dokter');
+                }
+            }
+        }, 1000),
     },
     methods: {
-        getDokter() {
-            const selfGet = this
-            selfGet.isLoading = true
-            let type = "getData"
+        searchKeahlian() {
+            if (this.isLoading) return; // Prevent concurrent API requests
+            this.isLoading = true;
+
+            let type = "postData";
             let url = [
-                "master/dokter_keahlian", {}
-            ]
-            selfGet.$store.dispatch(type, url).then((result) => {
-                console.log(result.data);
-                selfGet.dokters = result.data
-                setTimeout(() => {
-                    selfGet.isLoading = false;
-                }, 1000);
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        getSpesialis() {
-            let type = "getData"
-            let url = [
-                "master/penyakit/spesialis_penyakit", {}
-            ]
-            this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                this.isLoading = false
-                this.specialist = result.data
-            }).catch((err) => {
-                console.log(err);
-            })
+                "master/cari/keahlian",
+                { nama_keahlian: this.search,
+                 },
+                {}
+            ];
+
+            this.$store.dispatch(type, url)
+                .then((result) => {
+                    console.log(result);
+                    this.isLoading = false;
+                    this.valueSearch = result.data
+                })
+                .catch((err) => {
+                    console.log(err);
+                    this.isLoading = false;
+                });
         }
-    },
+    }
 }
 </script>
 

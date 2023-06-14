@@ -11,24 +11,24 @@
                 </div>
                 <div v-else class="card shadow border-0">
                     <div class="card-header">
-                        <div v-if="detailDokter.getDokter.jenisKelamin === 'P'">
+                        <div v-if="detailDokter.userId.jenisKelamin === 'P'">
                             <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="">
                         </div>
-                        <div v-else-if="detailDokter.getDokter.jenisKelamin === 'L'">
+                        <div v-else-if="detailDokter.userId.jenisKelamin === 'L'">
                             <img src="../../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
                         </div>
-                        <div v-else-if="detailDokter.getDokter.jenisKelamin === null">
-                            <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="...">
+                        <div v-else-if="!detailDokter.userId.jenisKelamin">
+                            <img src="../../../assets/images/user.png" class="img-fluid rounded" alt="...">
                         </div>
                     </div>
                     <div class="card-body">
                         <div class="border-bottom">
                             <p class="mb-0">
-                                dr. {{ detailDokter.getDokter.nama }}
+                                dr. {{ detailDokter.userId.nama }}
                             </p>
                             <p class="mb-0 text-secondary">
                                 <small>
-                                    {{ detailDokter.getKeahlian.namaKeahlian }}
+                                  biaya: Rp. {{ detailDokter.biaya.biaya.toLocaleString('id-ID') }}
                                 </small>
                             </p>
                             <div class="d-flex justify-content-start mt-2">
@@ -44,6 +44,10 @@
                                 </p>
                             </div>
                         </div>
+                        <div class="border-bottom mt-1 mb-1">
+                            <p class="mb-0"><b>Keahlian</b></p>
+                            <p class="mb-0"><small>Kecemasan</small></p>
+                        </div>
                         <div style="font-size: 14px;" class="border-bottom">
                             <p class="mt-2 mb-0">
                                 <b>Alumnus</b> Universitas Padjajaran
@@ -52,7 +56,7 @@
                                 <b>Praktik di</b> Bandung
                             </p>
                             <p class="mt-2 mb-2">
-                                <b>Nomor STR</b> {{ detailDokter.idDokterKeahlian }}
+                                <b>Nomor STR</b> {{ detailDokter.nomorStr }}
                             </p>
                         </div>
                         <div class="mt-2">
@@ -79,6 +83,9 @@ export default {
     computed: {
         idFromParams() {
             return this.$route.params.id
+        },
+        hideFrom(){
+            return this.$route.name === "Cari Keahlian"
         }
     },
     created() {
@@ -88,7 +95,7 @@ export default {
         getDetailDokter() {
             let type = "getData"
             let url = [
-                "master/dokter_keahlian/" + this.idFromParams + "/edit", {}
+                "akun/dokter/" + this.idFromParams + "/edit", {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {

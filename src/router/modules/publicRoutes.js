@@ -10,6 +10,11 @@ export default [
         component: ()=>import('@/views/content/artikel/ArtikelBySlug.vue')
     },
     {
+        path: '/artikel/:idKategori/:idGroupingArtikel',
+        name: 'Isi Kategori Artikel',
+        component: ()=>import('@/views/content/artikel/ArtikelByKategori.vue')
+    },
+    {
         path: '/download-app',
         name: 'Download App',
         component: ()=>import('@/views/content/download-page/IndexDownload.vue')
@@ -25,7 +30,7 @@ export default [
         children: [
             {
                 path: '',
-                redirect: 'dokter',
+                redirect: '/',
             },
             {
                 path: 'dokter',
@@ -36,6 +41,12 @@ export default [
                 name: 'Detail Dokter',
                 component: () => import('@/views/content/dokter/DetailDokter.vue'),
             },
+            {
+                path: 'cari',
+                name: 'Cari Keahlian',
+                component: ()=>import('@/views/content/dokter/SearchByKeahlian.vue'),
+                params: true
+            }
         ],
     },
     {

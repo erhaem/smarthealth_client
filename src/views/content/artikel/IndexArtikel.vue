@@ -5,7 +5,7 @@
       <div class="d-flex justify-content-start">
         <div v-for="data in kategoriArtikel">
           <p class="me-2 rounded border px-3 cursor-pointer"
-            :class="{ 'bg-primary': selectedKategori === data.idKategoriArtikel }"
+            :class="{ 'bg-primary text-light': selectedKategori === data.idKategoriArtikel }"
             @click="selectKategori(data.idKategoriArtikel)">
             {{ data.namaKategori }}
           </p>
@@ -13,19 +13,18 @@
       </div>
       <div class="row g-4">
         <div v-if="selectedKategori === null" v-for="data in allArtikel" class="col-md-4 col-lg-3 rounded">
-          <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"></CardArtikel>
+          <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
+            @click="$redirect('/artikel/' + data.slugArtikel)"></CardArtikel>
         </div>
         <div v-else class="col-md-4 col-lg-3 rounded" v-for="item in artikel">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
           <template v-if="!isLoading">
-           
-            <CardArtikel :title="item.judulArtikel" :description="item.deskripsi"></CardArtikel>
+            <CardArtikel :title="item.judulArtikel" :description="item.deskripsi" @click="$redirect('artikel/' + item.namaKategori + '/' + item.idGroupingArtikel)"></CardArtikel>
           </template>
-       
         </div>
-        <div v-if="artikel.length <1 && selectedKategori != null">
+        <div v-if="artikel.length < 1 && selectedKategori != null">
           gada
         </div>
       </div>

@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-xxl-12">
+    <!-- <div class="container col-xxl-12">
         <div class="d-flex justify-content-start">
             <div class="col-lg-10 py-2 px-5">
                 <div class="border-bottom border-2 w-25 mb-3" v-for="data in dokterSpesialis">
@@ -55,6 +55,32 @@
                     </div>
                 </div>
             </div>
+        </div> -->
+
+        <div class="container">
+            <div class="row">
+                <div v-for="data in praktekDokter" class="col-8 col-md-4">
+                    <h5 class="text-dark">Dokter Spesialis {{dokterSpesialis.namaSpesialis}}</h5>
+                    <div class="card shadow border-0 rounded">
+                        <div class="card-body">
+                            <div class="d-flex">
+                                <img src="../../../assets/images/avadoktercowo.png" class="img-fluid w-25 mt-3" alt="">
+                                <div class="mt-4 px-5">
+                                    <p class="mb-0">dr. {{ data.ahli.nama }}</p>
+                                    <p class="mb-2"><i class="text-secondary">spesialis {{dokterSpesialis.namaSpesialis}}</i></p>
+                                    <p class="mb-0"><b>biaya konsultasi:</b> Rp. {{ data.biayaPraktek.toLocaleString('id-ID') }}
+                                    </p>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-end">
+                                <ButtonComponent Color="btn-outline-dark"
+                                    @click="$redirect('/detail_rumah_sakit/buat_janji' + '/' + data.ahli.id + '/' + data.idDetailPraktek)"
+                                    Label="buat janji" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
 </template>
 <script>
@@ -64,6 +90,7 @@ export default {
     data() {
         return {
             dokterSpesialis: [],
+            praktekDokter: [],
             isLoading: false
         };
     },
@@ -77,14 +104,14 @@ export default {
     },
     created() {
         this.getDokterSpesialis();
+        this.getPraktek()
     },
     methods: {
         getDokterSpesialis() {
             const dokterSpesialis = this.idDokterSpesialis;
-            const idRs = this.idFromParams;
             let type = "getData";
             let url = [
-                `master/spesialis/${dokterSpesialis}/${idRs}`,
+                `master/penyakit/spesialis_penyakit/${dokterSpesialis}/edit`,
                 {}
             ];
             this.isLoading = true
@@ -94,7 +121,19 @@ export default {
             }).catch((err) => {
                 console.log(err);
             });
-        }
+        },
+        getPraktek() {
+            let type = "getData"
+            let url = [
+                "master/ahli/detail_praktek/" + this.idFromParams, {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.praktekDokter = result.data
+                console.log(result.data);
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
     },
     components: {
         ButtonComponent, SkeletonLoading

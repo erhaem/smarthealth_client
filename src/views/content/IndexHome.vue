@@ -16,20 +16,13 @@
   <section id="feature">
     <div class="container">
       <TitleFeature Label="Layanan Utama" />
-      <div class="row g-4 row-cols-lg-4">
+      <div class="row g-4 row-cols-lg-3">
         <div @click="$redirect('/chat-dokter/dokter')">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
           <FeaturePrimary v-else labelTitle="Chat Dengan Dokter" icon="fa-user-doctor"
             labelParagraph="Konsultasi chat dengan dokter ">
-          </FeaturePrimary>
-        </div>
-        <template v-if="isLoading">
-          <SkeletonLoading />
-        </template>
-        <div v-else @click="$redirect('/reservasi-perawat')">          
-          <FeaturePrimary labelTitle="Rawat Jalan" icon="fa-user-nurse" labelParagraph="Perawatan Pasien">
           </FeaturePrimary>
         </div>
         <template v-if="isLoading">

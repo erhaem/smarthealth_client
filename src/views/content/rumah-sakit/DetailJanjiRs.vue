@@ -73,9 +73,8 @@
             </div>
         </div>
         <input type="text" v-model="detailKunjungan.idJadwalPraktek" hidden>
-        <div class="col-lg-12 col-md-6">
+        <!-- <div class="col-lg-12 col-md-6">
             <div class="d-flex justify-content-center">
-                <!-- <div v-for="data in antrian"> -->
                     <div class="card shadow">
                         <div class="card-body">
                             <div class="card-text">
@@ -87,9 +86,8 @@
                         </div>
                     </div>
                 </div>
-            </div>
+            </div> -->
         </div>
-    <!-- </div> -->
 </template>
 <script>
 export default {
