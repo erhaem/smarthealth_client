@@ -16,6 +16,7 @@
   <section id="feature">
     <div class="container">
       <TitleFeature Label="Layanan Utama" />
+      <p class="ms-2">Berikut pelayanan klinis yang tersedia</p>
       <div class="row g-4 row-cols-lg-3">
         <div @click="$redirect('/chat-dokter/dokter')">
           <template v-if="isLoading">
@@ -49,7 +50,8 @@
       <div class="row">
         <div class="d-flex justify-content-between">
           <div class="col-sm-6">
-            <TitleFeature Label="Baca Artikel" />
+            <TitleFeature Label="Baca Artikel" class="mb-0" />
+            <p class="ms-2">Dapatkan informasi kesehatan dan lainnya</p>
           </div>
           <template v-if="artikels.length > 4">
             <div class="col-sm-6 text-end">
@@ -60,49 +62,34 @@
           </template>
         </div>
       </div>
-        <div class="col-xxl-8 col-md-6 ms-2 rounded" style="background-color: cornflowerblue">
-          <div class="px-2 p-lg-3">
-            <div class="d-flex justify-content-between">
-              <div class="">
-                <p class="text-light mb-0">Update seputar kesehatan</p>
-              </div>
-              <button class="btn text-dark border-success rounded btn-sm btn-light">
-                lihat semua artikel
-              </button>
+      <div class="col-xxl-12 col-md-6 p-2 ms-2 rounded" style="background-color: cornflowerblue">
+        <div class="p-3">
+          <div class="d-flex justify-content-between mb-2">
+            <div class="fw-5">
+              <p class="text-light mb-0">Update seputar kesehatan</p>
             </div>
-            <div id="artikelCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                <template v-if="loadingArtikel">
-                  <div class="carousel-item active">
-                    <div class="row g-4">
-                      <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-                        <SkeletonLoading />
-                      </div>
-                    </div>
-                  </div>
-                </template>
-                <template v-else>
-                  <div class="carousel-item active">
-                    <div class="row g-4">
-                      <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-                        <CardArtikel :title="data.judulArtikel" :description="data.deskripsi" @click="$redirect('/artikel/' + data.slugArtikel)">
-                        </CardArtikel>
-                      </div>
-                    </div>
-                  </div>
-                </template>
-              </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#artikelCarousel" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#artikelCarousel" data-bs-slide="next">
-                <span class="carousel-control-next-icon bg-primary" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
+            <button class="btn text-dark border-success rounded btn-sm btn-light" @click="$redirect('/artikel')">
+              lihat semua artikel
+            </button>
           </div>
+          <template v-if="loadingArtikel">
+            <div class="row g-4">
+              <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+                <SkeletonLoading />
+              </div>
+            </div>
+          </template>
+          <template v-else>
+            <div class="row g-4">
+              <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+                <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
+                  @click="$redirect('/artikel/' + data.slugArtikel)">
+                </CardArtikel>
+              </div>
+            </div>
+          </template>
         </div>
+      </div>
     </div>
   </section>
   <section id="obat">

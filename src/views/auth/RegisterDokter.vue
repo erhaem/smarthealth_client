@@ -75,7 +75,7 @@ export default {
         return {
             form: {
                 nama: '',
-                nomorHp: '0812',
+                nomorHp: '',
                 password: '',
                 jenisKelamin: '',
                 option: '',
@@ -96,7 +96,7 @@ export default {
             formData.append('jenis_kelamin', this.form.jenisKelamin)
             formData.append('foto', this.form.foto)
             formData.append('file_dokumen', this.form.fileDokumen)
-
+            
             return formData
 
         }

@@ -45,6 +45,11 @@
     <div class="container pt-3">
         <div class="row">
             <div class="col-6 col-md-6 py-3">
+                <h4 class="text-secondary">
+                    <b>
+                        <small>Berikut adalah rumah sakit terdekat denganmu:</small>
+                    </b>
+                </h4>
                 <div class="row">
                     <template v-for="data in nearestResults" :key="data.id">
                         <div class="col-sm-6 mb-3 mb-sm-3">
@@ -62,8 +67,8 @@
                     </template>
                 </div>
             </div>
-            <div class="col-6 col-md-6 mt-2">
-                <div v-if="latitude !== null && longitude !== null" style="height: 500px; width: 650px">
+            <div class="col-6 col-md-6 mt-5">
+                <div v-if="latitude !== null && longitude !== null" style="height: 450px; width: 650px">
                     <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" class="rounded">
                         <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             name="OpenStreetMap"></l-tile-layer>
