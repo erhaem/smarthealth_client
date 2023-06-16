@@ -75,7 +75,7 @@ export default {
         return {
             form: {
                 nama: '',
-                nomorHp: '',
+                nomorHp: '0812',
                 password: '',
                 jenisKelamin: '',
                 option: '',
