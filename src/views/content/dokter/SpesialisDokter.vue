@@ -12,7 +12,7 @@
                 </div>
             </template>
             <template v-else-if="!isLoading">
-                <div class="card border-0" @click="$redirect('/chat-dokter/dokter/' + data.idDokter)">
+                <div class="card border-0" @click="$redirect('/chat-dokter/dokter/' + data.idDokter + '/' + data.userId.id)">
                     <div class="row">
                         <div class="col-6 py-2">
                             <div v-if="data.userId.jenisKelamin === 'P'">
@@ -69,12 +69,14 @@
         <LoadingComponent />
     </div>
     <template v-else>
-        <div class="row row-cols-1 row-cols-sm-2 row-cols-md-5 text-center">
-            <div class="col" v-for="specialist in limitData.specialist" :key="specialist.id">
-                <i class="fa-solid bg-danger p-3 rounded-circle fa-stethoscope fs-2 text-light"></i>
-                <p>{{ specialist.namaSpesialis }}</p>
+        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 text-center">
+            <div class="col-6 col-md-3 col-lg-2" v-for="specialist in limitData.specialist" :key="specialist.id">
+                <div class="d-flex flex-column align-items-center">
+                    <i class="fa-solid bg-danger p-3 rounded-circle fa-stethoscope fs-2 text-light"></i>
+                    <p>{{ specialist.namaSpesialis }}</p>
+                </div>
             </div>
-        </div>
+        </div>        
     </template>
     <div class="text-start ms-2 ">
         <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
@@ -119,11 +121,14 @@ import FooterComponent from '@/components/layouts/FooterComponent.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
+import Cookies from 'js-cookie'
+import axios from "axios"
 export default {
     data() {
         return {
             dokters: [],
             specialist: [],
+            keahlian: [],
             nurses: [],
             dokterLimit: 2,
             specialistLimit: 12,
@@ -137,6 +142,7 @@ export default {
     },
     created() {
         this.getSpesialis()
+        this.getDokterKeahlian()
     },
     computed: {
         limitData() {
@@ -167,10 +173,20 @@ export default {
         getDokter() {
             let type = "getData"
             let url = [
-                "akun/dokter/data", {}
+                "akun/dokter", {}
             ]
+            const user = Cookies.get('token')
+            console.log(user);
             this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
+            this.$store.dispatch(type, url).then( async (result) => {
+                const responsedata = await axios({
+                    url: `https://berobatplus.shop/api/master/ahli/keahlian/master/${result.data.idDokter}/get`,
+                    headers: {
+                        Authorization: "Bearer " + user
+                    },
+                    method: "GET"
+                })
+                console.log(responsedata.data);
                 setTimeout(() => {
                     this.isLoading = false
 
@@ -213,6 +229,7 @@ export default {
             return new Promise((resolve, reject) => {
                 let type = "getData";
                 let keahlian = {};
+                
                 let url = [`master/ahli/keahlian/master/${dokterId}/get`, {}];
 
                 this.$store

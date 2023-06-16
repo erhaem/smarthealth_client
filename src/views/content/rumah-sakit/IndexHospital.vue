@@ -1,16 +1,50 @@
 <template>
-    <div class="container">
-        <div class="d-flex justify-content-between">
-            <h6 class="font-weight-bold text-primary">{{ $route.name }}</h6>
-            <p v-if="hasLocation">
-                <i class="fa fa-location-dot text-danger"></i>
-                {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
-            </p>
+    <div class="container-fluid p-lg-4 bg-primary" >
+        <div class="container col-xxl-10 col-md-6">
+            <router-link style="text-decoration: none" to="/">
+                <p class="text-light">
+                    Home
+                    /
+                    <router-link to="/produk-obat" class="text-light" style="text-decoration: none">
+                        {{ $route.name }}
+                    </router-link>
+                </p>
+            </router-link>
+            <div class="d-flex justify-content-between">
+                <div class="text-light mb-3 d-none d-sm-block">
+                    <h3>
+                        Rumah sakit dan Apotek terdekat
+                    </h3>
+                    <h4>
+                        Pelayanan medis yang akurat
+                    </h4>
+                </div>
+                <div class="text-light mb-3 mt-2">
+                    <h6 class="text-end">
+                        Alamat saya:
+                    </h6>
+                    <div class="rounded text-center px-3" style="background-color: navy;">
+                        <p v-if="hasLocation">
+                            <i class="fa fa-location-dot text-danger"></i>
+                            {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="d-flex justify-content-start pb-2">
+                <div class="col-12 col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text border-0 bg-warning" id="search-addon"><i
+                                class="fas fa-magnifying-glass text-light"></i></span>
+                        <input type="search" class="form-control rounded p-2" placeholder="Cari nama rumah sakit atau apotek" />
+                    </div>
+                </div>
+            </div>
         </div>
+    </div>
+    <div class="container pt-3">
         <div class="row">
-            <div class="col-6">
-                <InputField
-                    placeholder="cari rumah sakit" class="mt-3"/>
+            <div class="col-6 col-md-6 py-3">
                 <div class="row">
                     <template v-for="data in nearestResults" :key="data.id">
                         <div class="col-sm-6 mb-3 mb-sm-3">
@@ -22,25 +56,14 @@
                                     <img src="../../../assets/images/bg.png" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
                                     <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
-                                    <div class="d-flex justify-content-start text-secondary mt-1">
-                                        <div class="rounded me-3" style="background-color: #F1F6F9; font-size: 12px;">
-                                            <i class="fas fa-user-doctor px-3 mt-1 mb-1"> 1</i>
-                                        </div>
-                                        <div class="rounded me-3" style="background-color: #F1F6F9; font-size: 12px;">
-                                            <i class="fas fa-user-nurse px-3 mt-1 mb-1"> 1</i>
-                                        </div>
-                                        <div class="rounded me-3" style="background-color: #F1F6F9; font-size: 12px;">
-                                            <i class="fas fa-ambulance px-3 mt-1 mb-1"> 1</i>
-                                        </div>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </template>
                 </div>
             </div>
-            <div class="col-6 mt-2">
-                <div v-if="latitude !== null && longitude !== null" style="height: 550px; width: 650px">
+            <div class="col-6 col-md-6 mt-2">
+                <div v-if="latitude !== null && longitude !== null" style="height: 500px; width: 650px">
                     <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" class="rounded">
                         <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
                             name="OpenStreetMap"></l-tile-layer>

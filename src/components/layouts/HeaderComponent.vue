@@ -22,7 +22,7 @@
               <router-link :to="{ name: 'Download App' }" class="nav-link">Aplikasi</router-link>
             </template>
           </NavItem>
-          <NavItem>
+          <NavItem v-if="isAuthenticated && user.data.getRole.idRole === 'RO-2003064'">
             <template #router>
               <router-link :to="{ name: 'Riwayat Konsumen' }" class="nav-link">Riwayat</router-link>
             </template>

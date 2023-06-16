@@ -60,21 +60,50 @@
           </template>
         </div>
       </div>
-        <div class="row g-4">
-          <template v-if="loadingArtikel">
-            <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-              <SkeletonLoading />
+        <div class="col-xxl-8 col-md-6 ms-2 rounded" style="background-color: cornflowerblue">
+          <div class="px-2 p-lg-3">
+            <div class="d-flex justify-content-between">
+              <div class="">
+                <p class="text-light mb-0">Update seputar kesehatan</p>
+              </div>
+              <button class="btn text-dark border-success rounded btn-sm btn-light">
+                lihat semua artikel
+              </button>
             </div>
-          </template>
-          <template v-else>
-            <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-              <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
-                @click="$redirect('/artikel/' + data.slugArtikel)">
-              </CardArtikel>
+            <div id="artikelCarousel" class="carousel slide mt-3" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <template v-if="loadingArtikel">
+                  <div class="carousel-item active">
+                    <div class="row g-4">
+                      <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+                        <SkeletonLoading />
+                      </div>
+                    </div>
+                  </div>
+                </template>
+                <template v-else>
+                  <div class="carousel-item active">
+                    <div class="row g-4">
+                      <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+                        <CardArtikel :title="data.judulArtikel" :description="data.deskripsi" @click="$redirect('/artikel/' + data.slugArtikel)">
+                        </CardArtikel>
+                      </div>
+                    </div>
+                  </div>
+                </template>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#artikelCarousel" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon bg-primary" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#artikelCarousel" data-bs-slide="next">
+                <span class="carousel-control-next-icon bg-primary" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
             </div>
-          </template>
+          </div>
         </div>
-      </div>       
+    </div>
   </section>
   <section id="obat">
     <div class="container">
@@ -204,6 +233,7 @@ export default {
     overflow-x: auto;
     flex-wrap: nowrap;
   }
+
   .col-md-4.col-lg-3 {
     flex: 0 0 auto;
     width: auto;

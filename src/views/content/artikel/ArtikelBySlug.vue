@@ -5,7 +5,7 @@
                 <SkeletonLoading v-if="isLoading" />
                 <div class="blog-detail" v-if="!isLoading">
                     <h1 class="blog-title">{{ artikel.judulArtikel }}</h1>
-                    <p class="blog-meta">Published on Mei 23, 2022 by {{ artikel.getUser.nama }}</p>
+                    <p class="blog-meta">Published on Mei 23, 2022 by dr. {{ artikel.getUser.nama }}</p>
                     <img src="../../../assets/images/rs.jpg" alt="Blog Image" class="blog-image img-fluid">
                     <div class="blog-content">
                         {{ artikel.deskripsi }}

@@ -37,7 +37,7 @@ export default [
                 component: () => import('@/views/content/dokter/SpesialisDokter.vue'),
             },
             {
-                path: 'dokter/:id',
+                path: 'dokter/:idDokter/:idAhli',
                 name: 'Detail Dokter',
                 component: () => import('@/views/content/dokter/DetailDokter.vue'),
             },
@@ -84,7 +84,7 @@ export default [
     },
     {
         path: '/produk-obat',
-        name: 'Apotek Terdekat',
+        name: 'Obat dan Vitamin',
         component: () => import('@/views/content/apotek/IndexApotek.vue')
     },
     {

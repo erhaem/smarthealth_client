@@ -1,7 +1,7 @@
 <template>
     <div class="container col-xl-10 col-xxl-12 px-4 py-2">
         <div class="row align-items-top g-lg-5 py-2">
-            <div class="col-lg-5 text-center" data-aos="fade-right" data-aos-duration="500">
+            <div class="col-lg-5 d-none d-sm-block text-center" data-aos="fade-right" data-aos-duration="500">
                 <div class="header">
                     <p class="fw-bold lh-1 mb-3">Chat Dokter dengan Berobat+</p>
                     <p class="col-lg-12 fs-5 text-secondary">Layanan telemedisin yang siap siaga untuk bantu kamu hidup

@@ -29,7 +29,7 @@
                             <div v-if="detailDokter.biaya">
                                 <p class="mb-0 text-secondary">
                                     <small>
-                                      biaya: Rp. {{ detailDokter.biaya.biaya.toLocaleString('id-ID') }}
+                                        biaya: Rp. {{ detailDokter.biaya.biaya.toLocaleString('id-ID') }}
                                     </small>
                                 </p>
                             </div>
@@ -51,7 +51,11 @@
                         </div>
                         <div class="border-bottom mt-1 mb-1">
                             <p class="mb-0"><b>Keahlian</b></p>
-                            <p class="mb-0"><small>Kecemasan</small></p>
+                            <div v-for="data in detailKeahlian">
+                                <div class="d-flex justify-content-start">
+                                    <p class="mb-0"><small>{{ data.keahlianId.namaKeahlian }}</small></p>
+                                </div>
+                            </div>
                         </div>
                         <div style="font-size: 14px;" class="border-bottom">
                             <p class="mt-2 mb-0">
@@ -80,17 +84,25 @@ import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue
 export default {
     data() {
         return {
-            detailDokter: [],
+            detailDokter: {
+            },
+            detailKeahlian: [],
             isLoading: false
         }
     },
     computed: {
         idFromParams() {
-            return this.$route.params.id
+            return {
+                idDokter: this.$route.params.idDokter,
+                idAhli: this.$route.params.idAhli
+            }
         },
-        hideFrom(){
+        hideFrom() {
             return this.$route.name === "Cari Keahlian"
         }
+    },
+    mounted() {
+        this.getKeahlian()
     },
     created() {
         this.getDetailDokter()
@@ -99,15 +111,30 @@ export default {
         getDetailDokter() {
             let type = "getData"
             let url = [
-                "akun/dokter/" + this.idFromParams + "/edit", {}
+                "akun/dokter/" + this.idFromParams.idDokter + "/edit", {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.isLoading = false
-                this.detailDokter = result.data
+                this.detailDokter = result.data// Assign the id value
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        getKeahlian() {
+            const idKeahlian = this.idFromParams.idAhli;
+            let type = "getData";
+            let url = [
+                `master/ahli/keahlian/master/${idKeahlian}/get`, []
+            ];
+            this.$store.dispatch(type, url)
+                .then((result) => {
+                    this.detailKeahlian = result.data
+                    console.log(result);
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         }
     },
     components: {
