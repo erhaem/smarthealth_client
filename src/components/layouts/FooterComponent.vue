@@ -12,7 +12,7 @@
                 <div class="col-xs-6 col-md-3">
                     <h6>Pelayanan Klinis</h6>
                     <ul class="footer-links">
-                        <li><a href="http://scanfcode.com/category/c-language/">Konsultasi Dokter & Perawat </a></li>
+                        <li><a href="http://scanfcode.com/category/c-language/">Konsultasi Dokter dan Perawat </a></li>
                         <li><a href="http://scanfcode.com/category/front-end-development/">Toko Kesehatan</a></li>
                         <li><a href="http://scanfcode.com/category/back-end-development/">Buat Janji Rs</a></li>
                     </ul>
