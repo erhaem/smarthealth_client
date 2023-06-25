@@ -54,7 +54,6 @@ export default {
   },
   watch: {
     selectedKategori(val) {
-      console.log(val)
       this.getGroupingArtikel()
     }
   },
@@ -69,7 +68,6 @@ export default {
       ]
       this.$store.dispatch(type, url).then((result) => {
         this.kategoriArtikel = result.data
-        console.log(result);
       }).catch((err) => {
         console.log(err);
       })
@@ -82,7 +80,6 @@ export default {
       ]
       this.$store.dispatch(type, url).then((result) => {
         this.artikel = result.data
-        console.log(result);
       }).catch((err) => {
         console.log(err);
       })
@@ -94,7 +91,6 @@ export default {
       ]
       this.$store.dispatch(type, url).then((result) => {
         this.allArtikel = result.data
-        console.log(result);
       }).catch((err) => {
         console.log(err);
       })

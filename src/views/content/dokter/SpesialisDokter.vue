@@ -11,51 +11,17 @@
                     <SkeletonLoading />
                 </div>
             </template>
-            <template v-else-if="!isLoading">
-                <div class="card border-0" @click="$redirect('/chat-dokter/dokter/' + data.idDokter + '/' + data.userId.id)">
-                    <div class="row">
-                        <div class="col-6 py-2">
-                            <div v-if="data.userId.jenisKelamin === 'P'">
-                                <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded" alt="">
-                            </div>
-                            <div v-else-if="data.userId.jenisKelamin === 'L'">
-                                <img src="../../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
-                            </div>
-                            <div v-else-if="data.userId.jenisKelamin === null">
-                                <img src="../../../assets/images/user.png" class="img-fluid rounded" alt="...">
-                            </div>
-                        </div>
-                        <div class="col-6 py-3 px-3">
-                            <p class="mb-1" style="font-size: 14px;"><b>dr. {{ data.userId.nama }}</b></p>
-                            <p class="text-secondary text-sm mb-1" style="font-size: 12px;">
-                                Dokter Umum
-                            </p>
-                            <div class="d-flex justify-content-start text-primary">
-                                <p class="rounded mb-1 me-1" style="font-size: 10px;"><i
-                                        class="ms-1 fa-solid fa-briefcase"></i> 1 tahun &nbsp;</p>
-                                <p class="rounded mb-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-thumbs-up"></i>
-                                    100% &nbsp;</p>
-                                <!-- {{ getDokterKeahlian(data.userId.id) }} -->
-                            </div>
-                            <div v-if="data.biaya">
-                                <p class="mb-1" style="font-size: 12px;">Rp. {{ data.biaya.biaya }}</p>
-                            </div>
-                            <div v-else>
-                                <p>belum ada biaya</p>
-                            </div>
-                            <div class="pt-3">
-                                <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
+            <template v-else-if="!isLoading && data.biaya">
+                <CardDokter :namaDokter="data.userId.nama" :biaya="data.biaya.biaya"  @click="$redirect('/chat-dokter/dokter/' + data.idDokter + '/' + data.userId.id)" />
             </template>
             <template v-else>
                 <div v-if="dokters.length === 0">
-                    <div class="alert alert-danger text-center">
+                    <div class="alert alert-info text-center">
                         <i><strong>data tidak ada</strong></i>
                     </div>
+                </div>
+                <div v-else>
+                    <p>ga ada</p>
                 </div>
             </template>
         </div>
@@ -70,13 +36,14 @@
     </div>
     <template v-else>
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 text-center">
-            <div class="col-6 col-md-3 col-lg-2" v-for="specialist in limitData.specialist" :key="specialist.id">
-                <div class="d-flex flex-column align-items-center">
-                    <i class="fa-solid bg-danger p-3 rounded-circle fa-stethoscope fs-2 text-light"></i>
-                    <p>{{ specialist.namaSpesialis }}</p>
+            <div class="col-6 col-md-3 col-lg-2" v-for="data in limitData.specialist" :key="data.id">
+                <div class="d-flex flex-column align-items-center"
+                    @click="$redirect('/chat_dokter/dokter/' + data.idSpesialisPenyakit)">
+                    <i :class="data.icon + ' p-3 rounded-circle fs-2 text-light'" style="background-color: #46458C"></i>
+                    <p>{{ data.namaSpesialis }}</p>
                 </div>
             </div>
-        </div>        
+        </div>
     </template>
     <div class="text-start ms-2 ">
         <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
@@ -88,33 +55,12 @@
             <SkeletonLoading />
         </template>
         <div v-else-if="!isLoading" class="col" v-for="data in nurses">
-            <div class="card border-0">
-                <div class="row">
-                    <div class="col-6 py-2">
-                        <img src="../../../assets/images/avaperawat.jpg" class="img-fluid rounded" alt="...">
-                    </div>
-                    <div class="col-6 py-3 px-3">
-                        <p class="mb-1" style="font-size: 14px;"><b>{{ data.user.nama }}</b>
-                        </p>
-                        <p class="text-secondary text-sm mb-1" style="font-size: 12px;">Perawat Umum</p>
-                        <div class="d-flex justify-content-start text-primary">
-                            <p class="rounded mb-1 me-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-briefcase"></i>
-                                1 tahun &nbsp;</p>
-                            <p class="rounded mb-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-thumbs-up"></i> 100%
-                                &nbsp;</p>
-                        </div>
-                        <p class="mb-1" style="font-size: 12px;">Rp. 30.000
-                        </p>
-                        <div class="pt-3">
-                            <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <CardDokter :namaDokter="data.user.nama"  @click="$redirect('/chat-dokter/dokter/' + data.idPerawat + '/' + data.user.id)" />
         </div>
     </div>
 </template>
 <script>
+import CardDokter from '../../../components/card/CardDokter.vue';
 import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
 import FooterComponent from '@/components/layouts/FooterComponent.vue';
@@ -136,9 +82,9 @@ export default {
             idAhkii: []
         }
     },
-    mounted() {        
+    mounted() {
         this.getPerawat(),
-        this.getDokter()
+            this.getDokter()
     },
     created() {
         this.getSpesialis()
@@ -167,7 +113,8 @@ export default {
         SkeletonLoading,
         BodyDetailDokter,
         LoadingComponent,
-        ButtonComponent
+        ButtonComponent,
+        CardDokter
     },
     methods: {
         getDokter() {
@@ -178,7 +125,7 @@ export default {
             const user = Cookies.get('token')
             console.log(user);
             this.isLoading = true
-            this.$store.dispatch(type, url).then( async (result) => {
+            this.$store.dispatch(type, url).then(async (result) => {
                 const responsedata = await axios({
                     url: `https://berobatplus.shop/api/master/ahli/keahlian/master/${result.data.idDokter}/get`,
                     headers: {
@@ -229,7 +176,7 @@ export default {
             return new Promise((resolve, reject) => {
                 let type = "getData";
                 let keahlian = {};
-                
+
                 let url = [`master/ahli/keahlian/master/${dokterId}/get`, {}];
 
                 this.$store

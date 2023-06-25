@@ -42,6 +42,11 @@ export default [
                 component: () => import('@/views/content/dokter/DetailDokter.vue'),
             },
             {
+                path: 'dokter/:idPerawat/:idAhli',
+                name: 'Detail Dokter',
+                component: () => import('@/views/content/perawat/IndexPerawat.vue'),
+            },
+            {
                 path: 'cari',
                 name: 'Cari Keahlian',
                 component: ()=>import('@/views/content/dokter/SearchByKeahlian.vue'),
