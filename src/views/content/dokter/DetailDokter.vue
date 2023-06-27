@@ -84,8 +84,7 @@ import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue
 export default {
     data() {
         return {
-            detailDokter: {
-            },
+            detailDokter: [],
             detailKeahlian: [],
             isLoading: false
         }
@@ -111,7 +110,7 @@ export default {
         getDetailDokter() {
             let type = "getData"
             let url = [
-                "akun/dokter/" + this.idFromParams.idDokter + "/edit", {}
+                "akun/dokter/" + this.idFromParams.idDokter + "/edit", []
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {

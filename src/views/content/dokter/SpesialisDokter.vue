@@ -38,7 +38,7 @@
         <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 text-center">
             <div class="col-6 col-md-3 col-lg-2" v-for="data in limitData.specialist" :key="data.id">
                 <div class="d-flex flex-column align-items-center"
-                    @click="$redirect('/chat_dokter/dokter/' + data.idSpesialisPenyakit)">
+                    @click="$redirect('/chat-dokter/dokter/' + data.idSpesialisPenyakit)">
                     <i :class="data.icon + ' p-3 rounded-circle fs-2 text-light'" style="background-color: #46458C"></i>
                     <p>{{ data.namaSpesialis }}</p>
                 </div>
@@ -55,7 +55,7 @@
             <SkeletonLoading />
         </template>
         <div v-else-if="!isLoading" class="col" v-for="data in nurses">
-            <CardDokter :namaDokter="data.user.nama"  @click="$redirect('/chat-dokter/dokter/' + data.idPerawat + '/' + data.user.id)" />
+            <CardDokter :namaDokter="data.user.nama"  @click="$redirect('/chat-dokter/perawat/' + data.idPerawat + '/' + data.user.id)" />
         </div>
     </div>
 </template>
