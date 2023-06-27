@@ -65,7 +65,7 @@
                                 <b>Praktik di</b> Bandung
                             </p>
                             <p class="mt-2 mb-2">
-                                <b>Nomor STR</b> {{ detailPerawat.nomorStrp ? :  'data tidak ada' }}
+                                <!-- <b>Nomor STR</b> {{ detailPerawat.nomorStrp ? :  'data tidak ada' }} -->
                             </p>
                         </div>
                         <div class="mt-2">

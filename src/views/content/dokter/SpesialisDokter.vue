@@ -67,8 +67,6 @@ import FooterComponent from '@/components/layouts/FooterComponent.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import BodyDetailDokter from '@/components/BodyDetailDokter.vue';
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
-import Cookies from 'js-cookie'
-import axios from "axios"
 export default {
     data() {
         return {
@@ -88,7 +86,6 @@ export default {
     },
     created() {
         this.getSpesialis()
-        this.getDokterKeahlian()
     },
     computed: {
         limitData() {
@@ -122,25 +119,10 @@ export default {
             let url = [
                 "akun/dokter", {}
             ]
-            const user = Cookies.get('token')
-            console.log(user);
-            this.isLoading = true
-            this.$store.dispatch(type, url).then(async (result) => {
-                const responsedata = await axios({
-                    url: `https://berobatplus.shop/api/master/ahli/keahlian/master/${result.data.idDokter}/get`,
-                    headers: {
-                        Authorization: "Bearer " + user
-                    },
-                    method: "GET"
-                })
-                console.log(responsedata.data);
-                setTimeout(() => {
-                    this.isLoading = false
-
-                }, 3000);
+            this.$store.dispatch(type, url).then((result)=>{
                 this.dokters = result.data
                 console.log(result);
-            }).catch((err) => {
+            }).catch((err)=>{
                 console.log(err);
             })
         },
@@ -172,29 +154,6 @@ export default {
                 console.log(err);
             })
         },
-        getDokterKeahlian(dokterId) {
-            return new Promise((resolve, reject) => {
-                let type = "getData";
-                let keahlian = {};
-
-                let url = [`master/ahli/keahlian/master/${dokterId}/get`, {}];
-
-                this.$store
-                    .dispatch(type, url)
-                    .then((result) => {
-                        result.data.forEach((element) => {
-                            keahlian = element.keahlianId;
-                            console.log(keahlian);
-                        });
-                        resolve(keahlian);
-                    })
-                    .catch((err) => {
-                        console.log(err);
-                        reject(err);
-                    });
-            });
-        }
-
     },
 }
 </script>
