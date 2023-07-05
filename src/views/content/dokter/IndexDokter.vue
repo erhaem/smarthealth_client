@@ -1,7 +1,7 @@
 <template>
     <div class="container col-xl-10 col-xxl-12 px-4 py-2">
         <div class="row align-items-top g-lg-5 py-2">
-            <div class="col-lg-5 d-none d-sm-block text-center" data-aos="fade-right" data-aos-duration="500">
+            <div class="col-lg-5 d-none d-sm-block text-start" data-aos="fade-right" data-aos-duration="500">
                 <div class="header">
                     <p class="fw-bold lh-1 mb-3">Chat Dokter dengan Berobat+</p>
                     <p class="col-lg-12 fs-5 text-secondary">Layanan telemedisin yang siap siaga untuk bantu kamu hidup
@@ -19,7 +19,7 @@
                     </div>
                     <div class="carousel-inner">
                         <div class="carousel-item active">
-                            <img src="../../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
+                            <img src="../../../assets/images/Untitled-1.png" class="d-block w-100" alt="...">
                             <div class="carousel-caption d-none d-md-block">
                                 <h5>First slide label</h5>
                                 <p>Some representative placeholder content for the first slide.</p>

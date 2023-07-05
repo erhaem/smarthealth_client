@@ -75,12 +75,12 @@ export default [
         component: () => import('@/views/content/rumah-sakit/IndexJanjiRs.vue'),
     },
     {
-        path: '/tes/:idAhli/:idJadwalPraktek',
+        path: '/buat_janji/:idAhli/:idJadwalPraktek',
         name: 'Detail Janji',
         component: () => import('@/views/content/rumah-sakit/DetailJanjiRs.vue'),
-        // meta: {
-        //     requiresAuth: true
-        // }
+        meta: {
+            requiresAuth: true
+        }
     },
     {
         path: '/reservasi-perawat',

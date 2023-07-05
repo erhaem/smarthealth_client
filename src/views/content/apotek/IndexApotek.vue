@@ -105,9 +105,11 @@
             </div>
         </div>
     </div>
+    {{ user }}
 </template>
 
 <script>
+import Cookies from 'js-cookie'
 import iziToast from 'izitoast'
 import CardArtikel from '@/components/card/CardArtikel.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
@@ -117,18 +119,28 @@ export default {
             cart: [],
             nearestResults: [],
             dataProduk: [],
+            kategori: [],
             countOfKodeProduk: 0, // Initialize count to 0
             isLoading: false,
             latitude: null,
             longitude: null,
-            kategori: []
+            userId: null
         }
+    },
+    computed: {
+        userId() {
+            const cookie = Cookies.get("user");
+            const parsing = JSON.parse(cookie);
+            const cekRole = parsing.data.id;
+            return cekRole
+        },
     },
     components: {
         CardArtikel, SkeletonLoading
     },
     mounted() {
-        this.getLocation()
+        this.countProductOccurrences()
+            this.getLocation()
         const savedCart = localStorage.getItem('cart');
         if (savedCart) {
             this.cart = JSON.parse(savedCart);
@@ -213,7 +225,6 @@ export default {
             if (cart) {
                 const jsonCart = JSON.parse(cart);
                 const existingItemIndex = jsonCart.findIndex(item => item.id === produk.id);
-
                 if (existingItemIndex !== -1) {
                     console.log('Product exists in cart');
                     jsonCart[existingItemIndex].qty += produk.qty; // Increment the quantity
@@ -221,7 +232,6 @@ export default {
                     console.log('Product does not exist in cart');
                     jsonCart.push(produk); // Add the product to the cart
                 }
-
                 localStorage.setItem('cart', JSON.stringify(jsonCart));
             } else {
                 localStorage.setItem('cart', JSON.stringify([produk])); // Create a new cart with the product
@@ -231,6 +241,7 @@ export default {
             const count = this.cart.filter(item => item === kodeProduk).length;
             this.countOfKodeProduk = count; // Assign count value to the data property
             console.log(`Count of ${kodeProduk}:`, count);
+            ;
         },
         showAlertSuccess() {
             iziToast.success({

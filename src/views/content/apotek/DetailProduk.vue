@@ -1,35 +1,9 @@
 <template>
     <div class="container col-xxl-10">
         <div class="row flex-lg-row-reverse align-items-top g-5 py-5">
-            <div class="col-10 col-sm-8 col-lg-6">
-                <div class="sticky-top" style="overflow-y: auto; max-height: 400px">
-                    <h4>Obat dan Vitamin</h4>
-                    <div class="d-flex justify-content-start mt-4 border-bottom">
-                        <img src="../../../assets/images/9.png" class="img-fluid w-25 h-25 me-2" alt="">
-                        <p class="p-3">akakakakak</p>
-                    </div>
-                </div>
-            </div>
             <div class="col-lg-3">
                 <div class="pt-5">
-                    <div v-if="isLoading">
-                        <div class="" aria-hidden="true">
-                            <div class="card-body">
-                              <h5 class="card-title placeholder-glow">
-                                <span class="placeholder col-6"></span>
-                              </h5>
-                              <p class="card-text placeholder-glow">
-                                <span class="placeholder col-7"></span>
-                                <span class="placeholder col-4"></span>
-                                <span class="placeholder col-4"></span>
-                                <span class="placeholder col-6"></span>
-                                <span class="placeholder col-8"></span>
-                              </p>
-                              <span class="placeholder col-4"></span>
-                            </div>
-                          </div>
-                    </div>
-                    <div v-else>
+                    <div>
                         <p>⭐4.5(23 reviews)</p>
                         <h6 class="text-dark"><b>{{ detailProduk.namaProduk }}</b></h6>
                         <p>{{ detailProduk.hargaProduk }}</p>
@@ -40,17 +14,6 @@
                             <button class="btn btn-sm btn-outline-dark me-2">1</button>
                             <button class="btn btn-sm btn-outline-dark">-</button>
                         </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3">
-                <div class="card border">
-                    <img src="../../../assets/images/avadokterpr.png" class="img-fluid" alt="">
-                </div>
-                <div class="text-start p-lg-3">
-                    <div class="d-flex justify-content-start align-items-center">
-                        <h6 class="me-5">Deskripsi</h6>
-                        <h6>Reviews</h6>
                     </div>
                 </div>
             </div>

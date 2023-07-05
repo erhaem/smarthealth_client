@@ -1,5 +1,5 @@
 <template>
-    <footer class="site-footer mt-5">
+    <footer class="site-footer mt-3">
         <div class="container">
             <div class="row">
                 <div class="col-sm-12 col-md-6">

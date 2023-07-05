@@ -1,5 +1,5 @@
 <template>
-  <div class="container-fluid bg-light sticky-top">
+  <div class="container-fluid bg-light static-top">
     <div class="container">
       <header class="d-flex flex-wrap justify-content-center py-3">
         <router-link class="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-dark text-decoration-none"
@@ -110,6 +110,7 @@ export default {
   },
   mounted() {
     this.getItemsFromStorage()
+    // this.totalQuantity()
   },
   methods: {
     logout() {
@@ -120,22 +121,30 @@ export default {
       this.$store.dispatch(type, url).then((result) => {
         Cookies.remove('token')
         Cookies.remove('user')
-        this.resetCart()
+        // this.resetCart()
         window.location.replace('/')
       }).catch((err) => {
         console.log(err);
       })
     },
-    resetCart() {
-      this.cart = [];
-      localStorage.removeItem('cart');
-    },
+    // resetCart() {
+    //   this.cart = [];
+    //   localStorage.removeItem('cart');
+    // },
     getItemsFromStorage() {
       const cartData = localStorage.getItem('cart');
       console.log(cartData)
       if (cartData) {
         this.items = JSON.parse(cartData);
       }
+    }
+  },
+  watch: {
+    items: {
+      handler() {
+        this.totalQuantity();
+      },
+      deep: true
     }
   },
 }

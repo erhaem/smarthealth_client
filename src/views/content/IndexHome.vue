@@ -93,7 +93,7 @@
     </div>
   </section>
   <section id="obat">
-    <div class="container">
+    <div class="container mb-5">
       <div class="d-flex justify-content-between">
         <TitleFeature Label="Obat & Vitamin" />
         <div v-if="golongans.length > 4">

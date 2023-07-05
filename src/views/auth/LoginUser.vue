@@ -62,6 +62,12 @@ export default {
   components: {
     Form, InputField
   },
+  mounted() {
+    const savedCart = localStorage.getItem('cart_' + this.userId);
+    if (savedCart) {
+      this.cart = JSON.parse(savedCart);
+    }
+  },
   // computed: {
   //   schema() {
   //     return validate.object({
@@ -83,6 +89,15 @@ export default {
       this.$store.dispatch(type, url).then((response) => {
         const cekRole = response.data.getRole.idRole;
         if (cekRole == "RO-2003064") {
+          const userId = response.data.userId;
+          Cookies.set("user", userId);
+          
+          // Update the userId and fetch the cart for the new user
+          this.userId = userId;
+          const savedCart = localStorage.getItem('cart_' + this.userId);
+          if (savedCart) {
+            this.cart = JSON.parse(savedCart);
+          }
           Cookies.set("token", response.data.token);
           Cookies.set("user", JSON.stringify(response));
           setTimeout(() => {
@@ -93,7 +108,7 @@ export default {
               message: "Berhasil Login",
               position: "bottomCenter",
             })
-            this.resetCart()
+            // this.resetCart()
             window.location = '/'
           }, 2000);
         } else {
@@ -117,10 +132,10 @@ export default {
         })
       })
     },
-    resetCart() {
-      this.cart = [];
-      localStorage.removeItem('cart');
-    },
+    // resetCart() {
+    //   this.cart = [];
+    //   localStorage.removeItem('cart');
+    // },
   },
 }
 </script>
