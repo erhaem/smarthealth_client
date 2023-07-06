@@ -1,5 +1,5 @@
 <template>
-  <li class="nav-item">
+  <li class="nav-item me-3">
     <b>
       <slot name="router"></slot>
     </b>

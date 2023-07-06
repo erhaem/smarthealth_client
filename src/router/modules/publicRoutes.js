@@ -51,6 +51,11 @@ export default [
                 name: 'Cari Keahlian',
                 component: ()=>import('@/views/content/dokter/SearchByKeahlian.vue'),
                 params: true
+            },
+            {
+                path: 'spesialis/:idSpesialis/dokter',
+                name: 'Dokter Spesialis',
+                component: ()=>import('@/views/content/dokter/spesialis/index.vue')
             }
         ],
     },

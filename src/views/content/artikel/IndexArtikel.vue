@@ -1,5 +1,5 @@
 <template>
-  <section id="services" class="services bg-primary">
+  <section id="services" class="services">
     <div class="container">
       <h5>Topik Terkini</h5>
       <div class="d-flex justify-content-start">
