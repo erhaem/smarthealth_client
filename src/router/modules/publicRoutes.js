@@ -103,8 +103,8 @@ export default [
         component: () => import('@/views/content/apotek/DetailProduk.vue')
     },
     {
-        path: '/produk-obat/apotek/:id',
-        name: 'Produk Apotek',
+        path: '/produk/kategori/:idKategori',
+        name: 'Produk Kategori',
         component: () => import('@/views/content/apotek/IndexObatApotek.vue')
     },
     {

@@ -96,7 +96,7 @@
     <div class="container mb-5">
       <div class="d-flex justify-content-between">
         <TitleFeature Label="Obat & Vitamin" />
-        <div v-if="golongans.length > 4">
+        <div v-if="produkKategori.length > 4">
           <TitleFeature Label="Lihat semua" class="text-primary" />
         </div>
         <div v-else>
@@ -105,10 +105,10 @@
       <p class="ms-2">Dapatkan informasi seputar kandungan, aturan, petunjuk penggunaan obat dan vitamin di sini
       </p>
       <div class="row g-4 row-cols-lg-4">
-        <div v-for="data in limitedData.golongans" :key="data.id">
+        <div v-for="data in limitedData.produkKategori" :key="data.id">
           <SkeletonLoading v-if="isLoading" />
-          <router-link :to="'/produk_kategori/' + data.idProdukKategori" style="text-decoration: none;">
-            <CardMedicine v-if="!isLoading" :labelTitle="data.kategori.namaKategoriProduk" />
+          <router-link :to="'/produk/kategori/' + data.idKategoriProduk" style="text-decoration: none;">
+            <CardMedicine v-if="!isLoading" :labelTitle="data.namaKategoriProduk" />
           </router-link>
         </div>
       </div>
@@ -138,7 +138,7 @@ export default {
     return {
       users: [],
       artikels: [],
-      golongans: [],
+      produkKategori: [],
       limit: 4,
       maxLength: 20,
       isLoading: false,
@@ -153,7 +153,7 @@ export default {
     limitedData() {
       return {
         artikels: this.artikels.slice(0, this.limit),
-        golongans: this.golongans.slice(0, this.limit)
+        produkKategori: this.produkKategori.slice(0, this.limit)
       }
     },
   },
@@ -174,11 +174,11 @@ export default {
     getKategoriObat() {
       let type = "getData"
       let url = [
-        "apotek/produk/produk_kategori", {}
+        "master/produk/kategori_produk", {}
       ]
       this.isLoading = true
       this.$store.dispatch(type, url).then((result) => {
-        this.golongans = result.data
+        this.produkKategori = result.data
         setTimeout(() => {
           this.isLoading = false
         }, 1000);

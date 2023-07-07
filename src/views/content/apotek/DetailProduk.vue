@@ -1,25 +1,22 @@
 <template>
     <div class="container col-xxl-10">
-        <div class="row flex-lg-row-reverse align-items-top g-5 py-5">
-            <div class="col-lg-3">
+        <div class="row">
+            <div class="col-lg-4">
                 <div class="pt-5">
-                    <div>
-                        <p>⭐4.5(23 reviews)</p>
-                        <h6 class="text-dark"><b>{{ detailProduk.namaProduk }}</b></h6>
-                        <p>{{ detailProduk.hargaProduk }}</p>
-                        <p class="text-secondary"><small>Apotek Arjawinangun</small></p>
-                        <div class="d-flex justify-content-start">
-                            <button class="btn btn-sm btn-dark me-2">add to cart</button>
-                            <button class="btn btn-sm btn-outline-dark me-2">+</button>
-                            <button class="btn btn-sm btn-outline-dark me-2">1</button>
-                            <button class="btn btn-sm btn-outline-dark">-</button>
-                        </div>
-                        <div class="btn btn-sm btn-info" @click="shareProduk">
-                            <p>
-                                bagikan
-                            </p>
-                        </div>
-                    </div>
+                    <img src="../../../assets/images/28.png" class="img-fluid" alt="">
+                </div>
+            </div>
+            <div class="col-lg-4">
+                <div class="pt-5">
+                    <h5 class="text-dark"><b>{{ detailProduk.namaProduk }}</b></h5>
+                    <h3>{{ detailProduk.hargaProduk }}</h3>
+                    <hr>
+                    <h5 class="text-primary"><b>Detail</b></h5>
+                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi magnam consequatur sequi, aliquam temporibus in minima iure vel mollitia minus obcaecati, error soluta quis labore voluptatem ea. Est, blanditiis consequatur.
+                        {{ detailProduk.deskripsiProduk }}</p>
+                        <button class="btn btn-sm btn-outline-primary" @click="addCart()">
+                          Add to cart  <i class="fas fa-cart-shopping"></i>
+                        </button>
                 </div>
             </div>
         </div>
@@ -35,7 +32,7 @@ export default {
             cart: [],
             nearestResults: [],
             dataProduk: [],
-            countOfKodeProduk: 0, 
+            countOfKodeProduk: 0,
             isLoading: false,
             latitude: null,
             longitude: null,
@@ -49,7 +46,7 @@ export default {
         idFromParams() {
             return this.$route.params.id
         },
-        pathUrl(){
+        pathUrl() {
             return this.$route.fullPath
         }
     },
@@ -65,7 +62,7 @@ export default {
             this.getDetailProduk()
     },
     methods: {
-        shareProduk(){
+        shareProduk() {
             const pesan = this.detailProduk.deskripsiProduk
             const path = this.pathUrl
             window.location = `https://api.whatsapp.com/send?text=${pesan}., http://10.0.140.209:5173${path}`

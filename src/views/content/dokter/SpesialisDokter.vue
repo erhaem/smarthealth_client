@@ -12,7 +12,8 @@
                 </div>
             </template>
             <template v-else-if="!isLoading && data.biaya">
-                <CardDokter Label="Dokter Umum" :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"  @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+                <CardDokter Label="Dokter Umum" :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
+                    @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
             </template>
             <template v-else>
                 <div v-if="dokters.length === 0">
@@ -55,7 +56,8 @@
             <SkeletonLoading />
         </template>
         <div v-else-if="!isLoading" class="col" v-for="data in nurses">
-            <CardDokter :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"  @click="$redirect('/chat-dokter/perawat/' + data.idPerawat + '/' + data.user.id)" />
+            <CardDokter :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"
+                @click="$redirect('/chat-dokter/perawat/' + data.idPerawat + '/' + data.user.id)" />
         </div>
     </div>
 </template>
@@ -119,10 +121,10 @@ export default {
             let url = [
                 "akun/dokter", {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
+            this.$store.dispatch(type, url).then((result) => {
                 this.dokters = result.data
                 console.log(result);
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
         },
@@ -154,6 +156,10 @@ export default {
                 console.log(err);
             })
         },
+        onPageChange(page) {
+            this.pagination.page = page;
+            this.getPerawat();
+        }
     },
 }
 </script>

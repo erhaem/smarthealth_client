@@ -105,7 +105,6 @@
             </div>
         </div>
     </div>
-    {{ user }}
 </template>
 
 <script>
@@ -214,7 +213,6 @@ export default {
         addCart(produk) {
             produk.qty = 1
             console.log('kode produk:', produk);
-
             this.cart.push(produk),
                 this.showAlertSuccess(),
                 this.saveCartToLocalStorage(produk); // Save the updated cart to local storage
