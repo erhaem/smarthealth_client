@@ -14,6 +14,11 @@
                             <button class="btn btn-sm btn-outline-dark me-2">1</button>
                             <button class="btn btn-sm btn-outline-dark">-</button>
                         </div>
+                        <div class="btn btn-sm btn-info" @click="shareProduk">
+                            <p>
+                                bagikan
+                            </p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -30,7 +35,7 @@ export default {
             cart: [],
             nearestResults: [],
             dataProduk: [],
-            countOfKodeProduk: 0, // Initialize count to 0
+            countOfKodeProduk: 0, 
             isLoading: false,
             latitude: null,
             longitude: null,
@@ -43,6 +48,9 @@ export default {
     computed: {
         idFromParams() {
             return this.$route.params.id
+        },
+        pathUrl(){
+            return this.$route.fullPath
         }
     },
     mounted() {
@@ -57,6 +65,11 @@ export default {
             this.getDetailProduk()
     },
     methods: {
+        shareProduk(){
+            const pesan = this.detailProduk.deskripsiProduk
+            const path = this.pathUrl
+            window.location = `https://api.whatsapp.com/send?text=${pesan}., http://10.0.140.209:5173${path}`
+        },
         getNeareset() {
             let type = "postData"
             let url = [

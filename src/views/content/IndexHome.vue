@@ -146,7 +146,6 @@ export default {
     }
   },
   mounted() {
-    this.getUsers()
     this.getArtikel();
     this.getKategoriObat()
   },
@@ -159,30 +158,6 @@ export default {
     },
   },
   methods: {
-    getUsers() {
-      let type = "getData"
-      let url = [
-        "create-api", {}
-      ]
-      this.isLoading = true
-      this.$store.dispatch(type, url).then((result) => {
-        if (Cookies.get("user") != undefined) {
-          Cookies.set("user", Cookies.get("user"))
-        } else {
-          if (Cookies.get("token") == undefined) {
-            Cookies.set("token", result.token);
-            this.getArtikel()
-            this.getKategoriObat()
-          }
-        }
-        this.users = Cookies.get("token");
-        setTimeout(() => {
-          this.isLoading = false
-        }, 1000);
-      }).catch((err) => {
-        console.log(err);
-      })
-    },
     getArtikel() {
       let type = "getData"
       let url = [

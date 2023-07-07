@@ -1,66 +1,52 @@
 <template>
-    <div class="container col-xl-10 col-xxl-12 px-4 py-2">
-        <div class="row align-items-top g-lg-5 py-2">
-            <div class="col-lg-5 d-none d-sm-block text-start" data-aos="fade-right" data-aos-duration="500">
-                <div class="header">
-                    <p class="fw-bold lh-1 mb-3">Chat Dokter dengan Berobat+</p>
-                    <p class="col-lg-12 fs-5 text-secondary">Layanan telemedisin yang siap siaga untuk bantu kamu hidup
-                        lebih
-                        sehat</p>
-                </div>
-                <div id="carouselExampleCaptions" class="carousel slide">
-                    <div class="carousel-indicators">
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="0" class="active"
-                            aria-current="true" aria-label="Slide 1"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="1"
-                            aria-label="Slide 2"></button>
-                        <button type="button" data-bs-target="#carouselExampleCaptions" data-bs-slide-to="2"
-                            aria-label="Slide 3"></button>
-                    </div>
-                    <div class="carousel-inner">
-                        <div class="carousel-item active">
-                            <img src="../../../assets/images/Untitled-1.png" class="d-block w-100" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>First slide label</h5>
-                                <p>Some representative placeholder content for the first slide.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="../../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Second slide label</h5>
-                                <p>Some representative placeholder content for the second slide.</p>
-                            </div>
-                        </div>
-                        <div class="carousel-item">
-                            <img src="../../../assets/images/hero-bg.jpg" class="d-block w-100" alt="...">
-                            <div class="carousel-caption d-none d-md-block">
-                                <h5>Third slide label</h5>
-                                <p>Some representative placeholder content for the third slide.</p>
-                            </div>
-                        </div>
-                    </div>
-                    <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleCaptions"
-                        data-bs-slide="prev">
-                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Previous</span>
-                    </button>
-                    <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleCaptions"
-                        data-bs-slide="next">
-                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                        <span class="visually-hidden">Next</span>
-                    </button>
-                </div>
-                <div class="body py-4">
-                    <p class="fw-bold lh-1 mb-3">Mengapa chat di berobat+ ?</p>
-                    <BodyDetailDokter />
+    <div class="container-fluid p-lg-4 bg-primary" >
+        <div class="container col-xxl-10 col-md-6">
+            <router-link style="text-decoration: none" to="/">
+                <p class="text-light">
+                    Home
+                    /
+                    <router-link to="/produk-obat" class="text-light" style="text-decoration: none">
+                        {{ $route.name }}
+                    </router-link>
+                </p>
+            </router-link>
+            <div class="d-flex justify-content-between">
+                <div class="text-light mb-3 d-none d-sm-block">
+                    <h3>
+                       Dokter Spesialis dan Perawat Terbaik
+                    </h3>
+                    <h4>
+                        Pelayanan medis yang akurat
+                    </h4>
                 </div>
             </div>
-            <div class="col-md-10 mx-auto col-lg-7 overflow-auto" data-aos="fade-up" data-aos-duration="500"
-                style="overflow-y: auto; max-height: 600px">
-                <div class="d-flex justify-content-between sticky-top"  v-if="$route.name !== 'Detail Dokter'">
-                    <InputField placeholder="cari dokter, spesialis, atau gejala" v-model="search" class="me-2 p-sm-2" />
+            <div class="d-flex justify-content-start pb-2">
+                <div class="col-12 col-md-6">
+                    <div class="input-group">
+                        <span class="input-group-text border-0 bg-warning" id="search-addon"><i
+                                class="fas fa-magnifying-glass text-light"></i></span>
+                        <input v-model="search"  class="form-control rounded p-2" placeholder="Cari keluhan yang kamu rasakan" />
+                    </div>
                 </div>
+            </div>
+        </div>
+    </div>
+    <div class="container col-xxl-12 px-4 py-2">
+        <div class="row align-items-top g-lg-5 py-2">
+            <div class="col-lg-4 d-sm-block d-none">
+                <h4><b>BerobatPlus</b></h4>
+                <p class="mb-0">
+                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias, ad! Nesciunt reprehenderit a vel quos magnam beatae optio, mollitia dolores, necessitatibus nulla reiciendis debitis illum. Quam magnam culpa voluptates esse?
+                </p>
+                <img src="../../../assets/images/injury-rafiki.png" class="img-fluid" alt="">
+                <ol>
+                    <li>Cepat dan Mudah</li>
+                    <li>Tersedia dokter dan perawat terbaik</li>
+                    <li>Dokter spesialis yang professional</li>
+                </ol>
+            </div>
+            <div class="col-md-7 col-sm-10 col-lg-8" data-aos="fade-up" data-aos-duration="500"
+                style="overflow-y: auto; max-height: 600px">
                 <router-view :valueSearch="valueSearch"></router-view>
             </div>
         </div>

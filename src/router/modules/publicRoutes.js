@@ -37,11 +37,6 @@ export default [
                 component: () => import('@/views/content/dokter/SpesialisDokter.vue'),
             },
             {
-                path: 'dokter/:idDokter/:idAhli',
-                name: 'Detail Dokter',
-                component: () => import('@/views/content/dokter/DetailDokter.vue'),
-            },
-            {
                 path: 'perawat/:idPerawat/:idAhli',
                 name: 'Detail Perawat',
                 component: () => import('@/views/content/perawat/IndexPerawat.vue'),
@@ -58,6 +53,11 @@ export default [
                 component: ()=>import('@/views/content/dokter/spesialis/index.vue')
             }
         ],
+    },
+    {
+        path: '/detail/:idDokter/:idAhli',
+        name: 'Detail Dokter',
+        component: () => import('@/views/content/dokter/DetailDokter.vue'),
     },
     {
         path: '/hospital',

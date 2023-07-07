@@ -1,7 +1,7 @@
 <template>
     <div class="text-start ms-2">
         <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
-        <p>Konsultasi online dengan dokter siaga kamii
+        <p>Konsultasikan keluhanmu dengan dokter kami
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
@@ -12,7 +12,7 @@
                 </div>
             </template>
             <template v-else-if="!isLoading && data.biaya">
-                <CardDokter :namaDokter="data.userId.nama" :biaya="data.biaya.biaya"  @click="$redirect('/chat-dokter/dokter/' + data.idDokter + '/' + data.userId.id)" />
+                <CardDokter :namaDokter="data.userId.nama" :biaya="data.biaya.biaya"  @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
             </template>
             <template v-else>
                 <div v-if="dokters.length === 0">
@@ -28,7 +28,7 @@
     </div>
     <div class="text-start ms-2 pt-4">
         <p class="fs-4 mb-0"><b>Cari Dokter Spesialis</b></p>
-        <p>Pilih kategori yang sesuai dengan kondisimu
+        <p>Mau langsung sembuh? yuk cari spesialis yang diinginkan
         </p>
     </div>
     <div v-if="isLoading">
@@ -47,7 +47,7 @@
     </template>
     <div class="text-start ms-2 ">
         <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
-        <p>Konsultasi online dengan perawat siaga kamii
+        <p>Butuh perawatan? tenang, ada perawat-perawat terbaik
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">

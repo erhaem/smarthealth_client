@@ -23,7 +23,13 @@
             </div>
         </div>
     </div>
-    <div v-else class="row row-cols-1 row-cols-md-2 g-3">
+    <div v-else>
+        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.back()">
+            <i class="fas fa-arrow-left">
+            </i>
+        </button>
+    </div>
+    <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in valueSearch">
             <div class="card border-0">
                 <div class="row">
@@ -53,6 +59,7 @@
             </div>
         </div>
     </div>
+    
 </template>
 <script>
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
