@@ -145,7 +145,7 @@ export default {
       loadingArtikel: false
     }
   },
-  mounted() {
+  created() {
     this.getArtikel();
     this.getKategoriObat()
   },

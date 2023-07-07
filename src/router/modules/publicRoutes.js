@@ -57,7 +57,7 @@ export default [
     {
         path: '/detail/:idDokter/:idAhli',
         name: 'Detail Dokter',
-        component: () => import('@/views/content/dokter/DetailDokter.vue'),
+        component: () => import('@/views/content/dokter/detail-dokter/DetailDokter.vue'),
     },
     {
         path: '/hospital',
