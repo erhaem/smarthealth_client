@@ -14,7 +14,7 @@
                             <img src="../../../assets/images/9.png" class="img-fluid" alt="">
                         </div>
                         <div v-else>
-                            <img src="" alt="">
+                            <img :src="detailRS.foto" alt="" class="img-fluid">
                         </div>
                     </div>
                     <div class="col-md-4 themed-grid-col text-start">

@@ -6,7 +6,7 @@
                 <div class="blog-detail" v-if="!isLoading">
                     <h1 class="blog-title">{{ artikel.judulArtikel }}</h1>
                     <p class="blog-meta">dipublikasikan pada {{ artikel.tanggal }} oleh dr. {{ artikel.getUser.nama }}</p>
-                    <img src="../../../assets/images/rs.jpg" alt="Blog Image" class="blog-image img-fluid">
+                    <img :src="artikel.foto" alt="Blog Image" class="blog-image img-fluid">
                     <div class="blog-content">
                         {{ artikel.deskripsi }}
                     </div>

@@ -13,7 +13,7 @@
       </div>
       <div class="row g-4">
         <div v-if="selectedKategori === null" v-for="data in allArtikel" class="col-md-4 col-lg-3 rounded">
-          <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
+          <CardArtikel :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
             @click="$redirect('/artikel/' + data.slugArtikel)"></CardArtikel>
         </div>
         <div v-else class="col-md-4 col-lg-3 rounded" v-for="item in artikel">

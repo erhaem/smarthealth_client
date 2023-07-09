@@ -58,7 +58,7 @@
                             </div>
                             <div v-if="!isLoading" class="card shadow rounded border-0">
                                 <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idRumahSakit)">
-                                    <img src="../../../assets/images/bg.png" class="img-fluid rounded mb-2" alt="">
+                                    <img :src="data.fotoRs" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
                                     <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
                                 </div>
@@ -93,6 +93,8 @@
             </div>
         </div>
     </div>
+    {{ nearestResults }}
+
 </template>
   
 <script>

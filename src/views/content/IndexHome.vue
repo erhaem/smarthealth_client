@@ -82,7 +82,7 @@
           <template v-else>
             <div class="row g-4">
               <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-                <CardArtikel :title="data.judulArtikel" :description="data.deskripsi"
+                <CardArtikel :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
                   @click="$redirect('/artikel/' + data.slugArtikel)">
                 </CardArtikel>
               </div>
