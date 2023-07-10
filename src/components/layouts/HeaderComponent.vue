@@ -1,10 +1,9 @@
 <template>
   <nav class="navbar navbar-expand-lg bg-body-tertiary">
     <div class="container">
-      <router-link class="navbar-brand"
-          :to="{ name: 'IndexHome' }">
-          <span class="fs-4">Berobat+.</span>
-        </router-link>
+      <router-link class="navbar-brand" :to="{ name: 'IndexHome' }">
+        <span class="fs-4">Berobat+.</span>
+      </router-link>
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavDropdown"
         aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
         <i class="fa-solid fa-bars"></i>
@@ -26,11 +25,18 @@
               <router-link :to="{ name: 'Download App' }" class="nav-link">Aplikasi</router-link>
             </template>
           </NavItem>
-          <NavItem v-if="isAuthenticated && user.data.getRole.idRole === 'RO-2003064'">
-            <template #router>
-              <router-link :to="{ name: 'Riwayat Konsumen' }" class="nav-link">Riwayat</router-link>
-            </template>
-          </NavItem>
+          <li class="nav-item dropdown" v-if="isAuthenticated && user.data.getRole.idRole === 'RO-2003064'">
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <b>Riwayat</b>
+            </a>
+            <DropdownItem>
+              <template #item>
+                <router-link :to="{ name: 'Riwayat Konsumen' }" class="dropdown-item">Kunjungan Medis</router-link>
+                <router-link to="/account" class="dropdown-item" href="#">Pesanan Saya</router-link>
+          </template>
+          </DropdownItem>
+          </li>
           <li v-if="!isAuthenticated" class="nav-item dropdown">
             <NavItem>
               <template #router>

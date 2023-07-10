@@ -1,5 +1,5 @@
 <template>
-    <div class="container-fluid p-lg-4 bg-primary" >
+    <div class="container-fluid p-lg-4 bg-primary">
         <div class="container col-xxl-10 col-md-6">
             <router-link style="text-decoration: none" to="/">
                 <p class="text-light">
@@ -26,7 +26,8 @@
                     <div class="rounded text-center px-3" style="background-color: navy;">
                         <p v-if="hasLocation">
                             <i class="fa fa-location-dot text-danger"></i>
-                            {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
+                            {{ locationName.address.village }}, {{ locationName.address.county }}, {{
+                                locationName.address.state }}
                         </p>
                     </div>
                 </div>
@@ -36,7 +37,8 @@
                     <div class="input-group">
                         <span class="input-group-text border-0 bg-warning" id="search-addon"><i
                                 class="fas fa-magnifying-glass text-light"></i></span>
-                        <input type="search" class="form-control rounded p-2" placeholder="Cari nama rumah sakit atau apotek" />
+                        <input type="search" class="form-control rounded p-2"
+                            placeholder="Cari nama rumah sakit atau apotek" />
                     </div>
                 </div>
             </div>
@@ -65,6 +67,20 @@
                             </div>
                         </div>
                     </template>
+                    <template v-for="data in apotekResult" :key="data.id">
+                        <div class="col-sm-6 mb-3 mb-sm-3">
+                            <div v-if="isLoading">
+                                <SkeletonLoading />
+                            </div>
+                            <div v-if="!isLoading" class="card shadow rounded border-0">
+                                <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
+                                    <img :src="data.fotoRs" class="img-fluid rounded mb-2" alt="">
+                                    <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
+                                    <!-- <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p> -->
+                                </div>
+                            </div>
+                        </div>
+                    </template>
                 </div>
             </div>
             <div class="col-6 col-md-6 mt-5">
@@ -88,12 +104,26 @@
                                 </l-popup>
                             </l-marker>
                         </div>
+                        <div v-for="data in apotekResult" :key="data.id">
+                            <l-marker :lat-lng="[data.latitude, data.longitude]" :icon="apotekIcon">
+                                <l-popup :options="popupOptions">
+                                    <template v-slot:default>
+                                        <div class="custom-popup">
+                                            <p class="mb-0">{{ data.namaApotek }}</p>
+                                            <div v-if="hasLocation">
+                                                <p>{{ Math.floor(data.distance) }} km dari {{ locationName.address.village
+                                                }}</p>
+                                            </div>
+                                        </div>
+                                    </template>
+                                </l-popup>
+                            </l-marker>
+                        </div>
                     </l-map>
                 </div>
             </div>
         </div>
     </div>
-
 </template>
   
 <script>
@@ -104,11 +134,13 @@ import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import iconMarker from '../../../assets/images/maps.png'
 import hospitalMarker from '../../../assets/images/hospital-marker.png'
+import apotekMarker from '../../../assets/images/apotekmarker.png'
 export default {
     data() {
         return {
             latitude: null,
             longitude: null,
+            apotekResult: [],
             nearestResults: [],
             zoom: 15,
             locationName: null,
@@ -118,6 +150,7 @@ export default {
             },
             customIcon: null,
             hospitalIcon: null,
+            apotekIcon: null,
             isLoading: false,
         };
     },
@@ -146,6 +179,7 @@ export default {
                         this.latitude = position.coords.latitude;
                         this.longitude = position.coords.longitude;
                         this.getNearest();
+                        this.getApotek()
                         this.fetchLocationDetails();
                     },
                     error => {
@@ -187,7 +221,6 @@ export default {
                     // Extract the desired location details from the response
                     this.locationName = response.data;
                     const { address } = response.data;
-                    console.log('Location:', address);
                 })
                 .catch(error => {
                     console.error('Error occurred while fetching location details:', error);
@@ -216,7 +249,25 @@ export default {
                 iconUrl: hospitalMarker,
                 iconSize: [40, 45]
             })
+            this.apotekIcon = L.icon({
+                iconUrl: apotekMarker,
+                iconSize: [40, 45]
+            })
         },
+        getApotek() {
+            let type = "postData"
+            let url = [
+                "apotek/pengaturan/profil_apotek/find_nearest", {
+                    latitude: this.latitude,
+                    longitude: this.longitude,
+                }
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.apotekResult = result.data
+            }).catch((err) => {
+                console.log(err);
+            })
+        }
     },
 };
 </script>

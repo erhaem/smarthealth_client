@@ -41,7 +41,7 @@ export default {
     props: {
         Image: {
             type: String,
-            default: 'https://cdn-icons-png.flaticon.com/512/607/607414.png?w=740&t=st=1687343323~exp=1687343923~hmac=6ae1247f67266ade2cc56a174f395c19bebdea021b2e15d3d4a28ae32c3f2276'
+            default: ''
         },
         nama: {
             type: String,
@@ -54,7 +54,7 @@ export default {
         Label: {
             type: String,
             default: ''
-        }
+        },
     }
 }
 </script>

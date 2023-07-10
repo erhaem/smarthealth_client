@@ -1,6 +1,6 @@
 <template>
     <div class="container">
-        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.back()">
+        <button class="btn btn-sm btn-outline-dark shadow mt-3" @click="this.$router.back()">
             <i class="fas fa-arrow-left">
             </i>
         </button>
@@ -14,7 +14,7 @@
                         <div v-for="item in limitedData">
                             <h5 class="card-title mb-0">dr. {{item.praktek.dokter}}</h5>
                         </div>
-                        <p class="card-text text-secondary"><i>Dokter Kandungan</i></p>
+                        <p class="card-text text-secondary"><i>Dokter {{spesialis.namaSpesialis}}</i></p>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <p class=""><i class="fas fa-thumbs-up text-primary"></i><small class="text-primary"> 99%
@@ -33,24 +33,25 @@
                 dan
                 RS Sumber Kasih Cirebon.
             </p>
-            <h5>Tindakan Medis</h5>
-            <ul>
-                <li>operasi</li>
-                <li>operasi</li>
-                <li>operasi</li>
-            </ul>
+            <h5>Keahlian Medis</h5>
+            <div v-for="(data, index) in keahlian" :key="index" class="mb-2">
+                <p class="mb-0 text-dark">
+                    <small>
+                        {{ index + 1 }}.
+                        {{ data.keahlianId.namaKeahlian }}</small>
+                </p>
+            </div>
         </div>
         <div class="d-flex justify-content-between mb-2">
             <h5>Pilih tanggal dan waktu kunjungan</h5>
-            <input type="date" name="" id="">
         </div>
-        <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="row row-cols-1 row-cols-md-5 g-4">
             <div v-for="data in jadwalPraktek" class="col">
-                <div :class="['card shadow d-block-none d-sm', { 'border-danger': data.clicked }]" @click="aksi(data)">
+                <div :class="['card shadow d-block-none d-sm', { 'border-primary': data.clicked }]" @click="aksi(data)">
                     <div class="card-body">
-                        <p class="mb-0">
+                        <h5 class="mb-2">
                             {{ data.tanggal }}
-                        </p>
+                        </h5>
                         <p>{{ data.mulaiJam }} - {{ data.selesaiJam }}</p>
                     </div>
                 </div>
@@ -75,6 +76,8 @@ export default {
     data() {
         return {
             jadwalPraktek: [],
+            spesialis: {},
+            keahlian: [],
             selectedIdJdwl: null,
             limit: 1
         }
@@ -99,17 +102,20 @@ export default {
     mounted() {
         this.getJadwalPraktek()
     },
-    
+    created() {
+        this.getSpesialis(),
+        this.getKeahlian()
+    },
     methods: {
         getJadwalPraktek() {
+            const idAhli = this.$route.params.idAhli
+            const idRumahSakit = this.$route.params.idRumahSakit
             let type = "getData"
             let url = [
-                "master/ahli/jadwal_praktek/" + this.idFromParams, {}
+                `master/ahli/jadwal_praktek/${idAhli}/${idRumahSakit}`, {}
             ]
-            console.log("get jadwal")
             this.$store.dispatch(type, url).then((result) => {
                 this.jadwalPraktek = result.data
-                console.log(result)
             }).catch((err) => {
                 console.log(err);
             })
@@ -129,6 +135,30 @@ export default {
                 });
             }
         },
+        getSpesialis(){
+            const idSpesialis = this.$route.params.idSpesialis
+            let type = "getData"
+            let url = [
+                `master/penyakit/spesialis_penyakit/${idSpesialis}/edit`, {}
+            ]
+            this.$store.dispatch(type, url).then((result)=>{
+                this.spesialis = result.data
+            }).catch((err)=>{
+                console.log(err);
+            })
+        },
+        getKeahlian(){
+            const ahliId = this.$route.params.idAhli
+            let type = "getData"
+            let url = [
+                `master/ahli/keahlian/master/${ahliId}/get`, {}
+            ]
+            this.$store.dispatch(type, url).then((result)=>{
+                this.keahlian = result.data
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
     },
 }
 </script>

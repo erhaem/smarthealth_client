@@ -174,7 +174,7 @@ export default {
                             timeout: 2000,
                             title: "Berhasil",
                             message: "Berhasil Ubah Data",
-                            position: "center",
+                            position: "topRight",
                         })
                     }, 2000);
                     console.log(result);

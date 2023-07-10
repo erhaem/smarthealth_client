@@ -12,11 +12,11 @@
                             <p class="mb-0">
                                 kunjungan untuk dr. {{ detailKunjungan.praktek.dokter }}
                             </p>
-                                <p class="mb-0 text-secondary">
-                                    <small>
-                                        {{ detailKunjungan.praktek.rumahSakit }}
-                                    </small>
-                                </p>
+                            <p class="mb-0 text-secondary">
+                                <small>
+                                    {{ detailKunjungan.praktek.rumahSakit }}
+                                </small>
+                            </p>
                             <!-- </div> -->
                             <p class="mb-0">
                                 <small>
@@ -73,21 +73,7 @@
             </div>
         </div>
         <input type="text" v-model="detailKunjungan.idJadwalPraktek" hidden>
-        <!-- <div class="col-lg-12 col-md-6">
-            <div class="d-flex justify-content-center">
-                    <div class="card shadow">
-                        <div class="card-body">
-                            <div class="card-text">
-                                <h1 class="text-primary text-center">
-                                    {{ dataa.antrian }}
-                                </h1>
-                                <p>Nomor Antrian</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div> -->
-        </div>
+    </div>
 </template>
 <script>
 export default {
@@ -103,19 +89,19 @@ export default {
         idFromParams() {
             return this.$route.params.idJadwalPraktek
         },
-        idAhli(){
+        idAhli() {
             return this.$route.params.idAhli
         }
     },
     created() {
         this.getDetail(),
-        this.getAntrian()
+            this.getAntrian()
     },
     methods: {
         getDetail() {
             let type = "getData"
             let url = [
-                "master/ahli/jadwal_praktek/" + this.idFromParams + "/edit", {}
+                "master/ahli/jadwal_praktek/jadwal/" + this.idFromParams + "/edit", {}
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.detailKunjungan = result.data
@@ -124,7 +110,8 @@ export default {
                 console.log(err);
             })
         },
-        postKunjungan(){
+        postKunjungan() {
+            const message = "Data Berhasil di Tambahkan"
             let type = "postData"
             let url = [
                 "master/ahli/jadwal_antrian", {
@@ -132,25 +119,32 @@ export default {
                     idJadwalPraktek: this.detailKunjungan.idJadwalPraktek
                 }, {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
-                this.$swal({
-                    icon: 'success',
-                    title: 'berhasil daftar kunjungan'
-                })
-                this.dataa = result.data
-                console.log(result);
-            }).catch((err)=>{
+            this.$store.dispatch(type, url).then((result) => {
+                if (result.pesan == message) {
+                    this.$swal({
+                        icon: 'success',
+                        title: 'berhasil mendapatkan antrian'
+                    })
+                    this.$router.push({ name: 'Riwayat Konsumen' })
+                } else {
+                    this.$swal({
+                        icon: 'error',
+                        title: (result.pesan)
+                    })
+                }
+                this.getAntrian()
+            }).catch((err) => {
                 console.log(err);
             })
         },
-        getAntrian(){
+        getAntrian() {
             let type = "getData"
             let url = [
                 "master/ahli/jadwal_antrian", {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
+            this.$store.dispatch(type, url).then((result) => {
                 console.log(result);
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
         }
