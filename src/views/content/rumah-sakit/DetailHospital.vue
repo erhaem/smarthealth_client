@@ -71,7 +71,7 @@
                             <div v-else>
                                 <ul style="padding-left: 1rem;" class="mt-2" v-for="fasilitas in detailFasilitas"
                                     :key="fasilitas.id">
-                                    <li class="">{{ fasilitas.namaFasilitas }}</li>
+                                    <li>{{ fasilitas.namaFasilitas }}</li>
                                 </ul>
                             </div>
                         </div>
