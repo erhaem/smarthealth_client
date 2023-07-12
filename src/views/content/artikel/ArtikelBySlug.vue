@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-md-8">
                 <SkeletonLoading v-if="isLoading" />
-                <div class="blog-detail" v-if="!isLoading">
+                <div class="blog-detail p-5" v-if="!isLoading">
                     <h1 class="blog-title">{{ artikel.judulArtikel }}</h1>
                     <p class="blog-meta">dipublikasikan pada {{ artikel.tanggal }} oleh dr. {{ artikel.getUser.nama }}</p>
                     <img :src="artikel.foto" alt="Blog Image" class="blog-image img-fluid">

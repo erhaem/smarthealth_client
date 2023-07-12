@@ -34,15 +34,20 @@
               <template #item>
                 <router-link :to="{ name: 'Riwayat Konsumen' }" class="dropdown-item">Kunjungan Medis</router-link>
                 <router-link to="/account" class="dropdown-item" href="#">Pesanan Saya</router-link>
-          </template>
-          </DropdownItem>
+              </template>
+            </DropdownItem>
           </li>
           <li v-if="!isAuthenticated" class="nav-item dropdown">
-            <NavItem>
-              <template #router>
-                <router-link :to="{ name: 'RegisterPerawat' }" class="nav-link">Register</router-link>
+            <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown"
+              aria-expanded="false">
+              <b>Register</b>
+            </a>
+            <DropdownItem>
+              <template #item>
+                <router-link :to="{ name: 'RegisterKonsumen' }" class="dropdown-item">Member</router-link>
+                <router-link :to="{ name: 'RegisterPerawat' }" class="dropdown-item" href="#">Tenaga Medis</router-link>
               </template>
-            </NavItem>
+            </DropdownItem>
           </li>
           <div v-else>
             <li class="nav-item dropdown">

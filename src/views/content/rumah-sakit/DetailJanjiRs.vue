@@ -125,7 +125,7 @@ export default {
                         icon: 'success',
                         title: 'berhasil mendapatkan antrian'
                     })
-                    this.$router.push({ name: 'Riwayat Konsumen' })
+                    // this.$router.push({ name: 'Riwayat Konsumen' })
                 } else {
                     this.$swal({
                         icon: 'error',

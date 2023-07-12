@@ -1,5 +1,5 @@
 <template>
-    <div class="container py-3 px-3">
+    <div class="container py-5 px-3">
         <div class="d-flex justify-content-center">
             <div class="card shadow pt-3 px-3 w-100">
                 <div class="row">

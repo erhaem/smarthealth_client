@@ -52,7 +52,7 @@
                         <small>Berikut adalah rumah sakit terdekat denganmu:</small>
                     </b>
                 </h4>
-                <div class="row">
+                <div class="row overflow-auto" style="max-height: 500px">
                     <template v-for="data in nearestResults" :key="data.id">
                         <div class="col-sm-6 mb-3 mb-sm-3">
                             <div v-if="isLoading">
@@ -60,7 +60,7 @@
                             </div>
                             <div v-if="!isLoading" class="card shadow rounded border-0">
                                 <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idRumahSakit)">
-                                    <img :src="data.fotoRs" class="img-fluid rounded mb-2" alt="">
+                                    <img src="../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
                                     <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
                                 </div>
@@ -74,7 +74,7 @@
                             </div>
                             <div v-if="!isLoading" class="card shadow rounded border-0">
                                 <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
-                                    <img :src="data.fotoRs" class="img-fluid rounded mb-2" alt="">
+                                    <img src="../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
                                     <!-- <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p> -->
                                 </div>

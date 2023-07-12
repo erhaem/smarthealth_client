@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-md-10 col-xxl-10 py-4 px-4 border-top">
+    <div class="container col-md-10 col-xxl-10 py-5 px-4 border-top">
         <div class="row">
             <div class="col-lg-5">
                 <div class="header">
@@ -7,7 +7,7 @@
                         Change Password
                     </h6>
                 </div>
-                <div class="py-3 align-items-start">
+                <div class="py-4 mb-5 align-items-start">
                     <Form @submit="changePassword" :validation-schema="schema" v-slot="{ errors }">
                         <div class="row">
                             <div class="col-sm-6 col-6">
