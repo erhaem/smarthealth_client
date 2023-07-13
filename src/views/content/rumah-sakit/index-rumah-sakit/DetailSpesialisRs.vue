@@ -9,7 +9,7 @@
                 <div class="card shadow border-0 mb-3" style="max-width: 400px;">
                     <div class="row g-0">
                         <div class="col-md-4">
-                            <img src="../../../assets/images/avadoktercewe.png" class="img-fluid rounded-start px-2 mt-3"
+                            <img src="../../../../assets/images/avadoktercewe.png" class="img-fluid rounded-start px-2 mt-3"
                                 alt="...">
                         </div>
                         <div class="col-md-8">

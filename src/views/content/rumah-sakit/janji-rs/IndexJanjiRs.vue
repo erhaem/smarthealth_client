@@ -7,7 +7,7 @@
         <div class="card border-0 sticky-top" style="max-width: 720px;">
             <div class="row g-0">
                 <div class="col-md-4 col-3">
-                    <img src="../../../assets/images/avadoktercewe.png" class="px-3 py-3 img-fluid rounded-start" alt="...">
+                    <img src="../../../../assets/images/avadoktercewe.png" class="px-3 py-3 img-fluid rounded-start" alt="...">
                 </div>
                 <div class="col-md-8 col-9">
                     <div class="card-body pt-0 mt-0 pt-sm-4 mt-sm-2">

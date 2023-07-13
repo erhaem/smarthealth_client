@@ -17,7 +17,7 @@ export default [
     {
         path: '/detail_rumah_sakit/buat_janji/:idAhli/:idDetailPraktek/:idRumahSakit/:idSpesialis',
         name: 'Detail Janji Rs',
-        component: () => import('@/views/content/rumah-sakit/janj-rs/IndexJanjiRs.vue'),
+        component: () => import('@/views/content/rumah-sakit/janji-rs/IndexJanjiRs.vue'),
     },
     {
         path: '/buat_janji/:idAhli/:idJadwalPraktek',
