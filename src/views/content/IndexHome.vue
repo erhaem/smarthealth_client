@@ -72,22 +72,16 @@
               lihat semua artikel
             </button>
           </div>
-          <template v-if="loadingArtikel">
-            <div class="row g-4">
-              <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-                <SkeletonLoading />
-              </div>
-            </div>
-          </template>
-          <template v-else>
-            <div class="row g-4">
-              <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-                <CardArtikel :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
+          <div class="row g-4">
+            <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
+                <template v-if="loadingArtikel">
+                  <SkeletonLoading />
+                </template>
+                <CardArtikel v-else :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
                   @click="$redirect('/artikel/' + data.slugArtikel)">
                 </CardArtikel>
               </div>
             </div>
-          </template>
         </div>
       </div>
     </div>
@@ -165,8 +159,10 @@ export default {
       ]
       this.loadingArtikel = true
       this.$store.dispatch(type, url).then((result) => {
-        this.loadingArtikel = false
         this.artikels = result.data
+        setTimeout(() => {
+        this.loadingArtikel = false
+        }, 1000);
       }).catch((err) => {
         console.log(err);
       })

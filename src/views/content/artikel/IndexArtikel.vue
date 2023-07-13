@@ -13,16 +13,17 @@
       </div>
       <div class="row g-4">
         <div v-if="selectedKategori === null" v-for="data in allArtikel" class="col-md-4 col-lg-3 rounded">
-          <CardArtikel :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
+          <template v-if="isLoading">
+            <SkeletonLoading/>
+          </template>
+          <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
             @click="$redirect('/artikel/' + data.slugArtikel)"></CardArtikel>
         </div>
         <div v-else class="col-md-4 col-lg-3 rounded" v-for="item in artikel">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
-          <template v-if="!isLoading">
-            <CardArtikel :title="item.judulArtikel" :description="item.deskripsi" @click="$redirect('artikel/' + item.namaKategori + '/' + item.idGroupingArtikel)"></CardArtikel>
-          </template>
+            <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="item.judulArtikel" :description="item.deskripsi" @click="$redirect('artikel/' + item.namaKategori + '/' + item.idGroupingArtikel)"></CardArtikel>
         </div>
         <div v-if="artikel.length < 1 && selectedKategori != null">
           gada
@@ -78,8 +79,12 @@ export default {
         `master/grouping_artikel/${this.selectedKategori}/kategori`, {
         }
       ]
+      this.isLoading = true
       this.$store.dispatch(type, url).then((result) => {
         this.artikel = result.data
+        setTimeout(() => {
+          this.isLoading = false
+        }, 1000);
       }).catch((err) => {
         console.log(err);
       })
@@ -89,8 +94,10 @@ export default {
       let url = [
         "master/artikel", {}
       ]
+      this.isLoading = true
       this.$store.dispatch(type, url).then((result) => {
         this.allArtikel = result.data
+          this.isLoading = false
       }).catch((err) => {
         console.log(err);
       })

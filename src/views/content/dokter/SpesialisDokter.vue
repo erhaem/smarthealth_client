@@ -5,26 +5,10 @@
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
-        <div class="col" v-for="data in dokters" :key="data.id">
-            <template v-if="isLoading">
-                <div class="col">
-                    <SkeletonLoading />
-                </div>
-            </template>
-            <template v-else-if="!isLoading && data.biaya">
-                <CardDokter Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum" :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
-                    @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
-            </template>
-            <template v-else>
-                <div v-if="dokters.length === 0">
-                    <div class="alert alert-info text-center">
-                        <i><strong>data tidak ada</strong></i>
-                    </div>
-                </div>
-                <div v-else>
-                    <p>ga ada</p>
-                </div>
-            </template>
+        <div class="col" v-for="data in limitData.dokters" :key="data.id">
+            <CardDokter v-if="data.userId.status == 1" Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
+                :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
+                @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
         </div>
     </div>
     <div class="text-start ms-2 pt-4">
@@ -119,11 +103,14 @@ export default {
         getDokter() {
             let type = "getData"
             let url = [
-                "akun/dokter", {}
+                "akun/dokter/data", {}
             ]
+            this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.dokters = result.data
-                console.log(result);
+                setTimeout(() => {
+                    this.isLoading = false
+                }, 5000);
             }).catch((err) => {
                 console.log(err);
             })

@@ -5,61 +5,70 @@
             </i>
         </button>
         <h5>
-          Dokter Spesialis  {{ spesialis.namaSpesialis }}
+            Dokter Spesialis {{ spesialis.namaSpesialis }}
         </h5>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in dokter">
-            <CardDokter :Label="spesialis.namaSpesialis" :nama="'dr ' + data.user.nama" :biaya="data.keahlianId.namaKeahlian"  @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+            <template v-if="isLoading">
+                <SkeletonLoading />
+            </template>
+            <CardDokter v-else :Label="spesialis.namaSpesialis" :nama="'dr ' + data.user.nama"
+                :biaya="data.keahlianId.namaKeahlian"
+                @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
         </div>
     </div>
 </template>
 <script>
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import CardDokter from '@/components/card/CardDokter.vue'
-export default{
-    data(){
+export default {
+    data() {
         return {
             dokter: [],
             spesialis: [],
             isLoading: false
         }
     },
-    created(){
+    created() {
         this.getDokter(),
-        this.getSpesialis()
+            this.getSpesialis()
     },
     methods: {
-        getDokter(){
+        getDokter() {
             const params = this.$route.params.idSpesialis
             let type = "getData"
             let url = [
                 `master/spesialis/${params}/get_dokter`, {}
             ]
             this.isLoading = true
-            this.$store.dispatch(type, url).then((result)=>{
+            this.$store.dispatch(type, url).then((result) => {
                 this.dokter = result.data
-                this.isLoading = false
-            }).catch((err)=>{
+                setTimeout(() => {
+
+                    this.isLoading = false
+                }, 1000);
+            }).catch((err) => {
                 console.log(err);
             })
         },
-        getSpesialis(){
+        getSpesialis() {
             const namaSpesialis = this.$route.params.idSpesialis
             let type = "getData"
             let url = [
                 `master/penyakit/spesialis_penyakit/${namaSpesialis}/edit`, {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
+            this.$store.dispatch(type, url).then((result) => {
                 this.spesialis = result.data
                 console.log(result
                 );
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
         }
     },
     components: {
-        CardDokter
+        CardDokter, SkeletonLoading
     }
 }
 </script>
