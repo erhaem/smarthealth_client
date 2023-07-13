@@ -68,11 +68,11 @@
                         </div>
                     </template>
                     <template v-for="data in apotekResult" :key="data.id">
-                        <div class="col-sm-6 mb-3 mb-sm-3">
-                            <div v-if="isLoading">
-                                <SkeletonLoading />
-                            </div>
-                            <div v-if="!isLoading" class="card shadow rounded border-0">
+                        <div v-if="isLoading">
+                            <SkeletonLoading />
+                        </div>
+                        <div v-else class="col-sm-6 mb-3 mb-sm-3">
+                            <div class="card shadow rounded border-0">
                                 <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
                                     <img src="../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
@@ -262,8 +262,12 @@ export default {
                     longitude: this.longitude,
                 }
             ]
+            this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.apotekResult = result.data
+                setTimeout(() => {
+                   this.isLoading = false 
+                }, 3000);
             }).catch((err) => {
                 console.log(err);
             })
