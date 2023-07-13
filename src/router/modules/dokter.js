@@ -27,12 +27,12 @@ export default [
                 path: 'spesialis/:idSpesialis/dokter',
                 name: 'Dokter Spesialis',
                 component: ()=>import('@/views/content/dokter/spesialis/IndexDokterBySpesialis.vue')
-            }
+            },
+            {
+                path: '/detail/:idDokter/:idAhli',
+                name: 'Detail Dokter',
+                component: () => import('@/views/content/dokter/detail-dokter/DetailDokter.vue'),
+            },
         ],
-    },
-    {
-        path: '/detail/:idDokter/:idAhli',
-        name: 'Detail Dokter',
-        component: () => import('@/views/content/dokter/detail-dokter/DetailDokter.vue'),
     },
 ]

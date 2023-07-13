@@ -31,7 +31,7 @@
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in valueSearch">
-            <CardDokter :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)"  />
+            <CardDokter :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
         </div>
     </div>
     {{ valueSearch }}

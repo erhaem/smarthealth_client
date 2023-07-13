@@ -1,11 +1,13 @@
 <template>
-    <div class="container p-lg-5 rounded">
-        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({ name: 'Page Dokter' })">
-            <i class="fas fa-arrow-left">
-            </i>
-        </button>
-        <div class="col-12 col-md-6">
-            <img src="../../../../assets/images/avadoktercowo.png" class="w-25 mt-3 h-50 img-fluid rounded-start" alt="...">
+    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({ name: 'Page Dokter' })">
+        <i class="fas fa-arrow-left">
+        </i>
+    </button>
+    <div class="container pt-3">
+        <div class="col-xxl-10 px-5 py-2 mb-5 col-md-4 mx-auto">
+            <div class="d-flex justify-content-center">
+                <img src="../../../../assets/images/avadoktercowo.png" class="mt-3 h-50 w-50 d-block img-fluid" alt="...">
+            </div>
             <div class="mt-3">
                 <h5>Profil Dokter</h5>
                 <p>
@@ -30,10 +32,16 @@
             <div class="alert alert-info text-start">
                 biaya konsultasi online: Rp. {{ detailDokter.biaya.biaya }}
             </div>
+            <div class="d-flex justify-content-start">
+                <button class="btn btn-dark btn-sm">
+                    chat sekarang
+                </button>
+            </div>
         </div>
     </div>
 </template>
 <script>
+import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 export default {
     data() {
@@ -89,7 +97,7 @@ export default {
         }
     },
     components: {
-        SkeletonLoading
+        SkeletonLoading, ButtonComponent 
     }
 }
 </script>
