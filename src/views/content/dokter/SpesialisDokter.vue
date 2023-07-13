@@ -8,11 +8,11 @@
         <div class="col" v-for="data in limitData.dokters" :key="data.id">
             <template v-if="data.userId.status == 1">
                 <template v-if="isLoading">
-                    <SkeletonLoading/>
+                    <SkeletonLoading />
                 </template>
                 <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
-                :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
-                @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+                    :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
+                    @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
             </template>
         </div>
     </div>
@@ -21,31 +21,29 @@
         <p>Mau langsung sembuh? yuk cari spesialis yang diinginkan
         </p>
     </div>
-    <div v-if="isLoading">
-        <LoadingComponent />
-    </div>
-    <template v-else>
-        <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 text-center">
-            <div class="col-6 col-md-3 col-lg-2" v-for="data in limitData.specialist" :key="data.id">
-                <div class="d-flex flex-column align-items-center"
-                    @click="$redirect('spesialis/' + data.idSpesialisPenyakit + '/dokter')">
-                    <i :class="data.icon + ' p-3 rounded-circle fs-2 text-light'" style="background-color: #46458C"></i>
-                    <p>{{ data.namaSpesialis }}</p>
-                </div>
+    <div class="row row-cols-1 row-cols-md-2 row-cols-lg-4 text-center">
+        <div class="col-6 col-md-3 col-lg-2" v-for="data in limitData.specialist" :key="data.id">
+            <template v-if="isLoading">
+                <LoadingComponent />
+            </template>
+            <div class="d-flex flex-column align-items-center"
+               v-else @click="$redirect('spesialis/' + data.idSpesialisPenyakit + '/dokter')">
+                <i :class="data.icon + ' p-3 rounded-circle fs-2 text-light'" style="background-color: #46458C"></i>
+                <p>{{ data.namaSpesialis }}</p>
             </div>
         </div>
-    </template>
+    </div>
     <div class="text-start ms-2 ">
         <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
         <p>Butuh perawatan? tenang, ada perawat-perawat terbaik
         </p>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
-        <template v-if="isLoading">
-            <SkeletonLoading />
-        </template>
-        <div v-else-if="!isLoading" class="col" v-for="data in limitData.nurses">
-            <CardDokter :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"
+        <div class="col" v-for="data in limitData.nurses">
+            <template v-if="isLoading">
+                <SkeletonLoading />
+            </template>
+            <CardDokter v-else :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"
                 @click="$redirect('/chat-dokter/perawat/' + data.idPerawat + '/' + data.user.id)" />
         </div>
     </div>
@@ -114,9 +112,7 @@ export default {
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.dokters = result.data
-                setTimeout(() => {
                     this.isLoading = false
-                }, 7000);
             }).catch((err) => {
                 console.log(err);
             })
@@ -128,8 +124,8 @@ export default {
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
-                this.isLoading = false
                 this.specialist = result.data
+                this.isLoading = false
             }).catch((err) => {
                 console.log(err);
             })
@@ -142,9 +138,7 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.nurses = result.data
-                setTimeout(() => {
                     this.isLoading = false;
-                }, 1000);
             }).catch((err) => {
                 console.log(err);
             })

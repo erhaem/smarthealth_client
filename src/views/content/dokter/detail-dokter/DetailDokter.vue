@@ -6,33 +6,46 @@
     <div class="container pt-3">
         <div class="col-xxl-10 px-5 py-2 mb-5 col-md-4 mx-auto">
             <div class="d-flex justify-content-center">
-                <img src="../../../../assets/images/avadoktercowo.png" class="mt-3 h-50 w-50 d-block img-fluid" alt="...">
+                <template v-if="isLoading">
+                    <LoadingComponent/>
+                </template>
+                <img src="../../../../assets/images/avadoktercowo.png" v-else class="mt-3 h-50 w-50 d-block img-fluid" alt="...">
             </div>
             <div class="mt-3">
-                <h5>Profil Dokter</h5>
-                <p>
-                    dr. {{ detailDokter.userId.nama }}, merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
-                        detailDokter.userId.tanggalLahir }} di {{ detailDokter.userId.tempatLahir }}. Beliau lulusan pendidikan
-                    Spesialis Obstetri
-                    dan
-                    Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
-                    Cirebon
-                    dan
-                    RS Sumber Kasih Cirebon.
-                </p>
+                <template v-if="isLoading">
+                    <SkeletonLoading/>
+                </template>
+                <template v-else>
+                    <h5>Profil Dokter</h5>
+                    <p>
+                        dr. {{ detailDokter.userId.nama }}, merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
+                            detailDokter.userId.tanggalLahir }} di {{ detailDokter.userId.tempatLahir }}. Beliau lulusan pendidikan
+                        Spesialis Obstetri
+                        dan
+                        Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
+                        Cirebon
+                        dan
+                        RS Sumber Kasih Cirebon.
+                    </p>
+                </template>
+                <template v-if="isLoading">
+                    <SkeletonLoading/>
+                </template>
+                <template v-else>
                 <h5>Keahlian Medis</h5>
                 <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
-                    <p class="mb-0 text-dark">
-                        <small>
-                            {{ index + 1 }}. Mengatasi {{ data.keahlianId.namaKeahlian }}
-                        </small>
-                    </p>
-                </div>
+                        <p class="mb-0 text-dark">
+                            <small>
+                                {{ index + 1 }}. Mengatasi {{ data.keahlianId.namaKeahlian }}
+                            </small>
+                        </p>
+                    </div>
+                </template>
             </div>
-            <div class="alert alert-info text-start">
+            <div class="alert alert-info text-start" v-if="detailDokter.biaya">
                 biaya konsultasi online: Rp. {{ detailDokter.biaya.biaya }}
             </div>
-            <div class="d-flex justify-content-start">
+            <div v-if="!isLoading" class="d-flex justify-content-start">
                 <button class="btn btn-dark btn-sm">
                     chat sekarang
                 </button>
@@ -41,6 +54,7 @@
     </div>
 </template>
 <script>
+import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 export default {
@@ -86,10 +100,11 @@ export default {
             let url = [
                 `master/ahli/keahlian/master/${idKeahlian}/get`, []
             ];
+            this.isLoading = true
             this.$store.dispatch(type, url)
                 .then((result) => {
                     this.detailKeahlian = result.data
-                    console.log(result);
+                    this.isLoading = false
                 })
                 .catch((err) => {
                     console.log(err);
@@ -97,7 +112,7 @@ export default {
         }
     },
     components: {
-        SkeletonLoading, ButtonComponent 
+        SkeletonLoading, ButtonComponent, LoadingComponent
     }
 }
 </script>
