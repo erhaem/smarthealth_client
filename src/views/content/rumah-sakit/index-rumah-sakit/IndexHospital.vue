@@ -60,7 +60,7 @@
                             </div>
                             <div v-if="!isLoading" class="card shadow rounded border-0">
                                 <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idRumahSakit)">
-                                    <img src="../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
+                                    <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
                                     <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
                                 </div>
@@ -74,7 +74,7 @@
                         <div v-else class="col-sm-6 mb-3 mb-sm-3">
                             <div class="card shadow rounded border-0">
                                 <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
-                                    <img src="../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
+                                    <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
                                     <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
                                     <!-- <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p> -->
                                 </div>
@@ -127,14 +127,14 @@
 </template>
   
 <script>
-import InputField from '../../../components/partials-component/InputField.vue';
+import InputField from '@/components/partials-component/InputField.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import axios from 'axios';
 import "leaflet/dist/leaflet.css";
 import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
-import iconMarker from '../../../assets/images/maps.png'
-import hospitalMarker from '../../../assets/images/hospital-marker.png'
-import apotekMarker from '../../../assets/images/apotekmarker.png'
+import iconMarker from '../../../../assets/images/maps.png'
+import hospitalMarker from '../../../../assets/images/hospital-marker.png'
+import apotekMarker from '../../../../assets/images/apotekmarker.png'
 export default {
     data() {
         return {

@@ -86,10 +86,10 @@
                                             <p class="mb-2"><small>{{ data.hargaProduk }}</small></p>
                                         </div>
                                         <div class="d-flex justify-content-between">
-                                            <button @click="$redirect('/produk-obat/' + data.kodeProduk)"
-                                                class="btn btn-sm btn-outline-primary w-75">
+                                            <router-link class="btn btn-sm btn-outline-primary w-75"
+                                                :to="{ name: 'Detail Produk', params: { id: data.kodeProduk } }">
                                                 detail
-                                            </button>
+                                            </router-link>
                                             <div class="">
                                                 <button class="btn btn-sm btn-primary">
                                                     <i class="fas fa-cart-shopping text-light" @click="addCart(data)"></i>
@@ -139,7 +139,7 @@ export default {
     },
     mounted() {
         this.countProductOccurrences()
-            this.getLocation()
+        this.getLocation()
         const savedCart = localStorage.getItem('cart');
         if (savedCart) {
             this.cart = JSON.parse(savedCart);

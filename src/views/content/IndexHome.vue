@@ -29,7 +29,7 @@
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
-        <div v-else @click="$redirect('/produk-obat')">
+        <div v-else @click="$redirect({name: 'Data Produk'})">
           <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>
@@ -55,7 +55,7 @@
           </div>
           <template v-if="artikels.length > 4">
             <div class="col-sm-6 text-end">
-              <TitleFeature Label="Lihat semua" class="text-primary" />
+              <TitleFeature Label="Lihat semua" @click="$redirect('/artikel')" class="text-primary" />
             </div>
           </template>
           <template v-else>
@@ -68,9 +68,6 @@
             <div class="fw-5">
               <p class="text-light mb-0">Update seputar kesehatan</p>
             </div>
-            <button class="btn text-dark border-success rounded btn-sm btn-light" @click="$redirect('/artikel')">
-              lihat semua artikel
-            </button>
           </div>
           <div class="row g-4">
             <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">

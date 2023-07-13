@@ -1,37 +1,36 @@
 <template>
     <div class="container p-lg-5 rounded">
-        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({name: 'Page Dokter'})">
+        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({ name: 'Page Dokter' })">
             <i class="fas fa-arrow-left">
             </i>
         </button>
-        <div class="card border-0 mb-3 p-lg-3" style="max-width: 540px;">
-            <div class="row g-0">
-              <div class="col-md-4">
-                <img src="@/assets/images/avadoktercowo.png" class="img-fluid rounded-start" alt="...">
-              </div>
-              <div class="col-md-8">
-                <div class="card-body">
-                  <h5 class="card-title">dr. {{detailDokter.userId.nama}}</h5>
-                  <p class="card-text mb-0">
-                    Rp. {{ detailDokter.biaya.biaya.toLocaleString('id-ID')  }}
-                  </p>
-                  <div v-for="data in detailKeahlian">
-                      <p class="card-text">
-                        <small class="text-body-dark">
-                        spesialisasi: {{ data.keahlianId.namaKeahlian }}
-                        </small>
-                      </p>
-                  </div>
-                  <p class="card-text"><small class="text-body-secondary">Last online 3 mins ago</small></p>
-                    <button class="btn btn-sm w-25 btn-dark">
+        <div class="col-12 col-md-6">
+            <img src="../../../../assets/images/avadoktercowo.png" class="w-25 mt-3 h-50 img-fluid rounded-start" alt="...">
+            <div class="mt-3">
+                <h5>Profil Dokter</h5>
+                <p>
+                    dr. {{ detailDokter.userId.nama }}, merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
+                        detailDokter.userId.tanggalLahir }} di {{ detailDokter.userId.tempatLahir }}. Beliau lulusan pendidikan
+                    Spesialis Obstetri
+                    dan
+                    Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
+                    Cirebon
+                    dan
+                    RS Sumber Kasih Cirebon.
+                </p>
+                <h5>Keahlian Medis</h5>
+                <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
+                    <p class="mb-0 text-dark">
                         <small>
-                            Chat
+                            {{ index + 1 }}. Mengatasi {{ data.keahlianId.namaKeahlian }}
                         </small>
-                    </button>
+                    </p>
                 </div>
-              </div>
             </div>
-          </div>
+            <div class="alert alert-info text-start">
+                biaya konsultasi online: Rp. {{ detailDokter.biaya.biaya }}
+            </div>
+        </div>
     </div>
 </template>
 <script>

@@ -11,7 +11,7 @@
                             <LoadingComponent />
                         </div>
                         <div v-else-if="detailRS.foto === null">
-                            <img src="../../../assets/images/9.png" class="img-fluid" alt="">
+                            <img src="../../../../assets/images/9.png" class="img-fluid" alt="">
                         </div>
                         <div v-else>
                             <img :src="detailRS.foto" alt="" class="img-fluid">
@@ -118,7 +118,7 @@ import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet"
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import CardMedicine from '@/components/card/CardMedicine.vue';
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
-import hospitalMarker from '../../../assets/images/hospital-marker.png'
+import hospitalMarker from '../../../../assets/images/hospital-marker.png'
 
 export default {
     data() {
