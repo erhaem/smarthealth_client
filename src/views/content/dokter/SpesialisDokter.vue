@@ -6,9 +6,14 @@
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in limitData.dokters" :key="data.id">
-            <CardDokter v-if="data.userId.status == 1" Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
+            <template v-if="data.userId.status == 1">
+                <template v-if="isLoading">
+                    <SkeletonLoading/>
+                </template>
+                <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
                 :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
                 @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+            </template>
         </div>
     </div>
     <div class="text-start ms-2 pt-4">
@@ -39,7 +44,7 @@
         <template v-if="isLoading">
             <SkeletonLoading />
         </template>
-        <div v-else-if="!isLoading" class="col" v-for="data in nurses">
+        <div v-else-if="!isLoading" class="col" v-for="data in limitData.nurses">
             <CardDokter :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"
                 @click="$redirect('/chat-dokter/perawat/' + data.idPerawat + '/' + data.user.id)" />
         </div>
@@ -77,7 +82,8 @@ export default {
         limitData() {
             return {
                 dokters: this.dokters.slice(0, this.dokterLimit),
-                specialist: this.specialist.slice(0, this.specialistLimit)
+                specialist: this.specialist.slice(0, this.specialistLimit),
+                nurses: this.nurses.slice(0, this.dokterLimit)
             }
         },
         filteredDokter() {
@@ -110,7 +116,7 @@ export default {
                 this.dokters = result.data
                 setTimeout(() => {
                     this.isLoading = false
-                }, 5000);
+                }, 7000);
             }).catch((err) => {
                 console.log(err);
             })

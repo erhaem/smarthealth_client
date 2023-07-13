@@ -34,6 +34,7 @@ export default [
             },
             {
                 path: 'dokter',
+                name: 'Page Dokter',
                 component: () => import('@/views/content/dokter/SpesialisDokter.vue'),
             },
             {

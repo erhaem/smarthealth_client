@@ -1,6 +1,6 @@
 <template>
     <div class="container p-lg-5 rounded">
-        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.back()">
+        <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({name: 'Page Dokter'})">
             <i class="fas fa-arrow-left">
             </i>
         </button>

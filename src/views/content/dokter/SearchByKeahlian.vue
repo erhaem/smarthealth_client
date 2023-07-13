@@ -31,38 +31,14 @@
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in valueSearch">
-            <div class="card border-0">
-                <div class="row">
-                    <div class="col-6 py-2">
-                        <div>
-                            <img src="../../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
-                        </div>
-                    </div>
-                    <div class="col-6 py-3 px-3">
-                        <p class="mb-1" style="font-size: 14px;"><b>dr. {{ data.userId.nama }}</b></p>
-                        <p class="text-secondary text-sm mb-1" style="font-size: 12px;">
-                            Dokter Umum
-                        </p>
-                        <div class="d-flex justify-content-start text-primary">
-                            <p class="rounded mb-1 me-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-briefcase"></i>
-                                1 tahun
-                                &nbsp;</p>
-                            <p class="rounded mb-1" style="font-size: 10px;"><i class="ms-1 fa-solid fa-thumbs-up"></i>
-                                100% &nbsp;</p>
-                        </div>
-                        <p class="mb-1" style="font-size: 12px;">Rp. 20.000</p>
-                        <div class="pt-3">
-                            <button class="btn btn-sm btn-danger w-50" style="font-size: 12px;">Chat</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            <CardDokter :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)"  />
         </div>
     </div>
-    
+    {{ valueSearch }}
 </template>
 <script>
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
+import CardDokter from '../../../components/card/CardDokter.vue';
 export default {
     props: {
         valueSearch: {
@@ -71,7 +47,8 @@ export default {
         }
     },
     components: {
-        ButtonComponent
-    }
+    ButtonComponent,
+    CardDokter
+}
 }
 </script>  
