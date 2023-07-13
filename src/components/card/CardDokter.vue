@@ -2,7 +2,7 @@
     <div class="card border-0">
         <div class="row">
             <div class="col-6 py-2">
-                    <img :src="Image" class="img-fluid rounded" alt="">
+                    <img src="../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
             </div>
             <div class="col-6 py-3 px-3">
                 <p class="mb-1" style="font-size: 14px;"><b>{{ nama }}</b></p>

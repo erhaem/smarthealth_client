@@ -12,7 +12,7 @@
                 </div>
             </template>
             <template v-else-if="!isLoading && data.biaya">
-                <CardDokter Label="Dokter Umum" :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
+                <CardDokter Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum" :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
                     @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
             </template>
             <template v-else>
