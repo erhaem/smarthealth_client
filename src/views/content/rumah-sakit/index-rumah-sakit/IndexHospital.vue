@@ -84,7 +84,7 @@
           </div>
         </div>
         <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
-          <div v-if="latitude !== null && longitude !== null" class="map-container">
+          <div v-if="latitude !== null && longitude !== null" class="map-container rounded shadow">
             <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" style="height: auto; width: auto">
               <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" name="OpenStreetMap"></l-tile-layer>
               <l-marker :lat-lng="[latitude, longitude]"></l-marker>
