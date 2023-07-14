@@ -1,131 +1,127 @@
 <template>
     <div class="container-fluid p-lg-4 bg-primary">
-        <div class="container col-xxl-10 col-md-6">
-            <router-link style="text-decoration: none" to="/">
-                <p class="text-light">
-                    Home
-                    /
-                    <router-link to="/produk-obat" class="text-light" style="text-decoration: none">
-                        {{ $route.name }}
-                    </router-link>
-                </p>
+      <div class="container col-xxl-10 col-md-6">
+        <router-link style="text-decoration: none" to="/">
+          <p class="text-light">
+            Home /
+            <router-link to="/produk-obat" class="text-light" style="text-decoration: none">
+              {{ $route.name }}
             </router-link>
-            <div class="d-flex justify-content-between">
-                <div class="text-light mb-3 d-none d-sm-block">
-                    <h3>
-                        Rumah sakit dan Apotek terdekat
-                    </h3>
-                    <h4>
-                        Pelayanan medis yang akurat
-                    </h4>
-                </div>
-                <div class="text-light mb-3 mt-2">
-                    <h6 class="text-end">
-                        Alamat saya:
-                    </h6>
-                    <div class="rounded text-center px-3" style="background-color: navy;">
-                        <p v-if="hasLocation">
-                            <i class="fa fa-location-dot text-danger"></i>
-                            {{ locationName.address.village }}, {{ locationName.address.county }}, {{
-                                locationName.address.state }}
-                        </p>
-                    </div>
-                </div>
+          </p>
+        </router-link>
+        <div class="d-flex flex-wrap justify-content-between">
+          <div class="text-light mb-3">
+            <h3 class="d-none d-sm-block">
+              Rumah sakit dan Apotek terdekat
+            </h3>
+            <h4 class="d-none d-sm-block">
+              Pelayanan medis yang akurat
+            </h4>
+          </div>
+          <div class="text-light mb-3 mt-2">
+            <h6 class="text-end">
+              Alamat saya:
+            </h6>
+            <div class="rounded text-center px-3" style="background-color: navy;">
+              <p v-if="hasLocation">
+                <i class="fa fa-location-dot text-danger"></i>
+                {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
+              </p>
             </div>
-            <div class="d-flex justify-content-start pb-2">
-                <div class="col-12 col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text border-0 bg-warning" id="search-addon"><i
-                                class="fas fa-magnifying-glass text-light"></i></span>
-                        <input type="search" class="form-control rounded p-2"
-                            placeholder="Cari nama rumah sakit atau apotek" />
-                    </div>
-                </div>
-            </div>
+          </div>
         </div>
+        <div class="d-flex justify-content-start pb-2">
+          <div class="col-12 col-md-6">
+            <div class="input-group">
+              <span class="input-group-text border-0 bg-warning" id="search-addon">
+                <i class="fas fa-magnifying-glass text-light"></i>
+              </span>
+              <input type="search" class="form-control rounded p-2" placeholder="Cari nama rumah sakit atau apotek" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
     <div class="container pt-3">
-        <div class="row">
-            <div class="col-6 col-md-6 py-3">
-                <h4 class="text-secondary">
-                    <b>
-                        <small>Berikut adalah rumah sakit terdekat denganmu:</small>
-                    </b>
-                </h4>
-                <div class="row overflow-auto" style="max-height: 500px">
-                    <template v-for="data in nearestResults" :key="data.id">
-                        <div class="col-sm-6 mb-3 mb-sm-3">
-                            <div v-if="isLoading">
-                                <SkeletonLoading />
-                            </div>
-                            <div v-if="!isLoading" class="card shadow rounded border-0">
-                                <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idRumahSakit)">
-                                    <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
-                                    <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
-                                    <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                    <template v-for="data in apotekResult" :key="data.id">
-                        <div v-if="isLoading">
-                            <SkeletonLoading />
-                        </div>
-                        <div v-else class="col-sm-6 mb-3 mb-sm-3">
-                            <div class="card shadow rounded border-0">
-                                <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
-                                    <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
-                                    <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
-                                    <!-- <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p> -->
-                                </div>
-                            </div>
-                        </div>
-                    </template>
-                </div>
-            </div>
-            <div class="col-6 col-md-6 mt-5">
-                <div v-if="latitude !== null && longitude !== null" style="height: 450px; width: 650px">
-                    <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" class="rounded">
-                        <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
-                            name="OpenStreetMap"></l-tile-layer>
-                        <l-marker :lat-lng="[latitude, longitude]"></l-marker>
-                        <div v-for="result in nearestResults" :key="result.id">
-                            <l-marker :lat-lng="[result.latitude, result.longitude]" :icon="hospitalIcon">
-                                <l-popup :options="popupOptions">
-                                    <template v-slot:default>
-                                        <div class="custom-popup">
-                                            <p class="mb-0">{{ result.namaRs }}</p>
-                                            <div v-if="hasLocation">
-                                                <p>{{ Math.floor(result.distance) }} km dari {{ locationName.address.village
-                                                }}</p>
-                                            </div>
-                                        </div>
-                                    </template>
-                                </l-popup>
-                            </l-marker>
-                        </div>
-                        <div v-for="data in apotekResult" :key="data.id">
-                            <l-marker :lat-lng="[data.latitude, data.longitude]" :icon="apotekIcon">
-                                <l-popup :options="popupOptions">
-                                    <template v-slot:default>
-                                        <div class="custom-popup">
-                                            <p class="mb-0">{{ data.namaApotek }}</p>
-                                            <div v-if="hasLocation">
-                                                <p>{{ Math.floor(data.distance) }} km dari {{ locationName.address.village
-                                                }}</p>
-                                            </div>
-                                        </div>
-                                    </template>
-                                </l-popup>
-                            </l-marker>
-                        </div>
-                    </l-map>
-                </div>
-            </div>
+      <div class="row">
+        <div class="d-flex justify-content-between">
+            <h4 class="text-secondary">
+                <b>
+                  <small>Berikut adalah pelayanan klinis terdekat denganmu:</small>
+                </b>
+              </h4>
         </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 py-3">
+          <div class="row overflow-auto" style="max-height: 500px">
+            <template v-for="data in nearestResults" :key="data.id">
+              <div class="col-12 col-sm-6 col-md-6 mb-3">
+                <div v-if="isLoading">
+                  <SkeletonLoading />
+                </div>
+                <div v-else class="card shadow rounded border-0">
+                  <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idRumahSakit)">
+                    <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
+                    <h5 class="card-title mb-0">{{ data.namaRs }}</h5>
+                    <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p>
+                  </div>
+                </div>
+              </div>
+            </template>
+            <template v-for="data in apotekResult" :key="data.id">
+              <div class="col-12 col-sm-6 col-md-6 mb-3">
+                <div v-if="isLoading">
+                  <SkeletonLoading />
+                </div>
+                <div v-else class="card shadow rounded border-0">
+                  <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
+                    <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
+                    <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
+                    <!-- <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p> -->
+                  </div>
+                </div>
+              </div>
+            </template>
+          </div>
+        </div>
+        <div class="col-sm-12 col-md-6 col-lg-6 mt-3">
+          <div v-if="latitude !== null && longitude !== null" class="map-container">
+            <l-map ref="map" :zoom="zoom" :center="[latitude, longitude]" :bounds="bounds" style="height: auto; width: auto">
+              <l-tile-layer url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png" name="OpenStreetMap"></l-tile-layer>
+              <l-marker :lat-lng="[latitude, longitude]"></l-marker>
+              <template v-for="result in nearestResults" :key="result.id">
+                <l-marker :lat-lng="[result.latitude, result.longitude]" :icon="hospitalIcon">
+                  <l-popup :options="popupOptions">
+                    <template v-slot:default>
+                      <div class="custom-popup">
+                        <p class="mb-0">{{ result.namaRs }}</p>
+                        <div v-if="hasLocation">
+                          <p>{{ Math.floor(result.distance) }} km dari {{ locationName.address.village }}</p>
+                        </div>
+                      </div>
+                    </template>
+                  </l-popup>
+                </l-marker>
+              </template>
+              <template v-for="data in apotekResult" :key="data.id">
+                <l-marker :lat-lng="[data.latitude, data.longitude]" :icon="apotekIcon">
+                  <l-popup :options="popupOptions">
+                    <template v-slot:default>
+                      <div class="custom-popup">
+                        <p class="mb-0">{{ data.namaApotek }}</p>
+                        <div v-if="hasLocation">
+                          <p>{{ Math.floor(data.distance) }} km dari {{ locationName.address.village }}</p>
+                        </div>
+                      </div>
+                    </template>
+                  </l-popup>
+                </l-marker>
+              </template>
+            </l-map>
+          </div>
+        </div>
+      </div>
     </div>
-</template>
-  
+  </template>
 <script>
 import InputField from '@/components/partials-component/InputField.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
@@ -277,14 +273,24 @@ export default {
 </script>
   
 <style>
-.leaflet-container {
-    height: 100%;
-    width: 100%;
-}
-
 .custom-popup {
     max-width: 200px;
 }
+
+.map-container {
+    position: relative;
+    padding-bottom: 75%;
+    height: 0;
+    overflow: hidden;
+  }
+  
+  .map-container .leaflet-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+  }
 </style>
 
   

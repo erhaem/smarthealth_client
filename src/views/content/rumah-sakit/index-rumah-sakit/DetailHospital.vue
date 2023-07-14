@@ -45,7 +45,7 @@
                                                 <p class="mb-0">{{ detailRS.namaRs }}</p>
                                                 <div class="d-flex justify-content-end">
                                                     <p class="mb-0">
-                                                        <a :href="getGoogleMapsLink(detailRS.latitude, detailRS.longitude)"
+                                                        <a :href="getGoogleMapsLink(detailRS.latitude, detailRS.longitude)" target="_blank"
                                                             style="text-decoration: none;">
                                                             rute <i class="fas fa-arrow-right"></i>
                                                         </a>

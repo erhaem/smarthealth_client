@@ -31,23 +31,31 @@
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in valueSearch">
-            <CardDokter :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+            <template v-if="isLoading"></template>
+            <CardDokter v-else :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
         </div>
     </div>
 </template>
 <script>
+import Skeleton from '@/components/partials-component/SkeletonLoading.vue'
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import CardDokter from '../../../components/card/CardDokter.vue';
 export default {
+    data(){
+        return {
+            isLoading: false,
+        }
+    },
     props: {
         valueSearch: {
             type: Array,
-            default: () => []
+            default: () => [],
         }
     },
     components: {
     ButtonComponent,
-    CardDokter
+    CardDokter,
+    Skeleton
 }
 }
 </script>  
