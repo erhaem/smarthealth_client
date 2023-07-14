@@ -34,7 +34,6 @@
             <CardDokter :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
         </div>
     </div>
-    {{ valueSearch }}
 </template>
 <script>
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
