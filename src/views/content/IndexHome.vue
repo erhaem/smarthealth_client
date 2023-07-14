@@ -2,7 +2,7 @@
   <section id="hero" class="d-flex align-items-start">
     <div class="container">
       <div class="px-5 py-5 mt-4" data-aos="fade-right" data-aos-duration="3000">
-        <h1 :class="'display-4 fw-bold ' + colorText">Solusi Kesehatan Anda</h1>
+        <h1 :class="'display-4 fw-bold ' + colorText">Solusii Kesehatan Anda</h1>
         <div class="col-lg-6">
           <p class="lead fw-bold">Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan,
             Semua bisa
