@@ -17,7 +17,7 @@
             </template>
             <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
                 :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
-                @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+                @click="$redirect({name: 'Detail Dokter', params: {idDokter: data.idDokter, idAhli: data.userId.id} })" />
         </div>
     </div>
 </template>

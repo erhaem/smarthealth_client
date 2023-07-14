@@ -37,6 +37,11 @@ export default [
                 path: 'all-dokter',
                 name: 'Semua Dokter',
                 component: () => import('@/views/content/dokter/index-dokter/IndexAllDokter.vue'),
+            },
+            {
+                path: 'all-perawat',
+                name: 'Semua Perawat',
+                component: () => import('@/views/content/perawat/IndexPerawat.vue')
             }
         ],
     },

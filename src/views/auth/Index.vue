@@ -57,7 +57,7 @@
                             <input type="file" class="form-control-file" @change="handleFileDokumen">
                         </div>
                         <div class="text-center">
-                            <button class="btn btn-primary">Register</button>
+                            <button class="btn w-100 btn-primary">Register</button>
                         </div>
                     </form>
                 </div>

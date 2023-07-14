@@ -43,7 +43,7 @@
             <p>Butuh perawatan? tenang, ada perawat-perawat terbaik
             </p>
         </div>
-        <div class="text-end mt-4">
+        <div class="text-end mt-4" @click="$redirect({ name: 'Semua Perawat' })">
             <p class="text-primary">lihat semua
             </p>
         </div>
@@ -59,6 +59,7 @@
     </div>
 </template>
 <script>
+import axios from 'axios';
 import CardDokter from '../../../components/card/CardDokter.vue';
 import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
 import HeaderComponent from '@/components/layouts/HeaderComponent.vue';
@@ -76,13 +77,15 @@ export default {
             dokterLimit: 2,
             specialistLimit: 12,
             isLoading: false,
-            idAhkii: []
+            idAhkii: [],
+            kontol: []
         }
     },
     created() {
         this.getPerawat(),
             this.getDokter()
-        this.getSpesialis()
+        this.getSpesialis(),
+            this.fetchData()
     },
     computed: {
         limitData() {
@@ -93,8 +96,12 @@ export default {
             }
         },
         filteredDokter() {
-            const dokterUmum = this.dokters.filter((d) => d.getKeahlian.namaKeahlian === 'Dokter Umum');
-            return dokterUmum.sort((a, b) => a.getDokter.nama.localeCompare(b.getDokter.nama));
+            const dokterUmum = this.dokters.filter(
+                (d) => d.getKeahlian.namaKeahlian === "Dokter Umum"
+            );
+            return dokterUmum.sort((a, b) =>
+                a.getDokter.nama.localeCompare(b.getDokter.nama)
+            );
         },
         idAhli() {
             return {
@@ -112,19 +119,6 @@ export default {
         CardDokter
     },
     methods: {
-        getDokter() {
-            let type = "getData"
-            let url = [
-                "akun/dokter/data", {}
-            ]
-            this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                this.dokters = result.data
-                this.isLoading = false
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
         getSpesialis() {
             let type = "getData"
             let url = [
@@ -154,7 +148,52 @@ export default {
         onPageChange(page) {
             this.pagination.page = page;
             this.getPerawat();
-        }
+        },
+        getDokter() {
+            let type = "getData";
+            let url = ["akun/dokter/data", {}];
+            return this.$store.dispatch(type, url)
+                .then((result) => {
+                    return result.data;
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        },
+        fetchData() {
+            this.isLoading = true;
+
+            // Panggil metode getDokter() untuk mendapatkan data dokter
+            this.getDokter()
+                .then((dokters) => {
+                    this.dokters = dokters;
+
+                    // Dapatkan array dari userId.id untuk setiap dokter
+                    const userIds = dokters.map((dokter) => dokter.userId.id);
+
+                    // Panggil endpoint master/ahli/keahlian/master/{userIds}/get dengan userId.id yang ada
+                    return axios.get(`master/ahli/keahlian/master/${userIds.join(",")}/get`);
+                })
+                .then((response) => {
+                    const keahlian = response.data.data;
+
+                    // Gabungkan data dokter dan keahlian
+                    this.dokters.forEach((dokterItem) => {
+                        const matchingKeahlian = keahlian.find(
+                            (keahlianItem) => keahlianItem.user.id === dokterItem.userId.id
+                        );
+                        if (matchingKeahlian) {
+                            dokterItem.keahlianId = matchingKeahlian.keahlianId;
+                        }
+                    });
+                    this.kontol = response.data
+                    this.isLoading = false;
+                })
+                .catch((error) => {
+                    console.error("Error retrieving data:", error);
+                    this.isLoading = false;
+                });
+        },
     },
 }
 </script>

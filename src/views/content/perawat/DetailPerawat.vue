@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.back()">
+    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.go(-1)">
         <i class="fas fa-arrow-left">
         </i>
     </button>
@@ -7,7 +7,7 @@
         <div class="col-xxl-10 px-5 py-2 mb-5 col-md-4 mx-auto">
             <div class="d-flex justify-content-center">
                 <template v-if="isLoading">
-                    <LoadingComponent/>
+                    <LoadingComponent />
                 </template>
                 <img v-else src="../../../assets/images/avaperawat.jpg" class="mt-3 h-50 w-50 d-block img-fluid" alt="...">
             </div>
@@ -29,21 +29,28 @@
                     </p>
                 </template>
                 <template v-if="isLoading">
-                    <SkeletonLoading/>
+                    <SkeletonLoading />
                 </template>
                 <template v-else>
-                    <h5>Keahlian Medis</h5>
-                    <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
+                    <h5 v-if="hasDetailKeahlian">Keahlian Medis</h5>
+                    <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index" v-if="hasDetailKeahlian">
                         <p class="mb-0 text-dark">
                             <small>
                                 {{ index + 1 }}. Mengatasi {{ data.keahlianId.namaKeahlian }}
                             </small>
                         </p>
                     </div>
+                    <template v-else>
+                        <div class="alert alert-warning text-center">
+                            <p>
+                                maaf, sepertinya {{detailPerawat.user.nama}} belum menambahkan keahliannya
+                            </p>
+                        </div>
+                    </template>
                 </template>
             </div>
             <template v-if="isLoading">
-                <SkeletonLoading/>
+                <SkeletonLoading />
             </template>
             <template v-else>
                 <div class="alert alert-info text-start">
@@ -78,6 +85,9 @@ export default {
         },
         hideFrom() {
             return this.$route.name === "Cari Keahlian"
+        },
+        hasDetailKeahlian() {
+            return this.detailKeahlian.length > 0
         }
     },
     mounted() {

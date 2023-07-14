@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({ name: 'Page Dokter' })">
+    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.go(-1)">
         <i class="fas fa-arrow-left">
         </i>
     </button>
