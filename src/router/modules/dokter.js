@@ -1,6 +1,6 @@
 export default [
     {
-        path: '/chat-dokter/',
+        path: '/chat/',
         component: () => import('@/views/content/dokter/IndexDokter.vue'),
         children: [
             {
@@ -8,14 +8,14 @@ export default [
                 redirect: '/',
             },
             {
-                path: 'dokter',
+                path: 'dokter-perawat',
                 name: 'Page Dokter',
                 component: () => import('@/views/content/dokter/SpesialisDokter.vue'),
             },
             {
                 path: 'perawat/:idPerawat/:idAhli',
                 name: 'Detail Perawat',
-                component: () => import('@/views/content/perawat/IndexPerawat.vue'),
+                component: () => import('@/views/content/perawat/DetailPerawat.vue'),
             },
             {
                 path: 'cari',
@@ -29,10 +29,15 @@ export default [
                 component: ()=>import('@/views/content/dokter/spesialis/IndexDokterBySpesialis.vue')
             },
             {
-                path: '/detail/:idDokter/:idAhli',
+                path: 'dokter/:idDokter/:idAhli',
                 name: 'Detail Dokter',
                 component: () => import('@/views/content/dokter/detail-dokter/DetailDokter.vue'),
             },
+            {
+                path: 'all-dokter',
+                name: 'Semua Dokter',
+                component: () => import('@/views/content/dokter/index-dokter/IndexAllDokter.vue'),
+            }
         ],
     },
 ]

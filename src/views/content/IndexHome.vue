@@ -18,7 +18,7 @@
       <TitleFeature Label="Layanan Utama" />
       <p class="ms-2">Berikut pelayanan klinis yang tersedia</p>
       <div class="row g-4 row-cols-lg-3">
-        <div @click="$redirect('/chat-dokter/dokter')">
+        <div @click="$redirect({name:'Page Dokter'})">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>

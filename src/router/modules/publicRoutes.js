@@ -10,11 +10,6 @@ export default [
         component: ()=>import('@/views/content/riwayat/IndexRiwayat.vue')
     },
     {
-        path: '/reservasi-perawat',
-        name: 'Reservasi Perawat',
-        component: () => import('@/views/content/perawat/IndexPerawat.vue')
-    },
-    {
     path: '/produk',
         name: 'Data Produk',
         component: () => import('@/views/content/obat-produk/IndexProduk.vue')

@@ -1,5 +1,5 @@
 <template>
-    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.push({ name: 'Page Dokter' })">
+    <button class="btn btn-sm btn-outline-dark shadow" @click="this.$router.back()">
         <i class="fas fa-arrow-left">
         </i>
     </button>
@@ -9,17 +9,17 @@
                 <template v-if="isLoading">
                     <LoadingComponent/>
                 </template>
-                <img src="../../../../assets/images/avadoktercowo.png" v-else class="mt-3 h-50 w-50 d-block img-fluid" alt="...">
+                <img v-else src="../../../assets/images/avaperawat.jpg" class="mt-3 h-50 w-50 d-block img-fluid" alt="...">
             </div>
             <div class="mt-3">
                 <template v-if="isLoading">
-                    <SkeletonLoading/>
+                    <SkeletonLoading />
                 </template>
                 <template v-else>
-                    <h5>Profil Dokter</h5>
+                    <h5>Profil Perawat</h5>
                     <p>
-                        dr. {{ detailDokter.userId.nama }}, merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
-                            detailDokter.userId.tanggalLahir }} di {{ detailDokter.userId.tempatLahir }}. Beliau lulusan pendidikan
+                        {{ detailPerawat.user.nama }}, S.Kep., merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
+}} di {{ }}. Beliau lulusan pendidikan
                         Spesialis Obstetri
                         dan
                         Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
@@ -32,8 +32,8 @@
                     <SkeletonLoading/>
                 </template>
                 <template v-else>
-                <h5>Keahlian Medis</h5>
-                <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
+                    <h5>Keahlian Medis</h5>
+                    <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
                         <p class="mb-0 text-dark">
                             <small>
                                 {{ index + 1 }}. Mengatasi {{ data.keahlianId.namaKeahlian }}
@@ -46,8 +46,8 @@
                 <SkeletonLoading/>
             </template>
             <template v-else>
-                <div class="alert alert-info text-start" v-if="detailDokter.biaya">
-                biaya konsultasi online: Rp. {{ detailDokter.biaya.biaya }}
+                <div class="alert alert-info text-start">
+                    biaya konsultasi online: Rp. 20000
                 </div>
                 <div class="d-flex justify-content-start">
                     <button class="btn btn-dark btn-sm">
@@ -60,12 +60,11 @@
 </template>
 <script>
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
-import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 export default {
     data() {
         return {
-            detailDokter: [],
+            detailPerawat: [],
             detailKeahlian: [],
             isLoading: false
         }
@@ -73,7 +72,7 @@ export default {
     computed: {
         idFromParams() {
             return {
-                idDokter: this.$route.params.idDokter,
+                idPerawat: this.$route.params.idPerawat,
                 idAhli: this.$route.params.idAhli
             }
         },
@@ -81,20 +80,24 @@ export default {
             return this.$route.name === "Cari Keahlian"
         }
     },
-    created() {
+    mounted() {
         this.getKeahlian()
-        this.getDetailDokter()
+    },
+    created() {
+        this.getdetailPerawat()
     },
     methods: {
-        getDetailDokter() {
+        getdetailPerawat() {
             let type = "getData"
             let url = [
-                "akun/dokter/" + this.idFromParams.idDokter + "/edit", []
+                "akun/perawat/" + this.idFromParams.idPerawat + "/edit", {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
-                this.isLoading = false
-                this.detailDokter = result.data// Assign the id value
+                this.detailPerawat = result.data// Assign the id value
+                setTimeout(() => {
+                    this.isLoading = false
+                }, 7000);
             }).catch((err) => {
                 console.log(err);
             })
@@ -105,11 +108,11 @@ export default {
             let url = [
                 `master/ahli/keahlian/master/${idKeahlian}/get`, []
             ];
-            this.isLoading = true
+            // this.isLoading = true
             this.$store.dispatch(type, url)
                 .then((result) => {
-                    this.detailKeahlian = result.data
                     this.isLoading = false
+                    this.detailKeahlian = result.data
                 })
                 .catch((err) => {
                     console.log(err);
@@ -117,7 +120,7 @@ export default {
         }
     },
     components: {
-        SkeletonLoading, ButtonComponent, LoadingComponent
+        SkeletonLoading, LoadingComponent
     }
 }
 </script>

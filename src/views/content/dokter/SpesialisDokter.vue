@@ -1,19 +1,23 @@
 <template>
-    <div class="text-start ms-2">
-        <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
-        <p>Konsultasikan keluhanmu dengan dokter kami
-        </p>
+    <div class="d-flex justify-content-between">
+        <div>
+            <p class="fs-4 mb-0"><b>Rekomendasi Dokter</b></p>
+            <p>Konsultasikan keluhanmu dengan dokter kami
+            </p>
+        </div>
+        <div class="text-end mt-4" @click="$redirect({ name: 'Semua Dokter' })">
+            <p class="text-primary">lihat semua
+            </p>
+        </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-3">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         <div class="col" v-for="data in limitData.dokters" :key="data.id">
-            <template v-if="data.userId.status == 1">
-                <template v-if="isLoading">
-                    <SkeletonLoading />
-                </template>
-                <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
-                    :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
-                    @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+            <template v-if="isLoading">
+                <SkeletonLoading />
             </template>
+            <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
+                :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
+                @click="$redirect({ name: 'Detail Dokter', params: { idDokter: data.idDokter, idAhli: data.userId.id } })" />
         </div>
     </div>
     <div class="text-start ms-2 pt-4">
@@ -26,25 +30,31 @@
             <template v-if="isLoading">
                 <LoadingComponent />
             </template>
-            <div class="d-flex flex-column align-items-center"
-               v-else @click="$redirect('spesialis/' + data.idSpesialisPenyakit + '/dokter')">
+            <div class="d-flex flex-column align-items-center" v-else
+                @click="$redirect('spesialis/' + data.idSpesialisPenyakit + '/dokter')">
                 <i :class="data.icon + ' p-3 rounded-circle fs-2 text-light'" style="background-color: #46458C"></i>
                 <p>{{ data.namaSpesialis }}</p>
             </div>
         </div>
     </div>
-    <div class="text-start ms-2 ">
-        <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
-        <p>Butuh perawatan? tenang, ada perawat-perawat terbaik
-        </p>
+    <div class="d-flex justify-content-between">
+        <div>
+            <p class="fs-4 mb-0"><b>Rekomendasi Perawat</b></p>
+            <p>Butuh perawatan? tenang, ada perawat-perawat terbaik
+            </p>
+        </div>
+        <div class="text-end mt-4">
+            <p class="text-primary">lihat semua
+            </p>
+        </div>
     </div>
-    <div class="row row-cols-1 row-cols-md-2 g-3">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
         <div class="col" v-for="data in limitData.nurses">
             <template v-if="isLoading">
                 <SkeletonLoading />
             </template>
             <CardDokter v-else :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"
-                @click="$redirect('/chat-dokter/perawat/' + data.idPerawat + '/' + data.user.id)" />
+                @click="$redirect({ name: 'Detail Perawat', params: { idPerawat: data.idPerawat, idAhli: data.user.id } })" />
         </div>
     </div>
 </template>
@@ -69,11 +79,9 @@ export default {
             idAhkii: []
         }
     },
-    mounted() {
+    created() {
         this.getPerawat(),
             this.getDokter()
-    },
-    created() {
         this.getSpesialis()
     },
     computed: {
@@ -112,7 +120,7 @@ export default {
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.dokters = result.data
-                    this.isLoading = false
+                this.isLoading = false
             }).catch((err) => {
                 console.log(err);
             })
@@ -138,7 +146,7 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.nurses = result.data
-                    this.isLoading = false;
+                this.isLoading = false;
             }).catch((err) => {
                 console.log(err);
             })
