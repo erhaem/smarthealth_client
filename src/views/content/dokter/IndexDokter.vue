@@ -13,7 +13,7 @@
             <div class="d-flex justify-content-between">
                 <div class="text-light mb-3 d-none d-sm-block">
                     <h3>
-                       Dokter Spesialis dan Perawat Terbaik
+                       Dokter Spesialis dan Perawat Terbaikk
                     </h3>
                     <h4>
                         Pelayanan medis yang akurat
