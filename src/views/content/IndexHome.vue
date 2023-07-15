@@ -18,7 +18,7 @@
       <TitleFeature Label="Layanan Utama" />
       <p class="ms-2">Berikut pelayanan klinis yang tersedia</p>
       <div class="row g-4 row-cols-lg-3">
-        <div @click="$redirect({name:'Page Dokter'})">
+        <div @click="$redirect({ name: 'Page Dokter' })">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
@@ -29,7 +29,7 @@
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
-        <div v-else @click="$redirect({name: 'Data Produk'})">
+        <div v-else @click="$redirect({ name: 'Data Produk' })">
           <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>
@@ -71,14 +71,14 @@
           </div>
           <div class="row g-4">
             <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-                <template v-if="loadingArtikel">
-                  <SkeletonLoading />
-                </template>
-                <CardArtikel v-else :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
-                  @click="$redirect('/artikel/' + data.slugArtikel)">
-                </CardArtikel>
-              </div>
+              <template v-if="loadingArtikel">
+                <SkeletonLoading />
+              </template>
+              <CardArtikel v-else :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
+                @click="$redirect('/artikel/' + data.slugArtikel)">
+              </CardArtikel>
             </div>
+          </div>
         </div>
       </div>
     </div>
@@ -133,7 +133,7 @@ export default {
       limit: 4,
       maxLength: 20,
       isLoading: false,
-      loadingArtikel: false
+      loadingArtikel: false,
     }
   },
   created() {
@@ -158,7 +158,7 @@ export default {
       this.$store.dispatch(type, url).then((result) => {
         this.artikels = result.data
         setTimeout(() => {
-        this.loadingArtikel = false
+          this.loadingArtikel = false
         }, 1000);
       }).catch((err) => {
         console.log(err);
