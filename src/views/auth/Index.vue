@@ -120,7 +120,7 @@ export default {
             this.form.fileDokumen = event.target.files[0];
         },
         async post() {
-            const url = 'http://127.0.0.1:8000/api/autentikasi/register';
+            const url = 'https://berobatplus.shop/api/autentikasi/register';
             const config = {
                 headers: {
                     'Content-Type': 'multipart/form-data',

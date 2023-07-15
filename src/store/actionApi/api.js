@@ -47,6 +47,7 @@ const Api = {
     },
     postFormData(resource, params) {
         return axios.post(`${resource}`, params);
+
     },
     delete(resource) {
         return axios.delete(resource);
