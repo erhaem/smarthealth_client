@@ -77,7 +77,7 @@ export default {
         return {
             form: {
                 nama: 'tegar',
-                nomorHp: '020202',
+                nomorHp: '081411126356',
                 password: 'password',
                 jenisKelamin: 'L',
                 option: 'dokter',
