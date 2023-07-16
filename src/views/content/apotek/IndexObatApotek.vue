@@ -1,5 +1,5 @@
 <template>
-    {{ produkKategori }}
+    
 </template>
 <script>
 export default {
@@ -20,7 +20,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result)=>{
                 this.produkKategori = result.data
-                console.log(result);
             }).catch((err)=>{
                 console.log(err);
             })

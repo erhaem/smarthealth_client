@@ -84,15 +84,15 @@ export default {
         search: debounce(function (val) {
             if (val !== '') {
                 this.$router.push({
-                    path: '/chat-dokter/cari',
+                    path: '/chat/cari',
                     query: { search: val }
                 });
                 this.searchKeahlian();
             } else {
-                if (this.$route.path === '/chat-dokter/cari') {
+                if (this.$route.path === '/chat/cari') {
                     this.$router.replace({ query: null });
                 } else {
-                    this.$router.push('/chat-dokter/dokter');
+                    this.$router.push('/chat/dokter');
                 }
             }
         }, 1000),

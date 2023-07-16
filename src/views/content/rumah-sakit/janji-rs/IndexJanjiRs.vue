@@ -48,7 +48,7 @@
         <div class="row row-cols-1 row-cols-md-5 g-4">
             <div v-for="data in jadwalPraktek" class="col">
                 <div :class="['card shadow d-block-none d-sm', { 'border-primary': data.clicked }]" @click="aksi(data)">
-                    <div class="card-body">
+                    <div :class="['card-body', { 'text-primary' : data.clicked}]">
                         <h5 class="mb-2">
                             {{ data.tanggal }}
                         </h5>
