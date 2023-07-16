@@ -20,7 +20,7 @@ export default [
         component: () => import('@/views/content/obat-produk/DetailProduk.vue')
     },
     {
-        path: '/produk/kategori/:idKategori',
+        path: '/produk/kategori/:idKategori/:namaKategori',
         name: 'Produk Kategori',
         component: () => import('@/views/content/apotek/IndexObatApotek.vue')
     },

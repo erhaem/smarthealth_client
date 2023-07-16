@@ -34,7 +34,7 @@
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>
         </div>
-        <div @click="$redirect('/hospital')">
+        <div @click="$redirect({name: 'Rumah Sakit Terdekat'})">
           <SkeletonLoading v-if="isLoading" />
           <FeaturePrimary v-if="!isLoading" labelTitle="Rumah Sakit" icon="fa-hospital"
             labelParagraph="Buat janji dengan RS">
@@ -98,7 +98,7 @@
       <div class="row g-4 row-cols-lg-4">
         <div v-for="data in limitedData.produkKategori" :key="data.id">
           <SkeletonLoading v-if="isLoading" />
-          <router-link :to="'/produk/kategori/' + data.idKategoriProduk" style="text-decoration: none;">
+          <router-link :to="{name: 'Produk Kategori', params: {idKategori: data.idKategoriProduk, namaKategori: data.namaKategoriProduk} }" style="text-decoration: none;">
             <CardMedicine v-if="!isLoading" :labelTitle="data.namaKategoriProduk" />
           </router-link>
         </div>

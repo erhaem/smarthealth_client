@@ -1,47 +1,30 @@
 <template>
-    <div class="container-fluid p-lg-4 bg-primary">
-      <div class="container col-xxl-10 col-md-6">
+    <SectionHeaderBody Judul="Rumah sakit dan Apotek terdekat" Slogan="Pelayanan medis yang akurat" Alamat="Alamat Saya">
+      <template #router>
         <router-link style="text-decoration: none" to="/">
           <p class="text-light">
             Home /
-            <router-link to="/produk-obat" class="text-light" style="text-decoration: none">
+            <router-link :to="{name: 'Rumah Sakit Terdekat'}" class="text-light" style="text-decoration: none">
               {{ $route.name }}
             </router-link>
           </p>
         </router-link>
-        <div class="d-flex flex-wrap justify-content-between">
-          <div class="text-light mb-3">
-            <h3 class="d-none d-sm-block">
-              Rumah sakit dan Apotek terdekat
-            </h3>
-            <h4 class="d-none d-sm-block">
-              Pelayanan medis yang akurat
-            </h4>
-          </div>
-          <div class="text-light mb-3 mt-2">
-            <h6 class="text-end">
-              Alamat saya:
-            </h6>
-            <div class="rounded text-center px-3" style="background-color: navy;">
-              <p v-if="hasLocation">
-                <i class="fa fa-location-dot text-danger"></i>
-                {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
-              </p>
-            </div>
-          </div>
+      </template>
+      <template #input>
+        <div class="input-group">
+          <span class="input-group-text border-0 bg-warning" id="search-addon">
+            <i class="fas fa-magnifying-glass text-light"></i>
+          </span>
+          <input type="search" class="form-control rounded p-2" placeholder="Cari nama rumah sakit atau apotek" />
         </div>
-        <div class="d-flex justify-content-start pb-2">
-          <div class="col-12 col-md-6">
-            <div class="input-group">
-              <span class="input-group-text border-0 bg-warning" id="search-addon">
-                <i class="fas fa-magnifying-glass text-light"></i>
-              </span>
-              <input type="search" class="form-control rounded p-2" placeholder="Cari nama rumah sakit atau apotek" />
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
+      </template>
+      <template #lokasi>
+        <p v-if="hasLocation">
+          <i class="fas fa-location-dot text-danger"></i>
+          {{ locationName.address.village }}, {{ locationName.address.county }}, {{ locationName.address.state }}
+      </p>
+      </template>
+    </SectionHeaderBody>
     <div class="container pt-3">
       <div class="row">
         <div class="d-flex justify-content-between">
@@ -123,6 +106,7 @@
     </div>
   </template>
 <script>
+import SectionHeaderBody from '../../../../components/partials-component/SectionHeaderBody.vue';
 import InputField from '@/components/partials-component/InputField.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import axios from 'axios';
@@ -156,7 +140,8 @@ export default {
         LMarker,
         LPopup,
         SkeletonLoading,
-        InputField
+        InputField,
+        SectionHeaderBody
     },
     mounted() {
         this.getCurrentLocation();

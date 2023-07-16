@@ -16,7 +16,7 @@
                                     Cek ejaan atau coba gunakan istilah yang lebih umum.
                                 </b>
                             </p>
-                            <ButtonComponent @click="$redirect('dokter')" Color="btn-danger" Label="Kembali"/>
+                            <ButtonComponent @click="$redirect({name: 'Page Dokter'})" Color="btn-danger" Label="Kembali"/>
                         </div>
                     </div>
                 </div>
@@ -32,7 +32,7 @@
     <div class="row row-cols-1 row-cols-md-2 g-3">
         <div class="col" v-for="data in valueSearch">
             <template v-if="isLoading"></template>
-            <CardDokter v-else :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
+            <CardDokter v-else :nama="'dr '+ data.userId.nama" Label="Dokter Umum" biaya="20000" @click="$redirect({name: 'Detail Dokter', params: {idDokter: data.idDokter, idAhli: data.userId.id} })" />
         </div>
     </div>
 </template>

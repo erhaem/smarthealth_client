@@ -1,6 +1,6 @@
 export default [
     {
-        path: '/hospital',
+        path: '/pelayanan_klinis',
         name: "Rumah Sakit Terdekat",
         component: () => import('@/views/content/rumah-sakit/index-rumah-sakit/IndexHospital.vue')
     },

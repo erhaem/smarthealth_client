@@ -1,59 +1,40 @@
 <template>
-    <div class="container-fluid p-lg-4 bg-primary">
-        <div class="container col-xxl-10 col-md-6">
-            <router-link style="text-decoration: none" to="/">
+    <SectionHeaderBody Judul="BerobatShop" Slogan="Cari kebutuhan penunjang kesehatanmu di sini">
+        <template #router>
+            <router-link style="text-decoration: none" :to="{ name: 'IndexHome' }">
                 <p class="text-light">
                     Home
                     /
-                    <router-link to="/produk-obat" class="text-light" style="text-decoration: none">
+                    <router-link :to="{ name: 'Data Produk' }" class="text-light" style="text-decoration: none">
                         {{ $route.name }}
                     </router-link>
                 </p>
             </router-link>
-            <div class="d-flex justify-content-between">
-                <div class="text-light mb-3 d-none d-sm-block">
-                    <h3>
-                        Berobat+ Shop
-                    </h3>
-                    <h4>
-                        Solusi Aman dan Terpercaya
-                    </h4>
-                </div>
-                <div class="text-light mb-3 mt-2">
-                    <h6 class="text-end">
-                        Alamat pengiriman:
-                    </h6>
-                    <div class="rounded text-center px-3" style="background-color: navy;">
-                        <p>
-                            <i class="fas fa-location-pin"></i>
-                            Lohbener
-                        </p>
-                    </div>
-                </div>
+        </template>
+        <template #input>
+            <div class="input-group">
+                <span class="input-group-text border-0 bg-warning" id="search-addon"><i
+                        class="fas fa-magnifying-glass text-light"></i></span>
+                <input type="search" class="form-control rounded p-2" placeholder="Cari nama obat atau vitamin" />
             </div>
-            <div class="d-flex justify-content-start">
-                <div class="col-12 col-md-6">
-                    <div class="input-group">
-                        <span class="input-group-text border-0 bg-warning" id="search-addon"><i
-                                class="fas fa-magnifying-glass text-light"></i></span>
-                        <input type="search" class="form-control rounded p-2" placeholder="Cari nama obat atau vitamin" />
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
+        </template>
+    </SectionHeaderBody>
     <div class="container-fluid">
         <div class="container col-xxl-10 col-md-6 pb-3 mt-3">
             <div class="d-flex justify-content-between">
-                <h5><b>Kategori</b></h5>
-                <!-- <h5 style="color: navy"><b>Lihat Semua</b></h5> -->
+                <h6><b>Cari Produk Sesuai Kategori</b></h6>
+                <h6 style="color: navy"><b>Lihat Semua Kategori</b></h6>
             </div>
             <div class="row g-4 p-lg-2 row-cols-sm-6">
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="data in kategori">
-                    <div class="card shadow border me-2 p-1" style="background-color: ghostwhite;">
+                <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="data in limitData.kategori">
+                    <template v-if="isLoading">
+                        <LoadingComponent/>
+                    </template>
+                    <div v-else class="card shadow border" style="background-color: ghostwhite;"
+                        @click="$redirect({ name: 'Produk Kategori', params: { idKategori: data.idKategoriProduk, namaKategori: data.slugKategoriProduk } })">
                         <div class="card-body">
-                            <div class="card-text">
-                                <i class="fas fa-hospital me-2"></i> {{ data.kategori.namaKategoriProduk }}
+                            <div class="card-text text-center">
+                                {{ data.namaKategoriProduk }}
                             </div>
                         </div>
                     </div>
@@ -64,8 +45,8 @@
     <div class="container-fluid col-xxl-12" style="background-color:ghostwhite;">
         <div class="container col-xxl-10 col-md-6 pb-3">
             <div class="d-flex justify-content-between mt-3 pt-3">
-                <h5><b>Suplemen</b></h5>
-                <h5 style="color: navy"><b>Lihat Semua</b></h5>
+                <h6><b>Suplemen</b></h6>
+                <h6 style="color: navy"><b>Lihat Semua</b></h6>
             </div>
             <div class="d-flex justify-content-center">
                 <div class="col-12 py-2 px-2">
@@ -108,10 +89,12 @@
 </template>
 
 <script>
+import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue';
 import Cookies from 'js-cookie'
 import iziToast from 'izitoast'
 import CardArtikel from '@/components/card/CardArtikel.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
+import SectionHeaderBody from '../../../components/partials-component/SectionHeaderBody.vue';
 export default {
     data() {
         return {
@@ -119,6 +102,7 @@ export default {
             nearestResults: [],
             dataProduk: [],
             kategori: [],
+            limit: 6,
             countOfKodeProduk: 0, // Initialize count to 0
             isLoading: false,
             latitude: null,
@@ -133,9 +117,17 @@ export default {
             const cekRole = parsing.data.id;
             return cekRole
         },
+        limitData() {
+            return {
+                kategori: this.kategori.slice(0, this.limit)
+            }
+        }
     },
     components: {
-        CardArtikel, SkeletonLoading
+        CardArtikel,
+        SkeletonLoading,
+        SectionHeaderBody,
+        LoadingComponent
     },
     mounted() {
         this.countProductOccurrences()
@@ -190,7 +182,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.dataProduk = result.data
-                console.log(result);
             }).catch((err) => {
                 console.log(err);
             })
@@ -198,7 +189,7 @@ export default {
         getKategoriObat() {
             let type = "getData"
             let url = [
-                "apotek/produk/produk_kategori", {}
+                "master/produk/kategori_produk", {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
