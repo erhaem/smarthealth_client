@@ -82,10 +82,6 @@
         <div class="col-md-12 mt-4">
             <div class="d-flex justify-content-between">
                 <h5 class="py-2">Spesialisasi Dokter</h5>
-                <div v-if="limitedDataSpesialis.length > 5">
-                    <p class="text-primary">lihat semua spesialis</p>
-                </div>
-                <div v-else></div>
             </div>
             <div v-if="isLoading">
                 <LoadingComponent />
@@ -100,10 +96,10 @@
                 </p>
             </div>
             <div v-else class="row row-cols-1 row-cols-md-5 g-3">
-                <div class="col" v-for="specialist in limitedDataSpesialis" :key="specialist.id">
+                <div class="col" v-for="data in limitedDataSpesialis" :key="data.id">
                     <CardMedicine
-                        @click="$redirect('/detail_rumah_sakit/' + specialist.penyakit.idSpesialisPenyakit + '/' + specialist.idRumahSakit)"
-                        class="mb-2 rounded-circle" icon="fa-user-doctor" :labelTitle="specialist.penyakit.namaSpesialis" />
+                        @click="$redirect('/detail_rumah_sakit/' + data.penyakit.idSpesialisPenyakit + '/' + data.idRumahSakit)"
+                        class="mb-2 rounded-circle" :icon="data.penyakit.icon" :labelTitle="data.penyakit.namaSpesialis" />
                 </div>
                 <div class="px-3 py-4 text-center">
                 </div>
