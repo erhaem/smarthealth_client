@@ -66,7 +66,7 @@
             Total Price: {{ totalPrice }}
         </h6>
         <h6>
-            Total Produk : {{ calculateTotalProduct() }}
+            <!-- Total Produk : {{ calculateTotalProduct() }} -->
         </h6>
     </div>
 </template>
@@ -76,106 +76,24 @@ export default {
     data() {
         return {
             items: [],
-            checked: [],
-            selectAll: false
         }
     },
-    computed: {
-        totalQuantity() {
-            return this.items.reduce((total, item) => total + item.qty, 0);
-        },
-        totalPrice() {
-            let totalPrice = 0;
-            for (const item of this.items) {
-
-                if (this.checked.includes(item.id)) {
-                    totalPrice += item.qty * item.harga;
-                }
-            }
-            return totalPrice;
-        },
-
-    },
-    mounted() {
-        this.getItemsFromStorage()
-    },
     methods: {
-        calculateTotalProduct() {
-            let totalProduct = 0;
-            for (const item of this.items) {
-                if (this.checked.includes(item.id)) {
-                    totalProduct += item.qty;
-                }
-            }
-            console.log('Total Product:', totalProduct);
-            return totalProduct;
-        },
-
-        incrementQty(idProduct) {
-            const item = this.items.find(item => item.id === idProduct);
-            if (item) {
-                item.qty++;
-                this.updateLocalStorage()
-            }
-        },
-        decrementQty(idProduct) {
-            const item = this.items.find(item => item.id === idProduct);
-            if (item && item.qty > 1) {
-                item.qty--;
-                this.updateLocalStorage()
-            }
-        },
-        getItemsFromStorage() {
-            const cartData = localStorage.getItem('cart');
-            if (cartData) {
-                this.items = JSON.parse(cartData);
-            }
-        },
-        deleteItem(idProduct) {
-            const index = this.items.findIndex((item) => item.id === idProduct);
-            this.$swal({
-                icon: 'question',
-                title: 'Apakah Anda yakin ingin menghapus?',
-                showCancelButton: true,
-                confirmButtonText: 'Ya',
-                cancelButtonText: 'Tidak',
-                reverseButtons: true
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    if (index !== -1) {
-                        this.items.splice(index, 1);
-                        this.updateLocalStorage();
-                        this.$swal({
-                            icon: 'success',
-                            title: 'Berhasil',
-                            text: 'Item berhasil dihapus.'
-                        });
-                    }
-                }
-            });
-        },
-        updateLocalStorage() {
-            localStorage.setItem('cart', JSON.stringify(this.items));
-        },
-        withBui() {
-            let type = "postData"
+        getDetailCheckout(){
+            let type = "getData"
             let url = [
-                "invoice", {}
+                "keranjang", {}
             ]
-            this.$store.dispatch(type, url).then((result) => {
-                window.open(result.data.invoiceUrl, "_blank")
-            }).catch((err) => {
+            this.$store.dispatch(type, url).then((result)=>{
+                this.items = result.data
+                console.log(result);
+            }).catch((err)=>{
                 console.log(err);
             })
         }
     },
-    watch: {
-        checked: {
-            handler() {
-                this.calculateTotalProduct();
-            },
-            deep: true,
-        },
+    created() {
+        this.getDetailCheckout()
     },
 
 }

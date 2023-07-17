@@ -55,7 +55,7 @@
                                                 <div class="">
                                                     <button class="btn btn-sm btn-primary">
                                                         <i class="fas fa-cart-shopping text-light"
-                                                            @click="addCart(data)"></i>
+                                                            @click="addCart(data.produk.idProduk)"></i>
                                                     </button>
                                                 </div>
                                             </div>
@@ -84,7 +84,8 @@ export default {
     data() {
         return {
             produkKategori: [],
-            isLoading: false
+            isLoading: false,
+            produk_id: ''
         };
     },
     created() {
@@ -110,6 +111,22 @@ export default {
             }).catch((err) => {
                 console.log(err);
             });
+        },
+        addCart(produk_id){
+            let type = "postData"
+            let url = [
+                "keranjang", {produk_id}, {}
+            ]
+            this.$store.dispatch(type, url).then((result)=>{
+                this.$swal({
+                    icon: 'success',
+                    title: (result.pesan)
+                })
+                console.log(result
+                );
+            }).catch((err)=>{
+                console.log(err);
+            })
         }
     },
     components: { SectionHeaderBody, SkeletonLoading }

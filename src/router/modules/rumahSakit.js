@@ -15,6 +15,11 @@ export default [
         component: () => import('@/views/content/rumah-sakit/index-rumah-sakit/DetailSpesialisRs.vue'),
     },
     {
+        path: '/detail_apotek/:namaApotek/:idApotek',
+        name: 'Detail Apotek',
+        component: () =>import('@/views/content/apotek/ProdukByApotek.vue')
+    },
+    {
         path: '/detail_rumah_sakit/buat_janji/:idAhli/:idDetailPraktek/:idRumahSakit/:idSpesialis',
         name: 'Detail Janji Rs',
         component: () => import('@/views/content/rumah-sakit/janji-rs/IndexJanjiRs.vue'),

@@ -72,7 +72,7 @@
                                             </router-link>
                                             <div class="">
                                                 <button class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-cart-shopping text-light" @click="addCart(data)"></i>
+                                                    <i class="fas fa-cart-shopping text-light" @click="addToCart(data.id)"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -102,20 +102,13 @@ export default {
             dataProduk: [],
             kategori: [],
             limit: 6,
-            countOfKodeProduk: 0, // Initialize count to 0
             isLoading: false,
             latitude: null,
             longitude: null,
-            userId: null
+            produk_id: ''
         }
     },
     computed: {
-        userId() {
-            const cookie = Cookies.get("user");
-            const parsing = JSON.parse(cookie);
-            const cekRole = parsing.data.id;
-            return cekRole
-        },
         limitData() {
             return {
                 kategori: this.kategori.slice(0, this.limit)
@@ -129,12 +122,7 @@ export default {
         LoadingComponent
     },
     mounted() {
-        this.countProductOccurrences()
         this.getLocation()
-        const savedCart = localStorage.getItem('cart');
-        if (savedCart) {
-            this.cart = JSON.parse(savedCart);
-        }
     },
     created() {
         this.getProduk(),
@@ -200,37 +188,6 @@ export default {
                 console.log(err);
             })
         },
-        addCart(produk) {
-            produk.qty = 1
-            console.log('kode produk:', produk);
-            this.cart.push(produk),
-                this.showAlertSuccess(),
-                this.saveCartToLocalStorage(produk); // Save the updated cart to local storage
-        },
-        saveCartToLocalStorage(produk) {
-            const cart = localStorage.getItem('cart');
-
-            if (cart) {
-                const jsonCart = JSON.parse(cart);
-                const existingItemIndex = jsonCart.findIndex(item => item.id === produk.id);
-                if (existingItemIndex !== -1) {
-                    console.log('Product exists in cart');
-                    jsonCart[existingItemIndex].qty += produk.qty; // Increment the quantity
-                } else {
-                    console.log('Product does not exist in cart');
-                    jsonCart.push(produk); // Add the product to the cart
-                }
-                localStorage.setItem('cart', JSON.stringify(jsonCart));
-            } else {
-                localStorage.setItem('cart', JSON.stringify([produk])); // Create a new cart with the product
-            }
-        },
-        countProductOccurrences(kodeProduk) {
-            const count = this.cart.filter(item => item === kodeProduk).length;
-            this.countOfKodeProduk = count; // Assign count value to the data property
-            console.log(`Count of ${kodeProduk}:`, count);
-            ;
-        },
         showAlertSuccess() {
             iziToast.success({
                 title: 'success',
@@ -238,6 +195,19 @@ export default {
                 position: 'topRight'
             })
         },
+        addToCart(produk_id){
+            let type = "postData"
+            let url = [
+                "keranjang", {
+                    produk_id
+                }, {}
+            ]
+            this.$store.dispatch(type, url).then((result)=>{
+                console.log(result);
+            }).catch((err)=>{
+                console.log(err);
+            })
+        }
     },
 }
 </script>

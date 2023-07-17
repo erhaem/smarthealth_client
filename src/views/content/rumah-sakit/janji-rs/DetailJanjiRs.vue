@@ -74,6 +74,7 @@
         </div>
         <input type="text" v-model="detailKunjungan.idJadwalPraktek" hidden>
     </div>
+    {{ antrian }}
 </template>
 <script>
 export default {
@@ -82,7 +83,8 @@ export default {
             detailKunjungan: {
                 praktek: {}
             },
-            dataa: []
+            dataa: [],
+            antrian: []
         }
     },
     computed: {
@@ -143,6 +145,7 @@ export default {
                 "master/ahli/jadwal_antrian", {}
             ]
             this.$store.dispatch(type, url).then((result) => {
+                this.antrian = result.data
                 console.log(result);
             }).catch((err) => {
                 console.log(err);

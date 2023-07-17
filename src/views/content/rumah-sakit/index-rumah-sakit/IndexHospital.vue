@@ -56,7 +56,7 @@
                   <SkeletonLoading />
                 </div>
                 <div v-else class="card shadow rounded border-0">
-                  <div class="card-body" @click="$redirect('detail_rumah_sakit/' + data.idProfilApotek)">
+                  <div class="card-body" @click="$redirect({name:'Detail Apotek', params: {idApotek: data.idProfilApotek, namaApotek: data.namaApotek} })">
                     <img src="../../../../assets/images/rs.jpg" class="img-fluid rounded mb-2" alt="">
                     <h5 class="card-title mb-0">{{ data.namaApotek }}</h5>
                     <!-- <p class="text-secondary mb-0">{{ data.deskripsiRs }}</p> -->
@@ -111,7 +111,7 @@ import InputField from '@/components/partials-component/InputField.vue';
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import axios from 'axios';
 import "leaflet/dist/leaflet.css";
-import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
+  import { LMap, LTileLayer, LMarker, LPopup } from "@vue-leaflet/vue-leaflet";
 import iconMarker from '../../../../assets/images/maps.png'
 import hospitalMarker from '../../../../assets/images/hospital-marker.png'
 import apotekMarker from '../../../../assets/images/apotekmarker.png'
