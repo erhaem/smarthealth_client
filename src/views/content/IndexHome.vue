@@ -88,7 +88,7 @@
       <div class="d-flex justify-content-between">
         <TitleFeature Label="Obat & Vitamin" />
         <div v-if="produkKategori.length > 4">
-          <TitleFeature Label="Lihat semua" class="text-primary" />
+          <TitleFeature Label="Lihat semua" class="text-primary" @click="$redirect({name: 'Semua Kategori'})" />
         </div>
         <div v-else>
         </div>

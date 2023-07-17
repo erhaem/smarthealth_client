@@ -79,7 +79,7 @@
 </template>
 <script>
 import SectionHeaderBody from '../../../components/partials-component/SectionHeaderBody.vue'
-import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
+import SkeletonLoading from '@/components/partials-component/LoadingComponent.vue'
 export default {
     data() {
         return {

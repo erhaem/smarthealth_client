@@ -23,7 +23,7 @@
         <div class="container col-xxl-10 col-md-6 pb-3 mt-3">
             <div class="d-flex justify-content-between">
                 <h6><b>Cari Produk Sesuai Kategori</b></h6>
-                <h6 style="color: navy"><b>Lihat Semua Kategori</b></h6>
+                <h6 style="color: navy" @click="$redirect({name: 'Semua Kategori'})"><b>Lihat Semua Kategori</b></h6>
             </div>
             <div class="row g-4 p-lg-2 row-cols-sm-6">
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="data in limitData.kategori">
@@ -45,8 +45,7 @@
     <div class="container-fluid col-xxl-12" style="background-color:ghostwhite;">
         <div class="container col-xxl-10 col-md-6 pb-3">
             <div class="d-flex justify-content-between mt-3 pt-3">
-                <h6><b>Suplemen</b></h6>
-                <h6 style="color: navy"><b>Lihat Semua</b></h6>
+                <h6><b>Produk</b></h6>
             </div>
             <div class="d-flex justify-content-center">
                 <div class="col-12 py-2 px-2">
