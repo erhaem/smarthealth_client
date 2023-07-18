@@ -23,12 +23,12 @@
         <div class="container col-xxl-10 col-md-6 pb-3 mt-3">
             <div class="d-flex justify-content-between">
                 <h6><b>Cari Produk Sesuai Kategori</b></h6>
-                <h6 style="color: navy" @click="$redirect({name: 'Semua Kategori'})"><b>Lihat Semua Kategori</b></h6>
+                <h6 style="color: navy" @click="$redirect({ name: 'Semua Kategori' })"><b>Lihat Semua Kategori</b></h6>
             </div>
             <div class="row g-4 p-lg-2 row-cols-sm-6">
                 <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="data in limitData.kategori">
                     <template v-if="isLoading">
-                        <LoadingComponent/>
+                        <LoadingComponent />
                     </template>
                     <div v-else class="card shadow border" style="background-color: ghostwhite;"
                         @click="$redirect({ name: 'Produk Kategori', params: { idKategori: data.idKategoriProduk, namaKategori: data.slugKategoriProduk } })">
@@ -71,8 +71,9 @@
                                                 detail
                                             </router-link>
                                             <div class="">
-                                                <button class="btn btn-sm btn-primary">
-                                                    <i class="fas fa-cart-shopping text-light" @click="addToCart(data.id)"></i>
+                                                <button class="btn btn-sm btn-primary" @click="addToCart(data.id)">
+                                                    <i class="fas fa-cart-shopping text-light"
+                                                        ></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -195,16 +196,29 @@ export default {
                 position: 'topRight'
             })
         },
-        addToCart(produk_id){
+        addToCart(produk_id) {
+            const message = "Data Berhasil di Tambahkan"
             let type = "postData"
             let url = [
                 "keranjang", {
                     produk_id
                 }, {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
-                console.log(result);
-            }).catch((err)=>{
+            this.$store.dispatch(type, url).then((result) => {
+                if (result.pesan == message) {
+                    this.$swal({
+                        icon: 'success',
+                        title: 'berhasil menambahkan ke keranjang'
+                    })
+                } else {
+                    this.$swal({
+                        icon: 'error',
+                        title: 'kamu harus login dulu nih'
+                    }).then(()=>{
+                        this.$router.push({name: 'LoginUser'})
+                    })
+                }
+            }).catch((err) => {
                 console.log(err);
             })
         }

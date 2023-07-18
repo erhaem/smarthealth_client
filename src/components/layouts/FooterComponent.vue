@@ -54,10 +54,11 @@
 <style>
 .site-footer {
     background-color: #051f84;
-    padding: 45px 0 20px;
     font-size: 15px;
     line-height: 24px;
     color: #ffffff;
+  padding: 20px 0;
+  margin-top: auto;
 }
 
 .site-footer hr {

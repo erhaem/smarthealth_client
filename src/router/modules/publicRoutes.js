@@ -35,6 +35,9 @@ export default [
     },
     {
         path: '/keranjang',
-        component: () => import('@/views/content/checkout-page/IndexCheckout.vue')
+        component: () => import('@/views/content/checkout-page/IndexCheckout.vue'),
+        meta: {
+            requiresAuth: true
+        }
     }
 ]
