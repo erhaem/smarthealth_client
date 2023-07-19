@@ -2,65 +2,66 @@
     <div class="container">
         <template v-if="hasProduk">
             <div class="row p-lg-4">
-                <h5><b>Keranjang Kamu</b></h5>
-                <div class="col-lg-8 col-md-12">
-                    <div class="d-flex justify-content-between border-bottom border-light border-5">
-                        <input type="checkbox" name="" id="">
-                        <p class="mb-1 text-success font-weight-bold" @click="deleteChecked"><b>Hapus</b></p>
+                <h5 class="mb-3"><b>Checkout</b></h5>
+                <div class="col-lg-9 col-md-12">
+                    <div class="border-bottom w-100 mb-1">
+                        <h6><b>Alamat Pengiriman</b></h6>
                     </div>
-                    <div class="row g-0 mt-3">
-                        <template v-for="data in detail">
-                            <div class="col-md-2 border-bottom border-5 border-light mt-2">
-                                <input type="checkbox" v-model="selected" :value="data.idKeranjangDetail">
-                            </div>
-                            <div class="col-md-8 border-bottom border-5 mt-2 border-light container">
+                    <div class="border-bottom w-100 mb-1">
+                        <P>{{ profil.user.nama }} (Rumah) <br> {{profil.user.nomorHp}} <br> <small class="text-secondary">
+                            Blok B1 Nomor 25, RT 07/ RW O3.(Depan Musholla An-nur)
+                            Karangtengah, Kota Tangerang, 15159
+                        </small>
+                        </P>
+                    </div>
+                    <div class="border-bottom w-100 mb-1 p-2">
+                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#tambahData">
+                            ganti alamat
+                        </button>
+                    </div>
+                    <div class="row g-0 mt-2">
+                        <template v-for="(data, index) in detail" :key="index">
+                            <div class="col-md-10 border-bottom border-5 mt-2 border-light container">
+                                <P><b>Pesanan {{ index + 1 }}</b></P>
                                 <p>
-                                    <b>Apotek Arjawinangun</b> <br> <b class="text-secondary">{{ data.produk.namaProduk }}</b> <br> <small>{{ data.produk.hargaProduk }}</small>
+                                    <b>Apotek Arjawinangun</b> <br> <b class="text-secondary">{{ data.produk.namaProduk
+                                    }}</b> <br> <small> {{ data.qty }} produk | {{ data.produk.hargaProduk }}</small>
                                 </p>
                             </div>
                             <div class="col-md-2 border-bottom border-5 border-light mt-2">
-                                <P class="text-primary mt-3"
-                                    @click="$redirect({ name: 'Detail Produk', params: { id: data.produk.kodeProduk } })">
-                                    Lihat
-                                    Produk</P>
                             </div>
-                            <div class="d-flex justify-content-end">
-                                <p class="px-5">
-                                    <i class="fas fa-trash text-danger" @click="deleteOne(data.idKeranjangDetail)"></i>
-                                </p>
-                                <p></p>
-                                <div>
-                                    <i class="fas fa-minus text-success" @click="decrementQty(data.idKeranjangDetail)"></i>
-                                    <span class="ms-2 me-2">{{ data.qty }}</span>
-                                    <i class="fas fa-plus text-success" :class="{ 'disabled': data.qty === 1 }"
-                                        @click="incrementQty(data.idKeranjangDetail)"></i>
-                                </div>
+                            <div class="d-flex justify-content-between px-2">
+                                <h6>Subtotal</h6>
+                                <h6><b>{{ data.jumlahHarga }}</b></h6>
                             </div>
                         </template>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-12 sticky-center">
-                    <div class="card shadow-lg border-0">
-                        <div class="card-header">
-                            <b>Ringkasan Belanja</b>
-                        </div>
-                        <div class="card-body">
-                            <div class="card-text border-bottom pb-2 text-secondary">
-                                <p class="mb-0">
-                                    <small>Total Harga: {{ items.jumlahHarga }} </small>
-                                </p>
-                                <p class="mb-0">
-                                    <small>Total Diskon Barang: {{ items.jumlahHarga }} </small>
+                <div class="col-lg-3 col-md-12">
+                    <div class="sticky-top">
+                        <div class="card shadow-lg border-0">
+                            <div class="card-header">
+                                <b>Ringkasan Belanja</b>
+                            </div>
+                            <div class="card-body">
+                                <div class="card-text border-bottom pb-2 text-secondary">
+                                    <p class="mb-0">
+                                        <small>Total Harga: {{ items.jumlahHarga }} </small>
+                                    </p>
+                                    <p class="mb-0">
+                                        <small>Total Diskon Barang: {{ items.jumlahHarga }} </small>
+                                    </p>
+                                </div>
+                                <p class="mb-0 mt-2">
+                                    <b>Total Harga: {{ items.jumlahHarga }} </b>
                                 </p>
                             </div>
-                            <p class="mb-0 mt-2">
-                                <b>Total Harga: {{ items.jumlahHarga }} </b>
-                            </p>
-                        </div>
-                        <div class="card-footer text-center">
-                            <button class="btn btn-sm w-100 btn-dark">
-                                Beli Sekarang
-                            </button>
+                            <div class="card-footer text-center">
+                                <button @click="$redirect({ name: 'Checkout' })" :class="'btn btn-sm w-100 btn-dark'"
+                                    :disabled="selected.length === 0">
+                                    Beli Sekarang ({{ calculateProduct() }})
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -73,50 +74,18 @@
                 </div>
             </div>
         </template>
-        <div class="row p-3">
-        <div class="col-8 col-md-12">
-            <div>
-                <h5><b>Rekomendasi Produk Untukmu</b></h5>
-            </div>
-            <div class="row row-cols-1 row-cols-md-6 g-4">
-                <div class="col" v-for="data in dataProduk">
-                    <template v-if="isLoading">
-                        <SkeletonLoading />
-                    </template>
-                    <div v-else class="card shadow border-0" v-if="!isLoading">
-                        <div class="embed-responsive embed-responsive-16by9">
-                            <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
-                        </div>
-                        <div class="card-body">
-                            <p class="mb-0">{{ data.namaProduk }}</p>
-                            <div class="text-secondary" style="font-size: 14px">
-                                <p class="mb-0"><small>{{ data.deskripsiProduk }}</small></p>
-                                <div class="d-flex justify-content-end">
-                                    <p class="mb-2"><small>{{ data.hargaProduk }}</small></p>
-                                </div>
-                                <div class="d-flex justify-content-between">
-                                    <router-link class="btn btn-sm btn-outline-primary w-75"
-                                        :to="{ name: 'Detail Produk', params: { id: data.kodeProduk } }">
-                                        detail
-                                    </router-link>
-                                    <div class="">
-                                        <button class="btn btn-sm btn-primary" @click="addToCart(data.id)">
-                                            <i class="fas fa-cart-shopping text-light"
-                                                ></i>
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            </div>
-        </div>
     </div>
+    <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
+        <template #modal>
+            <label for="">Nama Alamat</label>
+            <InputField placeholder="ex: rumah"/>
+        </template>
+    </ModalComponent>
 </template>
   
 <script>
+import InputField from '@/components/partials-component/InputField.vue'
+import ModalComponent from '@/components/partials-component/ModalComponent.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
@@ -131,7 +100,9 @@ export default {
             detail: [],
             isSelected: [],
             dataProduk: [],
-            produk_id: ''
+            produk_id: '',
+            profil: {},
+            alamat: []
         }
     },
     computed: {
@@ -147,7 +118,7 @@ export default {
             let totalPrice = 0;
             for (const data of this.detail) {
                 if (this.selected.includes(data.idKeranjangDetail)) {
-                    totalPrice += data.produk.hargaProduk * data.qty;
+                    totalPrice += data.qty;
                 }
             }
             return totalPrice;
@@ -188,132 +159,38 @@ export default {
                 console.log(err);
             })
         },
-        incrementQty(idKeranjangDetail) {
-            let type = "putData"
-            let url = [
-                `detail_keranjang/tambah/${idKeranjangDetail}`, {},
-            ]
-            this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                this.isLoading = false,
-                    this.getDetailCheckout()
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        decrementQty(idKeranjangDetail) {
-            let type = "putData"
-            let url = [
-                `detail_keranjang/kurang/${idKeranjangDetail}`, {}
-            ]
-            this.$store.dispatch(type, url).then((result) => {
-                this.getDetailCheckout()
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        deleteOne(idKeranjangDetail) {
-            let type = "deleteData";
-            let url = [
-                `detail_keranjang`, idKeranjangDetail, {}
-            ];
-            this.$swal({
-                icon: 'question',
-                title: "Apakah kamu ingin menghapus produk ini dari keranjang?",
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: "Ya, Hapus",
-                denyButtonText: "Jangan Hapus"
-            }).then((result) => {
-                if (result.isConfirmed) {
-                    this.$store.dispatch(type, url)
-                        .then((result) => {
-                            this.$swal({
-                                icon: 'success',
-                                title: 'Berhasil hapus data keranjang'
-                            });
-                            this.getDetailCheckout();
-                        })
-                        .catch((err) => {
-                            console.log(err);
-                        });
-                }
-            });
-        },
-        deleteChecked() {
-            if (this.selected.length === 0) {
-                return;
-            }
-            let type = "deleteData";
-            let urls = this.selected.map((idKeranjangDetail) => ["detail_keranjang", idKeranjangDetail]);
-            this.$swal({
-                icon: 'question',
-                title: "Apakah kamu ingin menghapus produk ini dari keranjang?",
-                showDenyButton: true,
-                showCancelButton: false,
-                confirmButtonText: "Ya, Hapus",
-                denyButtonText: "Jangan Hapus"
-            }).then((results) => {
-                if (results.isConfirmed) {
-                    Promise.all(urls.map((url) => this.$store.dispatch(type, url)))
-                    this.$swal({
-                        icon: 'success',
-                        text: 'data berhasil dihapus'
-                    })
-                    this.getDetailCheckout();
-                }
-            })
-                .catch((err) => {
-                    console.log(err);
-                });
-            this.selected = [];
-        },
-        getProduk() {
+        getProfil() {
             let type = "getData"
             let url = [
-                "apotek/produk/data_produk", {}
+                "akun/profil/konsumen/profil", {}
             ]
             this.$store.dispatch(type, url).then((result) => {
-                this.dataProduk = result.data
+                this.profil = result.data
             }).catch((err) => {
                 console.log(err);
             })
         },
-        addToCart(produk_id) {
-            const message = "Data Berhasil di Tambahkan"
-            let type = "postData"
+        getAlamat(){
+            let type = "getData"
             let url = [
-                "keranjang", {
-                    produk_id
-                }, {}
+                "master/alamat_user", {}
             ]
-            this.$store.dispatch(type, url).then((result) => {
-                if (result.pesan == message) {
-                    this.$swal({
-                        icon: 'success',
-                        title: 'berhasil menambahkan ke keranjang'
-                    })
-                    this.getDetailCheckout()
-                } else {
-                    this.$swal({
-                        icon: 'error',
-                        title: 'kamu harus login dulu nih'
-                    }).then(()=>{
-                        this.$router.push({name: 'LoginUser'})
-                    })
-                }
-            }).catch((err) => {
+            this.$store.dispatch(type, url).then((result)=>{
+                this.alamat = result.data
+                console.log(result);
+            }).catch((err)=>{
                 console.log(err);
             })
-        },
+        }
 
     },
     mounted() {
         this.getDetailCheckout(),
-        this.getProduk()
+            this.getProfil(),
+            this.getAlamat()
     },
     components: {
-        LoadingComponent, ButtonComponent, SkeletonLoading
+        LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField
     },
     watch: {
         checked: {
