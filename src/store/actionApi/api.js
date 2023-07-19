@@ -6,7 +6,7 @@ import snakecaseKeys from "snakecase-keys";
 const Api = {
 
     init() {
-        axios.defaults.baseURL = "http://192.168.1.16:8000/api";
+        axios.defaults.baseURL = "https://berobatplus.shop/api";
         axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
         axios.defaults.headers.common.Authorization =
             "Bearer " + Cookies.get("token");

@@ -34,7 +34,7 @@
                         <div v-if="isLoading">
                             <LoadingComponent />
                         </div>
-                        <div v-else style="height: 300px">
+                        <div class="rounded shadow" v-else style="height: 300px">
                             <l-map v-if="detailRS && detailRS.latitude && detailRS.longitude" :zoom="zoom"
                                 :center="[detailRS.latitude, detailRS.longitude]">
                                 <l-tile-layer :url="url"></l-tile-layer>
