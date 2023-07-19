@@ -59,7 +59,6 @@ export default {
                 "master/ahli/jadwal_antrian", {}
             ]
             this.$store.dispatch(type, url).then((result)=>{
-                console.log(result);
             }).catch((err)=>{
                 console.log(err);
             })

@@ -112,7 +112,6 @@ export default {
 
             this.$store.dispatch(type, url)
                 .then((result) => {
-                    console.log(result);
                     this.isLoading = false;
                     this.valueSearch = result.data
                 })

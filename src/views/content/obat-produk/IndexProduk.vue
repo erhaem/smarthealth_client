@@ -142,7 +142,6 @@ export default {
             this.$store.dispatch(type, url).then((result) => {
                 this.isLoading = false
                 this.nearestResults = result
-                console.log(result);
             }).catch((err) => {
                 console.log(err);
             })

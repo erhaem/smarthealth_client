@@ -107,7 +107,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.detailKunjungan = result.data
-                console.log(result);
             }).catch((err) => {
                 console.log(err);
             })
@@ -146,7 +145,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.antrian = result.data
-                console.log(result);
             }).catch((err) => {
                 console.log(err);
             })

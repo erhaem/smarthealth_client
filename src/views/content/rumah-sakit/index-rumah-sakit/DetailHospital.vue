@@ -56,7 +56,6 @@
                                     </l-popup>
                                 </l-marker>
                             </l-map>
-
                         </div>
                     </div>
                     <div class="col-md-2 themed-grid-col">
@@ -211,7 +210,6 @@ export default {
             this.$store.dispatch(type, url).then((result) => {
                 this.isLoading = false
                 this.detailRS = result.data
-                console.log('detailRS:', this.detailRS);
             }).catch((err) => {
                 console.log(err);
             })
@@ -223,7 +221,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.praktekDokter = result.data
-                console.log(result.data);
             }).catch((err) => {
                 console.log(err);
             })

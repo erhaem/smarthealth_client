@@ -39,7 +39,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.detailArtikel = result.data
-                console.log(result);
             }).catch((err) => {
                 console.log(err);
             })

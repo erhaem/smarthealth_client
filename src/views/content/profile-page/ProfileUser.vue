@@ -177,7 +177,6 @@ export default {
                             position: "topRight",
                         })
                     }, 2000);
-                    console.log(result);
                 }).catch((error) => {
                     console.log(error);
                 })
