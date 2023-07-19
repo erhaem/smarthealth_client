@@ -62,20 +62,6 @@ export default {
   components: {
     Form, InputField
   },
-  mounted() {
-    const savedCart = localStorage.getItem('cart_' + this.userId);
-    if (savedCart) {
-      this.cart = JSON.parse(savedCart);
-    }
-  },
-  // computed: {
-  //   schema() {
-  //     return validate.object({
-  //       phoneNumber: validate.string().required('⚠ kolom password wajib diisi'),
-  //       password: validate.string().required('⚠ kolom password wajib diisi').min(8, '⚠ password minimal 8 karakter').max(20, 'password maksimal 20 karakter')
-  //     })
-  //   }
-  // },
   methods: {
     handleSubmit() {
       let type = "postData"
@@ -89,53 +75,30 @@ export default {
       this.$store.dispatch(type, url).then((response) => {
         const cekRole = response.data.getRole.idRole;
         if (cekRole == "RO-2003064") {
-          const userId = response.data.userId;
-          Cookies.set("user", userId);
-          
-          // Update the userId and fetch the cart for the new user
-          this.userId = userId;
-          const savedCart = localStorage.getItem('cart_' + this.userId);
-          if (savedCart) {
-            this.cart = JSON.parse(savedCart);
-          }
           Cookies.set("token", response.data.token);
           Cookies.set("user", JSON.stringify(response));
-          setTimeout(() => {
-            iziToast.success({
-              transitionIn: 'fadeInUp',
-              timeout: 2000,
-              title: "Berhasil",
-              message: "Berhasil Login",
-              position: "bottomCenter",
-            })
-            // this.resetCart()
-            window.location = '/'
-          }, 2000);
+          iziToast.success({
+            transitionIn: 'fadeInUp',
+            timeout: 2000,
+            title: "Berhasil",
+            message: "Berhasil Login",
+            position: "bottomCenter",
+          })
+          window.location = '/'
         } else {
           iziToast.error({
             transitionIn: 'fadeInUp',
             timeout: 2000,
             title: "Gagal",
-            message: "Maaf, hanya role konsumen yang dapat login",
+            message: "maaf, hanya konsumen yang dapat login",
             position: "topCenter",
           })
         }
       }
       ).catch((err) => {
-        console.log(err.response.data);
-        iziToast.error({
-          transitionIn: 'fadeInUp',
-          timeout: 2000,
-          title: "Gagal",
-          message: "Periksa kembali nomor hp dan password",
-          position: "topCenter",
-        })
+        console.log(err.response);
       })
     },
-    // resetCart() {
-    //   this.cart = [];
-    //   localStorage.removeItem('cart');
-    // },
   },
 }
 </script>

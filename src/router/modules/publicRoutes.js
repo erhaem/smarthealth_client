@@ -35,6 +35,7 @@ export default [
     },
     {
         path: '/keranjang',
+        name: 'Keranjang',
         component: () => import('@/views/content/checkout-page/IndexCheckout.vue'),
         meta: {
             requiresAuth: true
