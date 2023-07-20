@@ -8,14 +8,21 @@
                         <h6><b>Alamat Pengiriman</b></h6>
                     </div>
                     <div class="border-bottom w-100 mb-1">
-                        <P>{{ profil.user.nama }} (Rumah) <br> {{profil.user.nomorHp}} <br> <small class="text-secondary">
-                            Blok B1 Nomor 25, RT 07/ RW O3.(Depan Musholla An-nur)
-                            Karangtengah, Kota Tangerang, 15159
-                        </small>
+                        <P>{{ profil.user.nama }} ({{ selectedAddressData.simpanSebagai }}) <br> {{ profil.user.nomorHp }}
+                            <br> <small class="text-secondary">
+                                <div v-if="selectedAddressData">
+                                    <p>
+                                        {{ selectedAddressData.lokasi }}
+                                        <br />
+                                        Note: {{ selectedAddressData.detail }}
+                                    </p>
+                                </div>
+                            </small>
                         </P>
                     </div>
                     <div class="border-bottom w-100 mb-1 p-2">
-                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#tambahData">
+                        <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
+                            data-bs-target="#tambahData">
                             ganti alamat
                         </button>
                     </div>
@@ -77,13 +84,28 @@
     </div>
     <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
         <template #modal>
-            <label for="">Nama Alamat</label>
-            <InputField placeholder="ex: rumah"/>
+            <button class="btn rounded btn-outline-success mb-2 text-center w-100">Tambah Alamat Baru</button>
+            <div v-for="(data, index) in alamat" :key="index">
+                <div :class="['card shadow mb-2', { 'border-primary': data.clicked }]" @click="aksi(data, index)">
+                    <div class="card-body">
+                        <p>
+                            <b> {{ profil.user.nama }} </b> <span class="bg-primary rounded pe-2 ps-2 text-light">{{
+                                data.simpanSebagai }}</span> <br> {{ profil.user.nomorHp }} <br> {{ data.lokasi }} <br>
+                            note: {{
+                                data.detail }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-success btn-sm rounded mb-2 text-center w-25"
+                @click="saveAlamatToCookies">Simpan</button>
         </template>
     </ModalComponent>
 </template>
   
 <script>
+import Cookies from 'js-cookie'
+import axios from 'axios';
 import InputField from '@/components/partials-component/InputField.vue'
 import ModalComponent from '@/components/partials-component/ModalComponent.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
@@ -102,7 +124,16 @@ export default {
             dataProduk: [],
             produk_id: '',
             profil: {},
-            alamat: []
+            alamat: [],
+            provinsi: [],
+            kota: [],
+            kecamatan: [],
+            kelurahan: [],
+            selectedKota: null,
+            selectedProvinsi: null,
+            selectedKecamatan: null,
+            selectedKelurahan: null,
+            selectedIndex: null
         }
     },
     computed: {
@@ -111,9 +142,60 @@ export default {
         },
         idDetail() {
             return this.items.idKeranjang
-        }
+        },
+        isKotaDisabled() {
+            return !this.selectedProvinsi;
+        },
+        isKecamatanDisabled() {
+            return !this.selectedKota
+        },
+        isKelurahanDisabled() {
+            return !this.selectedKecamatan
+        },
+        selectedLocations() {
+            const selectedProvinsiName = this.getSelectedName(this.selectedProvinsi, this.provinsi);
+            const selectedKotaName = this.getSelectedName(this.selectedKota, this.kota);
+            const selectedKecamatanName = this.getSelectedName(this.selectedKecamatan, this.kecamatan);
+            const selectedKelurahanName = this.getSelectedName(this.selectedKelurahan, this.kelurahan);
+
+            return `${selectedProvinsiName}, ${selectedKotaName}, ${selectedKecamatanName}, ${selectedKelurahanName}`;
+        },
+        selectedAddressData() {
+            const selectedAddressJson = Cookies.get('selectedAddress');
+            return selectedAddressJson ? JSON.parse(selectedAddressJson) : null;
+        },
     },
     methods: {
+        saveAlamatToCookies() {
+            const selectedAddress = this.alamat.find((data) => data.clicked === true);
+
+            if (selectedAddress) {
+                const selectedAddressJson = JSON.stringify(selectedAddress);
+
+                Cookies.set('selectedAddress', selectedAddressJson);
+                this.selectedAddressData = selectedAddress; // Update the data property
+                this.$swal({
+                    icon: 'success',
+                    title: 'Berhasil menyimpan perubahan alamat',
+                }).then(() => {
+                    window.location.reload(); // Refresh the page after clicking "OK"
+                });
+            } else {
+                Cookies.remove('selectedAddress');
+                this.selectedAddressData = null; // Update the data property
+            }
+        },
+        aksi(data, index) {
+            if (this.selectedIndex === index) {
+                return;
+            }
+            if (this.selectedIndex !== null) {
+                this.alamat[this.selectedIndex].clicked = false;
+            }
+
+            data.clicked = true;
+            this.selectedIndex = index;
+        },
         calculateProduct() {
             let totalPrice = 0;
             for (const data of this.detail) {
@@ -170,23 +252,66 @@ export default {
                 console.log(err);
             })
         },
-        getAlamat(){
+        getAlamat() {
             let type = "getData"
             let url = [
                 "master/alamat_user", {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
+            this.$store.dispatch(type, url).then((result) => {
                 this.alamat = result.data
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
-        }
+        },
+        getSelectedName(selectedId, data) {
+            if (!selectedId || !data) return ''; // Return an empty string if no data or ID is selected
+            const selectedData = data.find(item => item.id === selectedId);
+            return selectedData ? selectedData.nama : ''; // Return the name or an empty string if not found
+        },
+        getProvinsi() {
+            axios({
+                method: "get",
+                url: "http://dev.farizdotid.com/api/daerahindonesia/provinsi"
+            }).then((result) => {
+                this.provinsi = result.data.provinsi
+            })
+        },
+        showKabupaten() {
+            const idProvinsi = this.selectedProvinsi;
+            axios({
+                method: "get",
+                url: `http://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${idProvinsi}`
+            }).then((result) => {
+                this.kota = result.data.kota_kabupaten
+            })
+        },
+        showKecamatan() {
+            const idKabupaten = this.selectedKota;
+            axios({
+                method: "get",
+                url: `http://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${idKabupaten}`
+            }).then((result) => {
+                this.kecamatan = result.data.kecamatan
+            })
+        },
+        showKelurahan() {
+            const idKecamatan = this.selectedKecamatan
+            axios({
+                method: "get",
+                url: `http://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${idKecamatan}`
+            }).then((result) => {
+                this.kelurahan = result.data.kelurahan
+                console.log(result);
+            })
+        },
 
     },
     mounted() {
         this.getDetailCheckout(),
             this.getProfil(),
-            this.getAlamat()
+            this.getAlamat(),
+            this.getProvinsi()
+
     },
     components: {
         LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField
@@ -204,5 +329,9 @@ export default {
 }
 </script>
   
-<style></style>
+<style>
+.clickable {
+    pointer-events: none;
+}
+</style>
   

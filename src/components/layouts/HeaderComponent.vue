@@ -126,6 +126,7 @@ export default {
       this.$store.dispatch(type, url).then((result) => {
         Cookies.remove('token')
         Cookies.remove('user')
+        Cookies.remove('selectedAddress')
         window.location.replace('/')
       }).catch((err) => {
         console.log(err);
