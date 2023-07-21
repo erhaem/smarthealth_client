@@ -387,7 +387,7 @@ export default {
                         icon: 'success',
                         title: 'berhasil melakukan pembayaran'
                     }).then(()=>{
-                        this.$router.push({name: 'Riwayat Konsumen'})
+                        this.$router.push({name: 'Riwayat Pembelian'})
                     })
                 })
                 .catch((err) => {

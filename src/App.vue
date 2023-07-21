@@ -46,6 +46,7 @@ export default {
           } else {
             if (Cookies.get("token") == undefined) {
               Cookies.set("token", result.token);
+              window.location.reload()
             }
           }
           this.users = Cookies.get("token");

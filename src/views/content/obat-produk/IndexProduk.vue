@@ -208,6 +208,8 @@ export default {
                     this.$swal({
                         icon: 'success',
                         title: 'berhasil menambahkan ke keranjang'
+                    }).then(()=>{
+                        window.location.reload()
                     })
                 } else {
                     this.$swal({

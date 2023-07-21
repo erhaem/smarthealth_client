@@ -289,8 +289,10 @@ export default {
                     this.$swal({
                         icon: 'success',
                         title: 'berhasil menambahkan ke keranjang'
+                    }).then(()=>{
+                        window.location.reload()
+                        this.getDetailCheckout()
                     })
-                    this.getDetailCheckout()
                 } else {
                     this.$swal({
                         icon: 'error',
