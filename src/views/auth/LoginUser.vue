@@ -33,7 +33,7 @@
                 </button>
               </Form>
               <p class="text-center">dont have any account? <span class="text-primary"><router-link
-                    style="text-decoration: none;" to="/register">register</router-link></span></p>
+                    style="text-decoration: none;" :to="{name: 'RegisterKonsumen'}">register</router-link></span></p>
             </div>
           </div>
         </div>

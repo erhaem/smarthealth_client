@@ -8,7 +8,8 @@
                         <h6><b>Alamat Pengiriman</b></h6>
                     </div>
                     <div class="border-bottom w-100 mb-1">
-                        <P>{{ profil.user.nama }} ({{ selectedAddressData.simpanSebagai }}) <br> {{ profil.user.nomorHp }}
+                        <P>{{ profil.user.nama }} <span v-if="selectedAddressData">({{ selectedAddressData.simpanSebagai
+                        }})</span> <br> {{ profil.user.nomorHp }}
                             <br> <small class="text-secondary">
                                 <div v-if="selectedAddressData">
                                     <p>
@@ -23,7 +24,7 @@
                     <div class="border-bottom w-100 mb-1 p-2">
                         <button class="btn btn-sm btn-outline-secondary" data-bs-toggle="modal"
                             data-bs-target="#tambahData">
-                            ganti alamat
+                            pilih alamat pengiriman
                         </button>
                     </div>
                     <div class="row g-0 mt-2">
@@ -64,9 +65,8 @@
                                 </p>
                             </div>
                             <div class="card-footer text-center">
-                                <button @click="$redirect({ name: 'Checkout' })" :class="'btn btn-sm w-100 btn-dark'"
-                                    :disabled="selected.length === 0">
-                                    Beli Sekarang ({{ calculateProduct() }})
+                                <button @click="buyProduct" :class="'btn btn-sm w-100 btn-dark'">
+                                    Bayar Sekarang
                                 </button>
                             </div>
                         </div>
@@ -84,7 +84,8 @@
     </div>
     <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
         <template #modal>
-            <button class="btn rounded btn-outline-success mb-2 text-center w-100">Tambah Alamat Baru</button>
+            <button class="btn rounded btn-outline-success mb-2 text-center w-100" data-bs-toggle="modal"
+                data-bs-target="#tambahAlamat">Tambah Alamat Baru</button>
             <div v-for="(data, index) in alamat" :key="index">
                 <div :class="['card shadow mb-2', { 'border-primary': data.clicked }]" @click="aksi(data, index)">
                     <div class="card-body">
@@ -99,6 +100,48 @@
             </div>
             <button class="btn btn-success btn-sm rounded mb-2 text-center w-25"
                 @click="saveAlamatToCookies">Simpan</button>
+        </template>
+    </ModalComponent>
+    <ModalComponent id="tambahAlamat" modalTitle="Tambah Alamat">
+        <template #modal>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <label for=""><b>Label Alamat</b></label>
+                        <input type="text" v-model="form.simpan_sebagai" class="form-control" placeholder="contoh: Rumah">
+                        <label for=""><b>Pilih Provinsi</b></label>
+                        <select class="form-select w-100" v-model="selectedProvinsi" @change="showKabupaten">
+                            <option value=""><b>pilih provinsi</b></option>
+                            <option :value="data.id" v-for="data in provinsi">{{ data.nama }}</option>
+                        </select>
+                        <label for=""><b>Pilih Kabupaten atau Kota</b></label>
+                        <select class="form-select w-100 mb-1" :disabled="isKotaDisabled" @change="showKecamatan"
+                            v-model="selectedKota" id="kota" placeholder="pilih kota">
+                            <option value="" selected>pilih kota</option>
+                            <option :value="data.id" v-for="data in kota">{{ data.nama }}</option>
+                        </select>
+                        <label for=""><b>Pilih Kecamatan</b></label>
+                        <select class="form-select w-100 mb-1" :disabled="isKecamatanDisabled" v-model="selectedKecamatan"
+                            id="kecamatan" @change="showKelurahan" placeholder="pilih kecamatan">
+                            <option value="" selected>pilih kecamatan</option>
+                            <option :value="data.id" v-for="data in kecamatan">{{ data.nama }}</option>
+                        </select>
+                        <label for=""><b>Pilih Kelurahan</b></label>
+                        <select class="form-select w-100 mb-1" :disabled="isKelurahanDisabled" v-model="selectedKelurahan"
+                            id="kelurahan" placeholder="pilih kelurahan">
+                            <option value="">pilih kelurahan</option>
+                            <option :value="data.id" v-for="data in kelurahan">{{ data.nama }}</option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-md-6 ms-auto">
+                    <label for=""><b>Detail Lokasi</b></label>
+                    <textarea class="form-control mt-2 mb-1" :value="selectedLocations" rows="4"></textarea>
+                    <label for=""><b>Catatan</b></label>
+                    <textarea class="form-control mt-2 mb-2" v-model="form.detail" rows="4"></textarea>
+                    <button class="btn btn-sm btn-success w-100" @click="postAlamat">Simpan Alamat</button>
+                </div>
+            </div>
         </template>
     </ModalComponent>
 </template>
@@ -129,6 +172,11 @@ export default {
             kota: [],
             kecamatan: [],
             kelurahan: [],
+            form: {
+                simpan_sebagai: 'Rumah',
+                lokasi: '',
+                detail: 'Taro di depan aja'
+            },
             selectedKota: null,
             selectedProvinsi: null,
             selectedKecamatan: null,
@@ -304,7 +352,48 @@ export default {
                 console.log(result);
             })
         },
-
+        postAlamat() {
+            let type = "postData"
+            let url = [
+                "master/alamat_user", {
+                    simpan_sebagai: this.form.simpan_sebagai,
+                    lokasi: this.selectedLocations,
+                    detail: this.form.detail
+                }, {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.$swal({
+                    icon: 'success',
+                    title: 'berhasil menambahkan alamat'
+                }).then(() => {
+                    window.location.reload()
+                })
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
+        buyProduct() {
+            let type = "postData";
+            let idKeranjangDetail = this.detail.map(detailItem => detailItem.idKeranjangDetail);
+            let url = [
+                "master/pembelian/transaksi", {
+                    id_keranjang: this.items.idKeranjang,
+                    id_keranjang_detail: idKeranjangDetail,
+                }
+            ];
+            this.$store.dispatch(type, url)
+                .then((result) => {
+                    this.$swal({
+                        icon: 'success',
+                        title: 'berhasil melakukan pembayaran'
+                    }).then(()=>{
+                        this.$router.push({name: 'Riwayat Konsumen'})
+                    })
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
+        }
     },
     mounted() {
         this.getDetailCheckout(),

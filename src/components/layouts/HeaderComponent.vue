@@ -33,7 +33,7 @@
             <DropdownItem>
               <template #item>
                 <router-link :to="{ name: 'Riwayat Konsumen' }" class="dropdown-item">Kunjungan Medis</router-link>
-                <router-link to="/account" class="dropdown-item" href="#">Pesanan Saya</router-link>
+                <router-link :to="{name: 'Riwayat Pembelian'}" class="dropdown-item" href="#">Pesanan Saya</router-link>
               </template>
             </DropdownItem>
           </li>

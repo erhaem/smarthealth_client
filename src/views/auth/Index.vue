@@ -93,22 +93,6 @@ export default {
             submitted: false
         };
     },
-    computed: {
-        // formData() {
-        //     const formData = new FormData()
-
-        //     formData.append('nama', this.form.nama)
-        //     formData.append('nomor_hp', this.form.nomorHp)
-        //     formData.append('password', this.form.password)
-        //     formData.append('option', this.form.option)
-        //     formData.append('jenis_kelamin', this.form.jenisKelamin)
-        //     formData.append('foto', this.form.foto)
-        //     formData.append('file_dokumen', this.form.fileDokumen)
-
-        //     return formData
-
-        // }
-    },
     methods: {
         changeRoute() {
             this.$router.push('RegisterKonsumen')
@@ -148,8 +132,8 @@ export default {
 </script>
   
 <style>
-.has-error input {
-    border-color: red;
-}
+    .has-error input {
+        border-color: red;
+    }
 </style>
   

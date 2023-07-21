@@ -5,9 +5,14 @@ export default [
         component: ()=>import('@/views/content/download-page/IndexDownload.vue')
     },
     {
-        path: '/riwayat',
+        path: '/riwayat-medis',
         name: 'Riwayat Konsumen',
         component: ()=>import('@/views/content/riwayat/IndexRiwayat.vue')
+    },
+    {
+        path: '/riwayat-pembelian',
+        name: 'Riwayat Pembelian',
+        component: ()=>import('@/views/content/riwayat/IndexRiwayatPembelian.vue')
     },
     {
     path: '/produk',

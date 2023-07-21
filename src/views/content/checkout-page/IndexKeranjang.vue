@@ -80,10 +80,7 @@
             </div>
             <div class="row row-cols-1 row-cols-md-6 g-4">
                 <div class="col" v-for="data in dataProduk">
-                    <template v-if="isLoading">
-                        <SkeletonLoading />
-                    </template>
-                    <div v-else class="card shadow border-0" v-if="!isLoading">
+                    <div class="card shadow border-0">
                         <div class="embed-responsive embed-responsive-16by9">
                             <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
                         </div>
@@ -309,7 +306,9 @@ export default {
 
     },
     mounted() {
-        this.getDetailCheckout(),
+        this.getDetailCheckout()
+    },
+    created(){
         this.getProduk()
     },
     components: {
