@@ -70,8 +70,6 @@
     </div>
 </template>
 <script>
-import axios from 'axios';
-import iziToast from 'izitoast';
 export default {
     data() {
         return {

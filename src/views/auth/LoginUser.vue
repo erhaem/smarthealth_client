@@ -17,23 +17,21 @@
         <div class="col-lg-4 mb-5 mb-lg-0">
           <div class="card">
             <div class="card-body py-5 px-md-5">
-              <Form @submit="handleSubmit" :validation-schema="schema" v-slot="{ errors }">
-                <div class="form-outline mb-2 text-start">
+              <Form @submit="handleSubmit">
+                <div :class="['form-outline mb-2 text-start', { 'has-error': submitted && !user.nomor_hp }]">
                   <label class="form-label" for="form3Example3">Phone number</label>
-                  <InputField Name="phoneNumber" v-model="user.nomor_hp" />
-                  <span :class="[errorClass]">{{ errors.phoneNumber }}</span>
+                  <input type="text" name="phoneNumber" class="form-control" v-model="user.nomor_hp" />
                 </div>
-                <div class="form-outline mb-2 text-start">
+                <div :class="['form-outline mb-2 text-start', { 'has-error': submitted && !user.password}]">
                   <label class="form-label" for="form3Example4">Password</label>
-                  <InputField Name="password" v-model="user.password" type="password" />
-                  <span :class="[errorClass]">{{ errors.password }}</span>
+                  <input type="password" class="form-control" v-model="user.password" />
                 </div>
                 <button type="submit" class="btn btn-primary btn-block w-100 mb-2">
                   Sign In
                 </button>
               </Form>
               <p class="text-center">dont have any account? <span class="text-primary"><router-link
-                    style="text-decoration: none;" :to="{name: 'RegisterKonsumen'}">register</router-link></span></p>
+                    style="text-decoration: none;" :to="{ name: 'RegisterKonsumen' }">register</router-link></span></p>
             </div>
           </div>
         </div>
@@ -56,7 +54,8 @@ export default {
         password: ''
       },
       errorMsg: '',
-      errorClass: 'text-danger'
+      errorClass: 'text-danger',
+      submitted: false
     }
   },
   components: {
@@ -64,13 +63,10 @@ export default {
   },
   methods: {
     handleSubmit() {
+      this.submitted = true
       let type = "postData"
-      const data = {
-        nomor_hp: this.user.nomor_hp,
-        password: this.user.password
-      }
       let url = [
-        "autentikasi/login", data
+        "autentikasi/login", this.user, {}
       ]
       this.$store.dispatch(type, url).then((response) => {
         const cekRole = response.data.getRole.idRole;
@@ -102,3 +98,8 @@ export default {
   },
 }
 </script>
+<style>
+.has-error input {
+  border-color: red;
+}
+</style>
