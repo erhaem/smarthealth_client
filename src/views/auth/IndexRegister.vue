@@ -39,7 +39,7 @@
                                     <label for="name" class="form-label">Nomor Hp</label>
                                     <input type="text" class="form-control" v-model="form.nomor_hp">
                                 </div>
-                                    <div :class="['col-md-6', { 'has-error': submitted && !form.nik }]">
+                                    <div :class="['col-md-6', { 'has-error': submitted && !form.alamat }]">
                                         <label for="alamat" class="form-label">Alamat</label>
                                         <input type="text" class="form-control" v-model="form.alamat">
                                     </div>
@@ -83,6 +83,7 @@ export default {
     },
     methods: {
         handleSubmit() {
+            this.submitted = true
             let type = "postData"
             const data = {
                 nik: this.nik,
@@ -97,6 +98,21 @@ export default {
                 "akun/konsumen", data
             ]
             this.$store.dispatch(type, url).then((result) => {
+                console.log(result);
+                if(result.line === 760){
+                    this.$swal({
+                        icon: 'error',
+                        title: 'gagal',
+                        text: 'semua kolom wajib diisi ya'
+                    })
+                } else{
+                    this.$swal({
+                        icon: 'success',
+                        title: 'berhasil login',
+                    }).then(()=>{
+                        this.$router.push({name: 'LoginUser'})
+                    })
+                }
             }).catch((err) => {
                 console.log(err);
             })

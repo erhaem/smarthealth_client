@@ -31,7 +31,7 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="selectOption" class="form-label">Jenis Kelamin</label>
-                                    <select class="form-select" v-model="form.jenisKelamin">
+                                    <select :class="['form-select select', { 'has-error': submitted && !form.jenisKelamin }]" v-model="form.jenisKelamin">
                                         <option value="" disabled>----Pilih Jenis Kelamin----</option>
                                         <option value="L">Laki-laki</option>
                                         <option value="P">Perempuan</option>
@@ -79,7 +79,7 @@ export default {
                 nama: 'tegar',
                 nomorHp: '081411126356',
                 password: 'password',
-                jenisKelamin: 'L',
+                jenisKelamin: '',
                 option: 'dokter',
                 foto: null,
                 fileDokumen: null
@@ -104,13 +104,7 @@ export default {
             this.form.fileDokumen = event.target.files[0];
         },
         async post() {
-            const url = 'http://10.0.141.94:8000/api/autentikasi/register';
-            const config = {
-                headers: {
-                    'Content-Type': 'multipart/form-data',
-                },
-            };
-
+            this.submitted = true
             const formData = new FormData();
             formData.append('nama', this.form.nama);
             formData.append('nomor_hp', this.form.nomorHp);
@@ -120,12 +114,25 @@ export default {
             formData.append('foto', this.form.foto);
             formData.append('file_dokumen', this.form.fileDokumen);
 
-            try {
-                const response = await axios.post(url, formData, config);
-                console.log(response.data);
-            } catch (error) {
-                console.error(error);
-            }
+            this.$store.dispatch('postDataUpload', ['autentikasi/register', formData]).then((result) => {
+                console.log(result.success);
+                if(result.success === false){
+                    this.$swal({
+                        icon: 'error',
+                        title: (result.message),
+                        text: 'semua inputan wajib diisi, yaa'
+                    })
+                } else {
+                    this.$swal({
+                        icon: 'success',
+                        title: (result.message)
+                    }).then(()=>{
+                        this.$router.push({name: 'LoginUser'})
+                    })
+                }
+            }).catch((err) => {
+                console.log(err);
+            });
         },
     },
 };
@@ -133,6 +140,9 @@ export default {
   
 <style>
     .has-error input {
+        border-color: red;
+    }
+    .has-error select{
         border-color: red;
     }
 </style>
