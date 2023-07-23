@@ -16,6 +16,11 @@ export default [
             title: 'Profil',
             requiresAuth: true
         }
+    },
+    {
+        path: '/alamat',
+        name: 'AlamatUser',
+        component: () => import('@/views/content/profile-page/AlamatUser.vue')
     }
 
 ]

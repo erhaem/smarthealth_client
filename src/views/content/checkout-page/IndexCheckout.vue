@@ -85,7 +85,7 @@
     <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
         <template #modal>
             <button class="btn rounded btn-outline-success mb-2 text-center w-100" data-bs-toggle="modal"
-                data-bs-target="#tambahAlamat">Tambah Alamat Baru</button>
+                data-bs-target="#tambahAlamatBaru">Tambah Alamat Baru</button>
             <div v-for="(data, index) in alamat" :key="index">
                 <div :class="['card shadow mb-2', { 'border-primary': data.clicked }]" @click="aksi(data, index)">
                     <div class="card-body">
@@ -147,13 +147,15 @@
 </template>
   
 <script>
-import Cookies from 'js-cookie'
+import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
+import 'leaflet/dist/leaflet.css';
 import axios from 'axios';
-import InputField from '@/components/partials-component/InputField.vue'
-import ModalComponent from '@/components/partials-component/ModalComponent.vue'
-import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
+import InputField from '@/components/partials-component/InputField.vue'
+import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
+import ModalComponent from '@/components/partials-component/ModalComponent.vue'
 import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
+import Cookies from 'js-cookie'
 export default {
     data() {
         return {
@@ -181,7 +183,11 @@ export default {
             selectedProvinsi: null,
             selectedKecamatan: null,
             selectedKelurahan: null,
-            selectedIndex: null
+            selectedIndex: null,
+            zoom: 15,
+            tileLayerUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            selectedPosition: null,
+            locationName: null,
         }
     },
     computed: {
@@ -211,6 +217,9 @@ export default {
         selectedAddressData() {
             const selectedAddressJson = Cookies.get('selectedAddress');
             return selectedAddressJson ? JSON.parse(selectedAddressJson) : null;
+        },
+        mapCenter() {
+            return this.selectedPosition || [0, 0];
         },
     },
     methods: {
@@ -386,24 +395,68 @@ export default {
                     this.$swal({
                         icon: 'success',
                         title: 'berhasil melakukan pembayaran'
-                    }).then(()=>{
-                        this.$router.push({name: 'Riwayat Pembelian'})
+                    }).then(() => {
+                        this.$router.push({ name: 'Riwayat Pembelian' })
                     })
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-        }
+        },
+        geolocate() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(
+                    position => {
+                        const latitude = position.coords.latitude;
+                        const longitude = position.coords.longitude;
+                        this.fetchLocationDetails(latitude, longitude);
+                    },
+                    error => {
+                        console.error('Error occurred while retrieving current location:', error);
+                    }
+                );
+            } else {
+                console.error('Geolocation is not supported by this browser.');
+            }
+        },
+        handleMarkerDrag(e) {
+            if (e && e.target) {
+                const latitude = e.target._latlng.lat;
+                const longitude = e.target._latlng.lng;
+                this.selectedPosition = [latitude, longitude];
+                this.fetchLocationDetails(latitude, longitude);
+            }
+        },
+        fetchLocationDetails(latitude, longitude) {
+            axios
+                .get('https://nominatim.openstreetmap.org/reverse', {
+                    params: {
+                        lat: latitude,
+                        lon: longitude,
+                        format: 'jsonv2',
+                    },
+                })
+                .then(response => {
+                    this.locationName = response.data.display_name;
+                    this.selectedPosition = [response.data.lat, response.data.lon];
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.error('Error occurred while fetching location details:', error);
+                });
+        },
     },
     mounted() {
         this.getDetailCheckout(),
             this.getProfil(),
             this.getAlamat(),
-            this.getProvinsi()
-
+            this.getProvinsi(),
+            this.geolocate();
     },
     components: {
-        LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField
+        LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField, LMap,
+        LTileLayer,
+        LMarker,
     },
     watch: {
         checked: {
@@ -423,4 +476,3 @@ export default {
     pointer-events: none;
 }
 </style>
-  

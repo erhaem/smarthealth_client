@@ -50,7 +50,6 @@
                         </div>
                         <label for="" class="mb-2">Alamat</label>
                         <InputField class="w-100" Name="alamat" v-model="form.alamat" />
-                                <InputField class="w-100" Name="nik" v-model="nik" />
                         <div class="row">
                             <div class="col-sm-6 col-6">
                                 <label for="" class="mb-2">Tinggi Badan</label>
