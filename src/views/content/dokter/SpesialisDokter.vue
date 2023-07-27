@@ -53,7 +53,7 @@
             <template v-if="isLoading">
                 <SkeletonLoading />
             </template>
-            <CardDokter v-else :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat"
+            <CardDokter v-else :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat" icon="fa-star" :rating="data.rating"
                 @click="$redirect({ name: 'Detail Perawat', params: { idPerawat: data.idPerawat, idAhli: data.user.id } })" />
         </div>
     </div>

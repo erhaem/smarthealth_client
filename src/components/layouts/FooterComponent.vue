@@ -5,8 +5,7 @@
                 <div class="col-sm-12 col-md-6">
                     <h6>Tentang Berobat+</h6>
                     <p class="text-justify">
-                        Lorem, ipsum dolor sit amet consectetur adipisicing elit. Fugiat ut eligendi, mollitia blanditiis, voluptas sint non rerum delectus quia odit tempora voluptate doloremque. Vero praesentium quod at magnam tempora corrupti.
-                    </p>
+                        Berobatplus merupakan layanan kesehatan yang dapat diakses kapanpun dan di manapun. beragam pelayanan kesehatan tersedia dalam satu aplikasi                    </p>
                 </div>
 
                 <div class="col-xs-6 col-md-3">

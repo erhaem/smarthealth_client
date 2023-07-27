@@ -50,7 +50,7 @@
                 biaya konsultasi online: Rp. {{ detailDokter.biaya.biaya }}
                 </div>
                 <div class="d-flex justify-content-start">
-                    <button class="btn btn-dark btn-sm">
+                    <button class="btn btn-dark btn-sm" @click="$redirect({name: 'Download App'})">
                         chat sekarang
                     </button>
                 </div>

@@ -85,7 +85,7 @@
     <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
         <template #modal>
             <button class="btn rounded btn-outline-success mb-2 text-center w-100" data-bs-toggle="modal"
-                data-bs-target="#tambahAlamatBaru">Tambah Alamat Baru</button>
+                data-bs-target="#tambahAlamat">Tambah Alamat Baru</button>
             <div v-for="(data, index) in alamat" :key="index">
                 <div :class="['card shadow mb-2', { 'border-primary': data.clicked }]" @click="aksi(data, index)">
                     <div class="card-body">

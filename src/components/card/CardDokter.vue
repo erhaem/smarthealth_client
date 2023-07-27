@@ -11,15 +11,15 @@
                 </p>
                 <div class="d-flex justify-content-start" :style="styleParagraph">
                     <p class="rounded mb-1 me-1"><i class="ms-1 fa-solid fa-briefcase"></i> 1 tahun &nbsp;</p>
-                    <p class="rounded mb-1"><i class="ms-1 fa-solid fa-thumbs-up"></i>
-                        100% &nbsp;</p>
+                    <p class="rounded mb-1"><i :class="'ms-1 fa-solid ' + icon "></i>
+                        {{rating}} &nbsp;</p>
                 </div>
                 <div>
                     <p class="mb-1" :style="styleParagraph">Rp. {{ biaya }}</p>
                 </div>
                 <div class="pt-3">
                     <button class="btn btn-sm text-light w-50"
-                        :style="styleButton">Chat</button>
+                        :style="styleButton">{{labelButton}}</button>
                 </div>
             </div>
         </div>
@@ -55,6 +55,18 @@ export default {
             type: String,
             default: ''
         },
+        labelButton: {
+            type: String,
+            default: 'Chat'
+        },
+        icon: {
+            type: String,
+            default: 'fa-star'
+        },
+        rating: {
+            type: String,
+            default: '0'
+        }
     }
 }
 </script>

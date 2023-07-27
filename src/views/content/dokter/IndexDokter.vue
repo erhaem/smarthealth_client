@@ -36,8 +36,7 @@
             <div class="col-lg-4 d-sm-block d-none">
                 <h4><b>BerobatPlus</b></h4>
                 <p class="mb-0">
-                    Lorem, ipsum dolor sit amet consectetur adipisicing elit. Molestias, ad! Nesciunt reprehenderit a vel quos magnam beatae optio, mollitia dolores, necessitatibus nulla reiciendis debitis illum. Quam magnam culpa voluptates esse?
-                </p>
+                    Berobatplus merupakan layanan kesehatan yang dapat diakses kapanpun dan di manapun. beragam pelayanan kesehatan tersedia dalam satu aplikasi                </p>
                 <img src="../../../assets/images/injury-rafiki.png" class="img-fluid" alt="">
                 <ol>
                     <li>Cepat dan Mudah</li>
