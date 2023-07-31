@@ -29,6 +29,9 @@
                     </Form>
                 </div>
             </div>
+            <div class="col-lg-5 mx-auto">
+                <img src="../../../assets/images/reset.png" class="img-fluid px-3" alt="">
+            </div>
         </div>
     </div>
 </template>
