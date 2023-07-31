@@ -4,7 +4,7 @@
             <div class="col-6 py-2">
                     <img src="../../assets/images/avadoktercowo.png" class="img-fluid rounded" alt="">
             </div>
-            <div class="col-6 py-3 px-3">
+            <div class="col-6 py-3 mt-3 px-3">
                 <p class="mb-1" style="font-size: 14px;"><b>{{ nama }}</b></p>
                 <p class="text-secondary text-sm mb-1" :style="styleParagraph">
                     {{Label}}

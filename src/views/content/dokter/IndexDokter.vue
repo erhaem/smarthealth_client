@@ -37,7 +37,7 @@
                 <h4><b>BerobatPlus</b></h4>
                 <p class="mb-0">
                     Berobatplus merupakan layanan kesehatan yang dapat diakses kapanpun dan di manapun. beragam pelayanan kesehatan tersedia dalam satu aplikasi                </p>
-                <img src="../../../assets/images/injury-rafiki.png" class="img-fluid" alt="">
+                <img src="../../../assets/images/injury-rafiki.png" class="img-fluid animated" alt="">
                 <ol>
                     <li>Cepat dan Mudah</li>
                     <li>Tersedia dokter dan perawat terbaik</li>
@@ -127,4 +127,15 @@ export default {
 .section-bg {
     background-color: #f1f7fd;
 }
+.animated{
+    animation: up-down 3s ease-in-out infinite alternate-reverse both;
+}
+@keyframes up-down {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-20px);
+    }
+  }
 </style>

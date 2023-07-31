@@ -1,8 +1,10 @@
 <template>
   <HeaderComponent />
-  <router-view>
-  </router-view>
-  <FooterComponent />
+  <main id="main">
+    <router-view>
+    </router-view>
+  </main>
+  <!-- <FooterComponent /> -->
 </template>
 <script>
 import Cookies from 'js-cookie'

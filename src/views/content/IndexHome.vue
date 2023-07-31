@@ -34,7 +34,7 @@
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>
         </div>
-        <div @click="$redirect({name: 'Rumah Sakit Terdekat'})">
+        <div @click="$redirect({ name: 'Rumah Sakit Terdekat' })">
           <SkeletonLoading v-if="isLoading" />
           <FeaturePrimary v-if="!isLoading" labelTitle="Rumah Sakit" icon="fa-hospital"
             labelParagraph="Buat janji dengan RS">
@@ -88,7 +88,7 @@
       <div class="d-flex justify-content-between">
         <TitleFeature Label="Obat & Vitamin" />
         <div v-if="produkKategori.length > 4">
-          <TitleFeature Label="Lihat semua" class="text-primary" @click="$redirect({name: 'Semua Kategori'})" />
+          <TitleFeature Label="Lihat semua" class="text-primary" @click="$redirect({ name: 'Semua Kategori' })" />
         </div>
         <div v-else>
         </div>
@@ -98,7 +98,9 @@
       <div class="row g-4 row-cols-lg-4">
         <div v-for="data in limitedData.produkKategori" :key="data.id">
           <SkeletonLoading v-if="isLoading" />
-          <router-link :to="{name: 'Produk Kategori', params: {idKategori: data.idKategoriProduk, namaKategori: data.namaKategoriProduk} }" style="text-decoration: none;">
+          <router-link
+            :to="{ name: 'Produk Kategori', params: { idKategori: data.idKategoriProduk, namaKategori: data.namaKategoriProduk } }"
+            style="text-decoration: none;">
             <CardMedicine v-if="!isLoading" :labelTitle="data.namaKategoriProduk" />
           </router-link>
         </div>
@@ -157,9 +159,7 @@ export default {
       this.loadingArtikel = true
       this.$store.dispatch(type, url).then((result) => {
         this.artikels = result.data
-        setTimeout(() => {
-          this.loadingArtikel = false
-        }, 1000);
+        this.loadingArtikel = false
       }).catch((err) => {
         console.log(err);
       })
@@ -172,9 +172,7 @@ export default {
       this.isLoading = true
       this.$store.dispatch(type, url).then((result) => {
         this.produkKategori = result.data
-        setTimeout(() => {
-          this.isLoading = false
-        }, 1000);
+        this.isLoading = false
       }).catch((err) => {
         console.log(err);
       })

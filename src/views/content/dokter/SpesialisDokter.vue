@@ -20,7 +20,7 @@
                 @click="$redirect({ name: 'Detail Dokter', params: { idDokter: data.idDokter, idAhli: data.userId.id } })" />
         </div>
     </div>
-    <div class="text-start ms-2 pt-4">
+    <div class="text-start pt-4">
         <p class="fs-4 mb-0"><b>Cari Dokter Spesialis</b></p>
         <p>Mau langsung sembuh? yuk cari spesialis yang diinginkan
         </p>
@@ -30,7 +30,7 @@
             <template v-if="isLoading">
                 <LoadingComponent />
             </template>
-            <div class="d-flex flex-column align-items-center" v-else
+            <div class="d-flex flex-column align-items-center"
                 @click="$redirect('spesialis/' + data.idSpesialisPenyakit + '/dokter')">
                 <i :class="data.icon + ' p-3 rounded-circle fs-2 text-light'" style="background-color: #46458C"></i>
                 <p>{{ data.namaSpesialis }}</p>

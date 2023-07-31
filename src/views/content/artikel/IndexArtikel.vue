@@ -1,36 +1,42 @@
 <template>
-  <section id="services" class="services">
-    <div class="container">
-      <h5>Topik Terkini</h5>
-      <div class="d-flex justify-content-start">
-        <div v-for="data in kategoriArtikel">
-          <p class="me-2 rounded border px-3 cursor-pointer"
-            :class="{ 'bg-primary text-light': selectedKategori === data.idKategoriArtikel }"
-            @click="selectKategori(data.idKategoriArtikel)">
-            {{ data.namaKategori }}
-          </p>
+  <div class="body">
+    <section id="services">
+      <div class="container">
+        <h5>Topik Terkini</h5>
+        <div class="d-flex justify-content-start">
+          <div v-for="data in kategoriArtikel">
+            <p class="me-2 rounded border px-3 cursor-pointer"
+              :class="{ 'bg-dark text-light': selectedKategori === data.idKategoriArtikel }"
+              @click="selectKategori(data.idKategoriArtikel)">
+              {{ data.namaKategori }}
+            </p>
+          </div>
+        </div>
+        <div class="row g-4">
+          <div v-if="selectedKategori === null" v-for="data in allArtikel" class="col-md-4 col-lg-3 rounded">
+            <template v-if="isLoading">
+              <SkeletonLoading />
+            </template>
+            <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="data.judulArtikel" :image="data.foto"
+              :description="data.deskripsi" @click="$redirect('/artikel/' + data.slugArtikel)"></CardArtikel>
+          </div>
+          <div v-else class="col-md-4 col-lg-3 rounded" v-for="item in artikel">
+            <template v-if="isLoading">
+              <SkeletonLoading />
+            </template>
+            <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="item.judulArtikel"
+              :description="item.deskripsi" @click="$redirect('artikel/' + item.namaKategori + '/' + item.idArtikel)">
+            </CardArtikel>
+          </div>
+          <div v-if="artikel.length < 1 && selectedKategori != null">
+            <div class="alert alert-info text-center">
+              <p>Maaf Data Artikel Belum Tersedia</p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="row g-4">
-        <div v-if="selectedKategori === null" v-for="data in allArtikel" class="col-md-4 col-lg-3 rounded">
-          <template v-if="isLoading">
-            <SkeletonLoading/>
-          </template>
-          <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
-            @click="$redirect('/artikel/' + data.slugArtikel)"></CardArtikel>
-        </div>
-        <div v-else class="col-md-4 col-lg-3 rounded" v-for="item in artikel">
-          <template v-if="isLoading">
-            <SkeletonLoading />
-          </template>
-            <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="item.judulArtikel" :description="item.deskripsi" @click="$redirect('artikel/' + item.namaKategori + '/' + item.idGroupingArtikel)"></CardArtikel>
-        </div>
-        <div v-if="artikel.length < 1 && selectedKategori != null">
-          gada
-        </div>
-      </div>
-    </div>
-  </section>
+    </section>
+  </div>
 </template>
   
 <script>
@@ -97,7 +103,7 @@ export default {
       this.isLoading = true
       this.$store.dispatch(type, url).then((result) => {
         this.allArtikel = result.data
-          this.isLoading = false
+        this.isLoading = false
       }).catch((err) => {
         console.log(err);
       })

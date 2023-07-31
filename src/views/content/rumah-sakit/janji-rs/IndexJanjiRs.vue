@@ -5,16 +5,20 @@
             </i>
         </button>
         <div class="card border-0 sticky-top" style="max-width: 720px;">
-            <div class="row g-0">
+            <template v-if="isLoading">
+                <SkeletonLoading />
+            </template>
+            <div class="row g-0" v-else data-aos="fade-right" data-aos-duration="700">
                 <div class="col-md-4 col-3">
-                    <img src="../../../../assets/images/avadoktercewe.png" class="px-3 py-3 img-fluid rounded-start" alt="...">
+                    <img src="../../../../assets/images/avadoktercewe.png" class="px-3 py-3 img-fluid rounded-start"
+                        alt="...">
                 </div>
                 <div class="col-md-8 col-9">
                     <div class="card-body pt-0 mt-0 pt-sm-4 mt-sm-2">
                         <div v-for="item in limitedData">
-                            <h5 class="card-title mb-0">dr. {{item.praktek.dokter}}</h5>
+                            <h5 class="card-title mb-0">dr. {{ item.praktek.dokter }}</h5>
                         </div>
-                        <p class="card-text text-secondary"><i>Dokter {{spesialis.namaSpesialis}}</i></p>
+                        <p class="card-text text-secondary"><i>Dokter {{ spesialis.namaSpesialis }}</i></p>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <p class=""><i class="fas fa-thumbs-up text-primary"></i><small class="text-primary"> 99%
@@ -25,38 +29,54 @@
             </div>
         </div>
         <div class="col-12 col-md-6">
-            <h5>Profil Dokter</h5>
-            <p>
-                dr. Amelia Suganda, Sp.OG merupakan seorang Dokter Kandungan. Beliau lulusan pendidikan Spesialis Obstetri
-                dan
-                Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon Cirebon
-                dan
-                RS Sumber Kasih Cirebon.
-            </p>
-            <h5>Keahlian Medis</h5>
-            <div v-for="(data, index) in keahlian" :key="index" class="mb-2">
-                <p class="mb-0 text-dark">
-                    <small>
-                        {{ index + 1 }}.
-                        {{ data.keahlianId.namaKeahlian }}</small>
-                </p>
-            </div>
+            <template v-if="isLoading">
+                <SkeletonLoading />
+            </template>
+            <template v-else>
+                <div data-aos="fade-right" data-aos-duration="700">
+                    <h5>Profil Dokter</h5>
+                    <p>
+                        dr. Amelia Suganda, Sp.OG merupakan seorang Dokter Kandungan. Beliau lulusan pendidikan Spesialis
+                        Obstetri
+                        dan
+                        Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
+                        Cirebon
+                        dan
+                        RS Sumber Kasih Cirebon.
+                    </p>
+                    <h5>Keahlian Medis</h5>
+                    <div v-for="(data, index) in keahlian" :key="index" class="mb-2">
+                        <p class="mb-0 text-dark">
+                            <small>
+                                {{ index + 1 }}.
+                                {{ data.keahlianId.namaKeahlian }}</small>
+                        </p>
+                    </div>
+                </div>
+            </template>
         </div>
-        <div class="d-flex justify-content-between mb-2">
-            <h5>Pilih tanggal dan waktu kunjungan</h5>
-        </div>
-        <div class="row row-cols-1 row-cols-md-5 g-4">
-            <div v-for="data in jadwalPraktek" class="col">
-                <div :class="['card shadow d-block-none d-sm', { 'border-primary': data.clicked }]" @click="aksi(data)">
-                    <div :class="['card-body', { 'text-primary' : data.clicked}]">
-                        <h5 class="mb-2">
-                            {{ data.tanggal }}
-                        </h5>
-                        <p>{{ data.mulaiJam }} - {{ data.selesaiJam }}</p>
+        <template v-if="isLoading">
+            <SkeletonLoading/>
+        </template>
+        <template v-else>
+            <div data-aos="fade-right" data-aos-duration="700">
+                <div class="d-flex justify-content-between mb-2">
+                    <h5>Pilih tanggal dan waktu kunjungan</h5>
+                </div>
+                <div class="row row-cols-1 row-cols-md-5 g-4">
+                    <div v-for="data in jadwalPraktek" class="col">
+                        <div :class="['card shadow d-block-none d-sm', { 'border-primary': data.clicked }]" @click="aksi(data)">
+                            <div :class="['card-body', { 'text-primary': data.clicked }]">
+                                <h5 class="mb-2">
+                                    {{ data.tanggal }}
+                                </h5>
+                                <p>{{ data.mulaiJam }} - {{ data.selesaiJam }}</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        </template>
     </div>
     <div class="fixed-bottom bg-light shadow">
         <div class="mt-3 mb-3">
@@ -71,6 +91,7 @@
     </div>
 </template>
 <script>
+import SkeletonLoading from '../../../../components/partials-component/SkeletonLoading.vue'
 import Button from '@/components/partials-component/ButtonComponent.vue'
 export default {
     data() {
@@ -79,23 +100,25 @@ export default {
             spesialis: {},
             keahlian: [],
             selectedIdJdwl: null,
-            limit: 1
+            limit: 1,
+            isLoading: false
         }
     },
     components: {
         Button,
+        SkeletonLoading
     },
     computed: {
         idFromParams() {
             return this.$route.params.idDetailPraktek
         },
-        idAhli(){
+        idAhli() {
             return this.$route.params.idAhli
         },
         isAnyClicked() {
             return this.selectedId !== null;
         },
-        limitedData(){
+        limitedData() {
             return this.jadwalPraktek.slice(0, this.limit)
         }
     },
@@ -104,7 +127,7 @@ export default {
     },
     created() {
         this.getSpesialis(),
-        this.getKeahlian()
+            this.getKeahlian()
     },
     methods: {
         getJadwalPraktek() {
@@ -135,27 +158,29 @@ export default {
                 });
             }
         },
-        getSpesialis(){
+        getSpesialis() {
             const idSpesialis = this.$route.params.idSpesialis
             let type = "getData"
             let url = [
                 `master/penyakit/spesialis_penyakit/${idSpesialis}/edit`, {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
+            this.isLoading = true
+            this.$store.dispatch(type, url).then((result) => {
                 this.spesialis = result.data
-            }).catch((err)=>{
+                this.isLoading = false
+            }).catch((err) => {
                 console.log(err);
             })
         },
-        getKeahlian(){
+        getKeahlian() {
             const ahliId = this.$route.params.idAhli
             let type = "getData"
             let url = [
                 `master/ahli/keahlian/master/${ahliId}/get`, {}
             ]
-            this.$store.dispatch(type, url).then((result)=>{
+            this.$store.dispatch(type, url).then((result) => {
                 this.keahlian = result.data
-            }).catch((err)=>{
+            }).catch((err) => {
                 console.log(err);
             })
         }

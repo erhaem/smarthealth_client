@@ -72,9 +72,7 @@
                 </div>
             </div>
         </div>
-        <input type="text" v-model="detailKunjungan.idJadwalPraktek" hidden>
     </div>
-    {{ antrian }}
 </template>
 <script>
 export default {
@@ -84,7 +82,7 @@ export default {
                 praktek: {}
             },
             dataa: [],
-            antrian: []
+            antrian: [],
         }
     },
     computed: {
@@ -100,6 +98,9 @@ export default {
             this.getAntrian()
     },
     methods: {
+        convert(svgCode) {
+            return `data:image/svg+xml;base64,${btoa(svgCode)}`
+        },
         getDetail() {
             let type = "getData"
             let url = [
@@ -148,6 +149,28 @@ export default {
             }).catch((err) => {
                 console.log(err);
             })
+        },
+        downloadImage() {
+            // Get the SVG code from the antrian object
+            let svgCode = this.antrian.code;
+
+            // Convert the SVG code to a data URI with base64 encoding
+            let dataUri = this.convert(svgCode);
+
+            // Create an anchor element with the data URI as the href attribute
+            let link = document.createElement('a');
+            link.href = dataUri;
+
+            // Set the filename for the downloaded image (you can modify this if needed)
+            let filename = 'antrian_image.svg';
+            link.setAttribute('download', filename);
+
+            // Append the anchor element to the DOM and click it to trigger the download
+            document.body.appendChild(link);
+            link.click();
+
+            // Clean up by removing the anchor element from the DOM
+            document.body.removeChild(link);
         }
     },
 }

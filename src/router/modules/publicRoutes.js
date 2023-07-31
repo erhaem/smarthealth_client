@@ -53,5 +53,10 @@ export default [
         meta: {
             requiresAuth: true
         }
+    },
+    {
+        path: '/detail/:idJadwalDokter',
+        name: 'Detail Janji Jadwal Dokter',
+        component: ()=>import('@/views/content/riwayat/IndexQrCode.vue')
     }
 ]

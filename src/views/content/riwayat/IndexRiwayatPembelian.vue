@@ -152,9 +152,11 @@ export default {
             return selectedAddressJson ? JSON.parse(selectedAddressJson) : null;
         },
     },
+    mounted() {
+        this.getDetail()
+    },
     created() {
-        this.getDetailTransaksi(),
-            this.getDetail()
+        this.getDetailTransaksi()
     },
     methods: {
         getDetailTransaksi() {
