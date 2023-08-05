@@ -37,7 +37,7 @@ const process = {
                         resolve(response.data);
                     },
                     (error) => {
-                        reject(error.response.data.message);
+                        reject(error);
                     }
                 );
             });

@@ -392,7 +392,7 @@ export default {
                     id_keranjang_detail: idKeranjangDetail,
                     payment_method: this.payment_method,
                     bank: this.bank
-                }
+                }, {}
             ];
             this.$store.dispatch(type, url)
                 .then((result) => {
