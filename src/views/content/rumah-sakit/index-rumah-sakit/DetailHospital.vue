@@ -97,7 +97,7 @@
             <div v-else class="row row-cols-1 row-cols-md-5 g-3">
                 <div class="col" v-for="data in limitedDataSpesialis" :key="data.id">
                     <CardMedicine
-                        @click="$redirect('/detail_rumah_sakit/' + data.penyakit.idSpesialisPenyakit + '/' + data.idRumahSakit)"
+                        @click="$redirect({name: 'Detail Spesialis Rs', params: {idPenyakit: data.penyakit.idSpesialisPenyakit, id: data.idRumahSakit, namaSpesialis: data.penyakit.namaSpesialis}})"
                         class="mb-2 rounded-circle" :icon="data.penyakit.icon" :labelTitle="data.penyakit.namaSpesialis" />
                 </div>
                 <div class="px-3 py-4 text-center">

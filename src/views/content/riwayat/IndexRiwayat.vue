@@ -3,7 +3,7 @@
         <div class="mb-3">
             <h4><b>Riwayat Kunjungan</b></h4>
         </div>
-        <div class="input-group mb-3 w-50">
+        <div class="input-group mb-3 col-6 col-md-6">
             <span class="input-group-text border-0 bg-warning" id="search-addon">
                 <i class="fas fa-magnifying-glass text-light"></i>
             </span>

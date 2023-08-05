@@ -10,7 +10,7 @@ export default [
         component: () => import('@/views/content/rumah-sakit/index-rumah-sakit/DetailHospital.vue'),
     },
     {
-        path: '/detail_rumah_sakit/:idPenyakit/:id',
+        path: '/detail_rumah_sakit/:idPenyakit/:id/:namaSpesialis',
         name: 'Detail Spesialis Rs',
         component: () => import('@/views/content/rumah-sakit/index-rumah-sakit/DetailSpesialisRs.vue'),
     },

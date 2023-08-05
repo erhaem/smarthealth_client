@@ -64,7 +64,6 @@
             </div>
         </div>
     </div>
-    <!-- {{ namaRs }} -->
 </template>
 <script>
 export default {

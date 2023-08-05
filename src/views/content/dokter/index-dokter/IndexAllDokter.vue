@@ -15,6 +15,11 @@
             <template v-if="isLoading">
                 <SkeletonLoading />
             </template>
+            <template v-else-if="dokters.length === 0">
+                <div class="alert alert-danger w-100 text-center">
+                    <p>Data Dokter Tidak Ada</p>
+                </div>
+            </template>
             <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
                 :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
                 @click="$redirect({name: 'Detail Dokter', params: {idDokter: data.idDokter, idAhli: data.userId.id} })" />

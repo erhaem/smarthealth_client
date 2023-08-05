@@ -9,7 +9,17 @@
         </h5>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-3">
-        <div class="col" v-for="data in dokter" :key="data.idDokter">
+        <template v-if="isLoading">
+            <div class="text-center w-100">
+                <LoadingComponent/>
+            </div>
+        </template>
+        <template v-else-if="dokter.length === 0">
+            <div class="alert alert-danger w-100 text-center">
+                <p>Data Dokter Tidak Ada</p>
+            </div>
+        </template>
+        <div class="col" v-else v-for="data in dokter" :key="data.idDokter">
             <template v-if="hasDokter(data) && data.user.idRole === 'RO-2003062'">
                 <CardDokter :Label="spesialis.namaSpesialis" :nama="'dr ' + data.user.nama"
                     :biaya="data.keahlianId.namaKeahlian"
@@ -19,6 +29,7 @@
     </div>
 </template>
 <script>
+import LoadingComponent from '@/components/partials-component/LoadingComponent.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue';
 import CardDokter from '@/components/card/CardDokter.vue'
 export default {
@@ -50,9 +61,7 @@ export default {
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
                 this.dokter = result.data
-                setTimeout(() => {
-                    this.isLoading = false
-                }, 1000);
+                this.isLoading = false
             }).catch((err) => {
                 console.log(err);
             })
@@ -73,7 +82,7 @@ export default {
         }
     },
     components: {
-        CardDokter, SkeletonLoading
+        CardDokter, SkeletonLoading, LoadingComponent
     }
 }
 </script>
