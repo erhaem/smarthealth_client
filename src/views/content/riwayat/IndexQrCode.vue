@@ -1,7 +1,14 @@
 <template>
     <div class="col-lg-12 col-md-6 pt-3 pb-3">
-        <div class="d-flex justify-content-center">
-            <div class="card shadow pb-2">
+        <div class="col-6 mx-auto">
+            <div class="text-center pt-5" v-if="antrian.status == 1">
+                <h5><b>Kunjungan kamu ke dokter {{antrian.praktek.ahli.user.nama}} udah selesai nihhh</b></h5>
+                <p><small>
+                    {{ antrian.praktek.jadwal.tanggal }}
+                </small></p>
+                <img class="img-fluid" src="../../../assets/images/giftsuccess.gif" alt="">
+            </div>
+            <div v-else class="card shadow pb-2">
                 <div class="card-body">
                     <div class="card-title px-4">
                         <p class="mb-0"><b>Ringkasan Detail Janji Kunjungan</b></p>
@@ -13,7 +20,6 @@
                         </p>
                         <p class="mb-0 text-secondary">
                             <small>
-                                <!-- {{ detailKunjungan.praktek.rumahSakit }} -->
                                 plumbon
                             </small>
                         </p>
@@ -92,7 +98,7 @@ export default {
                 `qr/${this.idFromParams}`, {}
             ]
             this.$store.dispatch(type, url).then((result) => {
-                // this.antrian = result
+                this.antrian = result
                 this.namaRs = result
             }).catch((err) => {
                 console.log(err);

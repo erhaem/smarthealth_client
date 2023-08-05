@@ -83,8 +83,8 @@
                 <div v-else class="border rounded mb-2" v-for="data in detail">
                     <div class="container">
                         <p class="mb-1">
-                            {{ data.namaBarang }} <br>
-                            <span class="text-secondary"><small>{{data.jumlah}} x {{data.harga}}</small></span>
+                            {{ data.produk.namaProduk }} <br>
+                            <span class="text-secondary"><small>{{data.qty}} x {{data.produk.harga}}</small></span>
                         </p>
                     </div>
                 </div>

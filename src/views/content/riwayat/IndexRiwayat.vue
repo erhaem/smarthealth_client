@@ -10,11 +10,21 @@
             <input type="search" class="form-control rounded p-2" placeholder="Cari transaksimu di sini" />
         </div>
         <div class="row row-cols-1 row-cols-md-2 g-4">
-            <div class="col mb-2" v-for="data in antrian">
-                <template v-if="isLoading">
-                    <SkeletonLoading />
-                </template>
-                <div v-else :class="['card rounded shadow']" data-aos="fade-right" data-aos-duration="500">
+            <template v-if="isLoading">
+                <SkeletonLoading />
+            </template>
+            <template v-else-if="!antrian.length">
+                <div class="text-center w-100">
+                    <div class="alert alert-info mb-5">
+                        <p>
+                            Horeeee, kamu ngga punya kunjungan yang sedang aktif nihhh
+                        </p>
+                    </div>
+                    <img src="../../../assets/images/notfound.gif" class="img-fluid animated" alt="">
+                </div> 
+            </template>
+            <div class="col mb-2" v-else v-for="data in antrian">
+                <div :class="['card rounded shadow']" data-aos="fade-right" data-aos-duration="500">
                     <div class="card-body">
                         <p>
                             <b class="me-2">Kunjungan untuk dr. {{ data.ahli }}</b>| <span class="me-2">
@@ -32,7 +42,7 @@
                         </p>
                         <p class="mb-0">
                             <i class="fas fa-location-dot me-3 text-danger"></i>
-                        <b class="text-secondary"> {{ data.lokasi.alamatRs }}</b>
+                            <b class="text-secondary"> {{ data.lokasi.alamatRs }}</b>
                         </p>
                         <p class="mb-0">
                             <i class="fas fa-clock me-3 text-success"></i>
@@ -44,7 +54,8 @@
                                 @click="lihat(data.idJadwalAntrian)">
                                 Lihat QR Code
                             </button>
-                            <button class="btn btn-sm btn-danger" @click="cancelJanji(data.idJadwalAntrian)">Batalkan Kunjungan</button>
+                            <button class="btn btn-sm btn-danger" @click="cancelJanji(data.idJadwalAntrian)">Batalkan
+                                Kunjungan</button>
                         </div>
                     </div>
                 </div>
@@ -60,14 +71,14 @@
             </div>
             <div class="text-center mb-4">
                 <template v-if="loadingQr">
-                    <LoadingComponent/>
+                    <LoadingComponent />
                 </template>
                 <img v-else :src="convert(qr.qrCode)" alt="">
             </div>
             <div class="d-flex justify-content-center">
                 <a href="#" class="btn btn-sm btn-dark mx-auto" @click="downloadImage">Download Image</a>
             </div>
-    </template>
+        </template>
     </ModalComponent>
 </template>
 <script>
@@ -77,15 +88,15 @@ import ModalComponent from '@/components/partials-component/ModalComponent.vue'
 export default {
     data() {
         return {
-            antrian: {},
+            antrian: [],
             qr: {},
             isLoading: false,
             loadingQr: false
         }
     },
     created() {
-        this.getAntrian(),
-        this.lihat()
+        this.getAntrian()
+        // this.lihat()
     },
     methods: {
         convert(svgCode) {
@@ -140,18 +151,29 @@ export default {
             // Clean up by removing the anchor element from the DOM
             document.body.removeChild(link);
         },
-        cancelJanji(idJadwalAntrian){
+        cancelJanji(idJadwalAntrian) {
             let type = "deleteData"
             let url = [
-                `master/ahli/jadwal_antrian/${idJadwalAntrian}`, {}
+                `master/ahli/jadwal_antrian`, idJadwalAntrian, {}
             ]
             this.$swal({
                 icon: 'question',
-                title: 'Apakah Yakin Batalkan Janji Kunjungan',
-                confirm
-            })
-            this.$store.dispatch(type, url).then((result)=>{
-                console.log(result);
+                title: "Apakah ingin membatalkan kunjungan?",
+                showDenyButton: true,
+                showCancelButton: false,
+                confirmButtonText: "Ya, sudah",
+                denyButtonText: "Belum nih"
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    this.$store.dispatch(type, url).then((result) => {
+                        this.$swal({
+                            icon: 'success',
+                            title: 'berhasil batalkan kunjungan'
+                        })
+                    }).catch((err) => {
+                        console.log(err);
+                    })
+                }
             })
         }
     },
@@ -160,3 +182,16 @@ export default {
     }
 }
 </script>
+<style>
+.animated{
+  animation: up-down 1s ease-in-out infinite alternate-reverse both;
+}
+@keyframes up-down {
+    0% {
+      transform: translateY(0);
+    }
+    100% {
+      transform: translateY(-20px);
+    }
+  }
+</style>

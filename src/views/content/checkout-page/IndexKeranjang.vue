@@ -1,10 +1,22 @@
 <template>
     <div class="container">
-        <template v-if="hasProduk">
             <div class="row p-lg-4">
                 <h5><b>Keranjang Kamu</b></h5>
                 <div class="col-lg-9 col-md-12">
-                    <div class="d-flex justify-content-between border-bottom border-light border-5">
+                    <template v-if="isLoading">
+                        <LoadingComponent class="mt-3"/>
+                    </template>
+                    <template v-else-if="!detail.length">
+                        <div class="mt-3 text-center">
+                            <div class="alert alert-info">
+                                <p>
+                                    Kayaknya kamu belum masukin produk nihh
+                                </p>
+                            </div>
+                            <img src="../../../assets/images/cart.gif" style="width: 50%; height: 70%" alt="">
+                        </div>
+                    </template>
+                    <div v-else  class="d-flex justify-content-between border-bottom border-light border-5">
                         <input type="checkbox" name="" id="">
                         <p class="mb-1 text-success font-weight-bold" @click="deleteChecked"><b>Hapus</b></p>
                     </div>
@@ -50,7 +62,7 @@
                                     <small>Total Harga: {{ items.jumlahHarga }} </small>
                                 </p>
                                 <p class="mb-0">
-                                    <small>Total Diskon Barang: {{ items.jumlahHarga }} </small>
+                                    <small>Total Diskon Barang: --- </small>
                                 </p>
                             </div>
                             <p class="mb-0 mt-2">
@@ -65,14 +77,6 @@
                     </div>
                 </div>
             </div>
-        </template>
-        <template v-else>
-            <div class="row p-3 justify-content-center">
-                <div class="col-md-8">
-                    <p>nampaknya kamu belum masukkin produk nihhhhh</p>
-                </div>
-            </div>
-        </template>
         <div class="row p-3">
         <div class="col-8 col-md-12">
             <div>
@@ -165,6 +169,7 @@ export default {
         },
         getKeranjang() {
             let type = "getData"
+            this.isLoading = true
             this.$store.dispatch(type, [
                 `keranjang/${this.idDetail}`, []
             ]).then((result) => {

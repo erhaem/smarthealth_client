@@ -5,15 +5,25 @@
             <div class="col-lg-6 col-md-6">
                 <div class="input-group mb-3">
                     <span class="input-group-text border-0 bg-warning" id="search-addon">
-                      <i class="fas fa-magnifying-glass text-light"></i>
+                        <i class="fas fa-magnifying-glass text-light"></i>
                     </span>
                     <input type="search" class="form-control rounded p-2" placeholder="Cari alamat atau nama penerima" />
-                  </div>
-                <div v-for="(data, index) in alamat" :key="index">
-                    <template v-if="isLoading">
-                        <SkeletonLoading/>
-                    </template>
-                    <div v-else :class="['card shadow mb-2', { 'border-success text-success': data.clicked }]" @click="aksi(data, index)">
+                </div>
+                <template v-if="isLoading">
+                    <SkeletonLoading />
+                </template>
+                <template v-else-if="!alamat.length">
+                    <div class="mt-3 text-center">
+                        <div class="alert mb-0 alert-info">
+                            <p>
+                                Kamu belum nambahin alamat pengiriman nihh
+                            </p>
+                        </div>
+                        <img src="../../../assets/images/alamatnotfound.gif" style="width: 70%; height: 70%" alt="">
+                    </div>
+                </template>
+                <div v-else v-for="(data, index) in alamat" :key="index">
+                    <div class="card shadow mb-2">
                         <div class="card-body">
                             <p>
                                 <b> {{ profil.user.nama }} </b> <span class="bg-primary rounded pe-2 ps-2 text-light">{{
@@ -21,6 +31,13 @@
                                 note: {{
                                     data.detail }}
                             </p>
+                            <div class="d-flex justify-content-end">
+                                <button class="btn btn-danger btn-sm" @click="hapusAlamat(data.idAlamat)">
+                                    <i class="fas fa-trash">
+                                    </i>
+                                    hapus alamat
+                                </button>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -38,7 +55,8 @@
                         <label class="mt-2"><b>Detail Lokasi</b></label>
                         <textarea class="form-control" rows="4" disabled :value="locationName"></textarea>
                         <label class="mt-2"><b>Catatan untuk Kurir</b></label>
-                        <textarea class="form-control" rows="4" placeholder="ex: taro di depan pintu" v-model="form.detail"></textarea>
+                        <textarea class="form-control" rows="4" placeholder="ex: taro di depan pintu"
+                            v-model="form.detail"></textarea>
                         <div class="d-flex justify-content-between mt-3">
                             <div>
                                 <p class="mb-0 text-dark"><b>Pakai metode lain?</b></p>
@@ -61,7 +79,7 @@ import axios from 'axios';
 import InputField from '@/components/partials-component/InputField.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 export default {
-    data (){
+    data() {
         return {
             alamat: [],
             zoom: 15,
@@ -73,15 +91,31 @@ export default {
                 lokasi: '',
                 detail: 'Taro di depan aja'
             },
-            profil: {}
+            profil: {},
+            isLoading: false
         }
     },
     mounted() {
         this.geolocate(),
-        this.getAlamat(),
-        this.getProfil()
+            this.getAlamat(),
+            this.getProfil()
     },
     methods: {
+        hapusAlamat(idAlamat) {
+            let type = "deleteData"
+            let url = [
+                "master/alamat_user", idAlamat, {}
+            ]
+            this.$store.dispatch(type, url).then((result) => {
+                this.$swal({
+                    icon: 'success',
+                    title: 'Alamat Berhasil Dihapus'
+                })
+                this.getAlamat()
+            }).catch((err) => {
+                console.log(err);
+            })
+        },
         geolocate() {
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
@@ -118,7 +152,6 @@ export default {
                 .then(response => {
                     this.locationName = response.data.display_name;
                     this.selectedPosition = [response.data.lat, response.data.lon];
-                    console.log(response);
                 })
                 .catch(error => {
                     console.error('Error occurred while fetching location details:', error);
