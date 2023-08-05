@@ -162,6 +162,8 @@ export default {
             items: {},
             produk_id: '',
             idKeranjangDetail: '',
+            bank: 'bank_transfer',
+            payment_method: 'bni',
             isLoading: false,
             selected: [],
             detail: [],
@@ -388,6 +390,8 @@ export default {
                 "master/pembelian/transaksi", {
                     id_keranjang: this.items.idKeranjang,
                     id_keranjang_detail: idKeranjangDetail,
+                    payment_method: this.payment_method,
+                    bank: this.bank
                 }
             ];
             this.$store.dispatch(type, url)

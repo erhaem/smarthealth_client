@@ -66,13 +66,13 @@ import ButtonComponent from '@/components/partials-component/ButtonComponent.vue
 export default {
     data() {
         return {
-            nik: '',
+            nik: '223829932',
             form: {
-                nama: '',
-                email: '',
-                nomor_hp: '',
-                password: '',
-                alamat: '',
+                nama: 'Yakel',
+                email: 'yakel@gmail.com',
+                nomor_hp: '081233327788',
+                password: 'password',
+                alamat: 'jakarta',
                 status: ''
             },
             submitted: false
@@ -98,8 +98,7 @@ export default {
                 "akun/konsumen", data
             ]
             this.$store.dispatch(type, url).then((result) => {
-                console.log(result);
-                if(result.line === 760){
+                if(result.success === false){
                     this.$swal({
                         icon: 'error',
                         title: 'gagal',
@@ -108,7 +107,7 @@ export default {
                 } else{
                     this.$swal({
                         icon: 'success',
-                        title: 'berhasil login',
+                        title: 'berhasil register',
                     }).then(()=>{
                         this.$router.push({name: 'LoginUser'})
                     })
