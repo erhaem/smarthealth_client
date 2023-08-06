@@ -17,15 +17,17 @@
             <template v-if="isLoading">
               <SkeletonLoading />
             </template>
-            <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="data.judulArtikel" :image="data.foto"
-              :description="data.deskripsi" @click="$redirect('/artikel/' + data.slugArtikel)"></CardArtikel>
+            <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="data.judulArtikel"
+              :image="data.foto" :description="data.deskripsi" @click="$redirect('/artikel/' + data.slugArtikel)">
+            </CardArtikel>
           </div>
           <div v-else class="col-md-4 col-lg-3 rounded" v-for="item in artikel">
             <template v-if="isLoading">
               <SkeletonLoading />
             </template>
             <CardArtikel v-else data-aos="fade-right" data-aos-duration="300" :title="item.judulArtikel"
-              :description="item.deskripsi" @click="$redirect('artikel/' + item.namaKategori + '/' + item.idArtikel)">
+              :image="item.foto" :description="item.deskripsi"
+              @click="$redirect('artikel/' + item.namaKategori + '/' + item.idArtikel)">
             </CardArtikel>
           </div>
           <div v-if="artikel.length < 1 && selectedKategori != null">

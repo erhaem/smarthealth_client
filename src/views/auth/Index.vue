@@ -31,7 +31,9 @@
                                 </div>
                                 <div class="col-md-6">
                                     <label for="selectOption" class="form-label">Jenis Kelamin</label>
-                                    <select :class="['form-select select', { 'has-error': submitted && !form.jenisKelamin }]" v-model="form.jenisKelamin">
+                                    <select
+                                        :class="['form-select select', { 'has-error': submitted && !form.jenisKelamin }]"
+                                        v-model="form.jenisKelamin">
                                         <option value="" disabled>----Pilih Jenis Kelamin----</option>
                                         <option value="L">Laki-laki</option>
                                         <option value="P">Perempuan</option>
@@ -47,15 +49,15 @@
                                     </option>
                                 </select>
                             </div>
-                                <div class="mb-3">
-                                    <label for="fotoInput" class="form-label me-2">Foto Pribadi *formal</label> <br>
-                                    <input type="file" id="fotoInput" class="form-control-file" @change="handleFoto">
-                                </div>
-                                <div class="mb-3">
-                                    <label for="fileInput" class="form-label me-2">Dokumen Pendukung STR atau STRP</label>
-                                    <br>
-                                    <input type="file" id="fileInput" class="form-control-file" @change="handleFileDokumen">
-                                </div>
+                            <div class="mb-3">
+                                <label for="fotoInput" class="form-label me-2">Foto Pribadi *formal</label> <br>
+                                <input type="file" id="fotoInput" class="form-control-file" @change="handleFoto">
+                            </div>
+                            <div class="mb-3">
+                                <label for="fileInput" class="form-label me-2">Dokumen Pendukung STR atau STRP</label>
+                                <br>
+                                <input type="file" id="fileInput" class="form-control-file" @change="handleFileDokumen">
+                            </div>
                             <div class="text-center">
                                 <button class="btn w-100 btn-primary">Register</button>
                             </div>
@@ -102,46 +104,70 @@ export default {
             this.form.fileDokumen = event.target.files[0];
         },
         async post() {
-            this.submitted = true
+            this.submitted = true;
             const formData = new FormData();
             formData.append('nama', this.form.nama);
             formData.append('nomor_hp', this.form.nomorHp);
             formData.append('password', this.form.password);
             formData.append('option', this.form.option);
             formData.append('jenis_kelamin', this.form.jenisKelamin);
-            formData.append('foto', this.form.foto);
-            formData.append('file_dokumen', this.form.fileDokumen);
 
-            this.$store.dispatch('postDataUpload', ['autentikasi/register', formData]).then((result) => {
-                console.log(result.success);
-                if(result.success === false){
-                    this.$swal({
-                        icon: 'error',
-                        title: (result.message),
-                        text: 'semua inputan wajib diisi, yaa'
-                    })
-                } else {
-                    this.$swal({
-                        icon: 'success',
-                        title: (result.message)
-                    }).then(()=>{
-                        this.$router.push({name: 'LoginUser'})
-                    })
-                }
-            }).catch((err) => {
-                console.log(err);
-            });
+            const fotoFile = this.form.foto;
+            if (fotoFile && (fotoFile.type === 'image/png' || fotoFile.type === 'image/jpeg')) {
+                formData.append('foto', fotoFile);
+            } else {
+                this.$swal({
+                    icon: 'error',
+                    title: 'Format Foto Invalid',
+                    text: 'Foto harus berformat PNG atau JPEG.',
+                });
+                return; 
+            }
+            const fileDokumenFile = this.form.fileDokumen;
+            if (fileDokumenFile && fileDokumenFile.type === 'application/pdf') {
+                formData.append('file_dokumen', fileDokumenFile);
+            } else {
+                this.$swal({
+                    icon: 'error',
+                    title: 'Format File Invalid',
+                    text: 'Dokumen harus berformat .PDF',
+                });
+                return; 
+            }
+            this.$store.dispatch('postDataUpload', ['autentikasi/register', formData])
+                .then((result) => {
+                    console.log(result.success);
+                    if (result.success === false) {
+                        this.$swal({
+                            icon: 'error',
+                            title: result.message,
+                            text: 'All input fields are required.',
+                        });
+                    } else {
+                        this.$swal({
+                            icon: 'success',
+                            title: result.message,
+                        }).then(() => {
+                            this.$router.push({ name: 'LoginUser' });
+                        });
+                    }
+                })
+                .catch((err) => {
+                    console.log(err);
+                });
         },
+
     },
 };
 </script>
   
 <style>
-    .has-error input {
-        border-color: red;
-    }
-    .has-error select{
-        border-color: red;
-    }
+.has-error input {
+    border-color: red;
+}
+
+.has-error select {
+    border-color: red;
+}
 </style>
   

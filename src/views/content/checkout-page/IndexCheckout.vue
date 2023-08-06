@@ -85,7 +85,7 @@
     <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
         <template #modal>
             <button class="btn rounded btn-outline-success mb-2 text-center w-100"
-                @click="$redirect({ name: 'AlamatUser' })">Tambah Alamat Baru</button>
+                @click="gantiHalaman">Tambah Alamat Baru</button>
             <div v-for="(data, index) in alamat" :key="index">
                 <div :class="['card shadow mb-2', { 'border-primary': data.clicked }]" @click="aksi(data, index)">
                     <div class="card-body">
@@ -147,9 +147,6 @@
 </template>
   
 <script>
-import { LMap, LTileLayer, LMarker } from '@vue-leaflet/vue-leaflet';
-import 'leaflet/dist/leaflet.css';
-import axios from 'axios';
 import ButtonComponent from '@/components/partials-component/ButtonComponent.vue'
 import InputField from '@/components/partials-component/InputField.vue'
 import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
@@ -186,10 +183,6 @@ export default {
             selectedKecamatan: null,
             selectedKelurahan: null,
             selectedIndex: null,
-            zoom: 15,
-            tileLayerUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
-            selectedPosition: null,
-            locationName: null,
         }
     },
     computed: {
@@ -219,12 +212,12 @@ export default {
         selectedAddressData() {
             const selectedAddressJson = Cookies.get('selectedAddress');
             return selectedAddressJson ? JSON.parse(selectedAddressJson) : null;
-        },
-        mapCenter() {
-            return this.selectedPosition || [0, 0];
-        },
+        }
     },
     methods: {
+        gantiHalaman(){
+            window.location = '/alamat'
+        },
         saveAlamatToCookies() {
             const selectedAddress = this.alamat.find((data) => data.clicked === true);
 
@@ -286,17 +279,6 @@ export default {
             ]).then((result) => {
                 this.isLoading = false
                 this.detail = result.data
-            }).catch((err) => {
-                console.log(err);
-            })
-        },
-        withBui() {
-            let type = "postData"
-            let url = [
-                "invoice", {}
-            ]
-            this.$store.dispatch(type, url).then((result) => {
-                window.open(result.data.invoiceUrl, "_blank")
             }).catch((err) => {
                 console.log(err);
             })
@@ -408,83 +390,15 @@ export default {
                     console.log(err);
                 });
         },
-        test() {
-            let idKeranjangDetail = this.detail.map(detailItem => detailItem.idKeranjangDetail);
-
-            // Set the headers to allow CORS
-            const headers = {
-                'Content-Type': 'application/json',
-                'Access-Control-Allow-Origin': '*',
-                'Access-Control-Allow-Methods': '*', // Allow all HTTP methods (GET, POST, PUT, DELETE, etc.).
-            };
-
-            axios.post('https://berobatplus.shop/api/master/pembelian/transaksi', {
-                id_keranjang: this.items.idKeranjang,
-                id_keranjang_detail: idKeranjangDetail,
-                payment_method: this.payment_method,
-                bank: this.bank
-            }, { headers: headers })
-                .then((result) => {
-                    console.log(result);
-                })
-                .catch((error) => {
-                    console.error(error);
-                });
-        },
-        geolocate() {
-            if (navigator.geolocation) {
-                navigator.geolocation.getCurrentPosition(
-                    position => {
-                        const latitude = position.coords.latitude;
-                        const longitude = position.coords.longitude;
-                        this.fetchLocationDetails(latitude, longitude);
-                    },
-                    error => {
-                        console.error('Error occurred while retrieving current location:', error);
-                    }
-                );
-            } else {
-                console.error('Geolocation is not supported by this browser.');
-            }
-        },
-        handleMarkerDrag(e) {
-            if (e && e.target) {
-                const latitude = e.target._latlng.lat;
-                const longitude = e.target._latlng.lng;
-                this.selectedPosition = [latitude, longitude];
-                this.fetchLocationDetails(latitude, longitude);
-            }
-        },
-        fetchLocationDetails(latitude, longitude) {
-            axios
-                .get('https://nominatim.openstreetmap.org/reverse', {
-                    params: {
-                        lat: latitude,
-                        lon: longitude,
-                        format: 'jsonv2',
-                    },
-                })
-                .then(response => {
-                    this.locationName = response.data.display_name;
-                    this.selectedPosition = [response.data.lat, response.data.lon];
-                    console.log(response);
-                })
-                .catch(error => {
-                    console.error('Error occurred while fetching location details:', error);
-                });
-        },
     },
     mounted() {
         this.getDetailCheckout(),
             this.getProfil(),
-            this.getAlamat(),
+            this.getAlamat()
             // this.getProvinsi(),
-            this.geolocate();
     },
     components: {
-        LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField, LMap,
-        LTileLayer,
-        LMarker,
+        LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField
     },
     watch: {
         checked: {

@@ -4,7 +4,8 @@
             <div class="col-sm-12 col-md-6 col-lg-8 py-3">
                 <div class="row row-cols-1 row-cols-md-4 g-4">
                     <div class="col" v-for="data in dataProduk">
-                        <div class="card shadow" @click="$redirect({name: 'Detail Produk', params: {id: data.kodeProduk} })">
+                        <div class="card shadow"
+                            @click="$redirect({ name: 'Detail Produk', params: { id: data.kodeProduk } })">
                             <div class="card-body">
                                 <p>
                                     <b>{{ data.namaProduk }} </b><br>
@@ -47,6 +48,7 @@
             </div>
         </div>
     </div>
+    {{ oroduk }}
 </template>
 <script>
 import "leaflet/dist/leaflet.css";
@@ -69,13 +71,15 @@ export default {
             longitudeMe: null,
             zoom: 15,
             url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            oroduk: []
         }
     },
     created() {
         this.getProduk(),
             this.getApotek(),
             this.getCurrentLocation()
-        this.createCustomIcon()
+        this.createCustomIcon(),
+            this.getProduaaak()
     },
     methods: {
         getProduk() {
@@ -126,6 +130,19 @@ export default {
             } else {
                 console.error('Geolocation is not supported by this browser.');
             }
+        },
+        getProduaaak() {
+            let type = "getData"
+            let url = [
+                `apotek/produk/data_produk/by_owner/${this.idFromParams}/get`, {}
+            ]
+            this.isLoading = true
+            this.$store.dispatch(type, url).then((result) => {
+                this.isLoading = false
+                this.oroduk = result.data
+            }).catch((err) => {
+                console.log(err);
+            })
         },
     },
     components: {
