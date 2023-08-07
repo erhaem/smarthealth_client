@@ -125,7 +125,7 @@ export default {
                 if (result.pesan == message) {
                     this.$swal({
                         icon: 'success',
-                        title: 'berhasil mendapatkan antrian'
+                        title: 'berhasil menmbuat janji kunjungan'
                     })
                     // this.$router.push({ name: 'Riwayat Konsumen' })
                 } else {

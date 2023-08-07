@@ -74,8 +74,6 @@ export default {
             ]
             this.$store.dispatch(type, url).then((result) => {
                 this.spesialis = result.data
-                console.log(result
-                );
             }).catch((err) => {
                 console.log(err);
             })

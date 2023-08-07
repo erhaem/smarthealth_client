@@ -18,14 +18,7 @@
                 <template v-else>
                     <h5>Profil Perawat</h5>
                     <p>
-                        {{ detailPerawat.user.nama }}, S.Kep., merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
-}} di {{ }}. Beliau lulusan pendidikan
-                        Spesialis Obstetri
-                        dan
-                        Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
-                        Cirebon
-                        dan
-                        RS Sumber Kasih Cirebon.
+                        Lorem ipsum dolor sit amet consectetur adipisicing elit. Maxime alias provident tenetur iusto ex. Veniam qui, quia fugit itaque ipsa error, repudiandae cum nemo nobis harum minima aspernatur? Ratione, necessitatibus?
                     </p>
                 </template>
                 <template v-if="isLoading">

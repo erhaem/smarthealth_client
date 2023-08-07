@@ -5,14 +5,24 @@
             </i>
         </button>
         <div class="row row-cols-1 row-cols-md-3 g-4">
-            <div class="col" v-for="data in praktekDokter">
-                <template v-if="isLoading">
-                    <SkeletonLoading/>
-                </template>
-                <CardDokter v-else data-aos="zoom-in" data-aos-duration="700" Image="../../../assets/images/avadoktercowo.png" :nama="data.ahli.nama" rating="3" :biaya="data.biayaPraktek" :Label="'Dokter ' + dokterSpesialis.namaSpesialis" labelButton="buat Janji"
-                @click="$redirect({ name: 'Detail Janji Rs', params: { idAhli: data.ahli.id, idDetailPraktek: data.idDetailPraktek, idRumahSakit: this.idFromParams, idSpesialis: this.idDokterSpesialis } })"
-                />
-            </div>
+            <template v-if="isLoading">
+                <SkeletonLoading />
+            </template>
+            <template v-else-if="getSpes.length > 0">
+                <div class="col" v-for="data in getSpes" :key="data.idDokter">
+                    <CardDokter data-aos="zoom-in" data-aos-duration="700" Image="../../../assets/images/avadoktercowo.png"
+                        :nama="data.namaDokter" rating="3" :biaya="data.biaya"
+                        :Label="'Dokter ' + dokterSpesialis.namaSpesialis" labelButton="buat Janji"
+                        @click="$redirect({ name: 'Detail Janji Rs', params: { idAhli: data.idDokter, idRumahSakit: this.idFromParams, idSpesialis: this.idDokterSpesialis, namaSpesialis: this.$route.params.namaSpesialis } })" />
+                </div>
+            </template>
+            <template v-else>
+                <div class="alert alert-info text-center w-100">
+                    <p>
+                        Dokter {{ this.$route.params.namaSpesialis }} Sedang Tidak Tersedia
+                    </p>
+                </div>
+            </template>
         </div>
     </div>
 </template>
@@ -24,8 +34,8 @@ export default {
     data() {
         return {
             dokterSpesialis: [],
-            praktekDokter: [],
-            isLoading: false
+            isLoading: false,
+            getSpes: []
         };
     },
     computed: {
@@ -38,7 +48,7 @@ export default {
     },
     created() {
         this.getDokterSpesialis();
-        this.getPraktek()
+        this.gettttSpes()
     },
     methods: {
         getDokterSpesialis() {
@@ -56,25 +66,25 @@ export default {
                 console.log(err);
             });
         },
-        getPraktek() {
+        gettttSpes() {
             let type = "getData"
             let url = [
-                "master/ahli/detail_praktek/" + this.idFromParams, {}
+                `master/spesialis/${this.idDokterSpesialis}/${this.idFromParams}`, {}
             ]
             this.isLoading = true
             this.$store.dispatch(type, url).then((result) => {
-                this.praktekDokter = result.data
+                this.getSpes = result.data
                 this.isLoading = false
             }).catch((err) => {
                 console.log(err);
             })
-        },
+        }
     },
     components: {
-    ButtonComponent,
-    SkeletonLoading,
-    CardDokter
-}
+        ButtonComponent,
+        SkeletonLoading,
+        CardDokter
+    }
 };
 </script>
 <style>

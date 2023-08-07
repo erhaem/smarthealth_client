@@ -20,7 +20,7 @@ export default [
         component: () =>import('@/views/content/apotek/ProdukByApotek.vue')
     },
     {
-        path: '/detail_rumah_sakit/buat_janji/:idAhli/:idDetailPraktek/:idRumahSakit/:idSpesialis',
+        path: '/detail_rumah_sakit/buat_janji/:idAhli/:idRumahSakit/:namaSpesialis',
         name: 'Detail Janji Rs',
         component: () => import('@/views/content/rumah-sakit/janji-rs/IndexJanjiRs.vue'),
     },

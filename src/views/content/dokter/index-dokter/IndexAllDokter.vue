@@ -20,7 +20,7 @@
                     <p>Data Dokter Tidak Ada</p>
                 </div>
             </template>
-            <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
+            <CardDokter v-else :Image="data.foto" Label="Dokter Umum"
                 :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
                 @click="$redirect({name: 'Detail Dokter', params: {idDokter: data.idDokter, idAhli: data.userId.id} })" />
         </div>

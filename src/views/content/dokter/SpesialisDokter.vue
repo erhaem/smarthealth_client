@@ -11,12 +11,16 @@
         </div>
     </div>
     <div class="row row-cols-1 row-cols-md-2 g-4">
-        <div class="col" v-for="data in limitData.dokters" :key="data.id">
+        <div class="col" v-for="data in dokters" :key="data.id">
             <template v-if="isLoading">
                 <SkeletonLoading />
             </template>
-            <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
+            <CardDokter v-if="data.biaya" :Image="data.foto" Label="Dokter Umum"
                 :nama="'dr ' + data.userId.nama" :biaya="data.biaya.biaya"
+                @click="$redirect({ name: 'Detail Dokter', params: { idDokter: data.idDokter, idAhli: data.userId.id } })" />
+
+            <CardDokter v-else Image="../../../assets/images/avadoktercowo.png" Label="Dokter Umum"
+                :nama="'dr ' + data.userId.nama" :biaya="'---'"
                 @click="$redirect({ name: 'Detail Dokter', params: { idDokter: data.idDokter, idAhli: data.userId.id } })" />
         </div>
     </div>
@@ -53,7 +57,8 @@
             <template v-if="isLoading">
                 <SkeletonLoading />
             </template>
-            <CardDokter v-else :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat" icon="fa-star" :rating="data.rating"
+            <CardDokter v-else :nama="data.user.nama + ', S.Kep.'" biaya="20.000" Label="Perawat" icon="fa-star"
+                :rating="data.rating"
                 @click="$redirect({ name: 'Detail Perawat', params: { idPerawat: data.idPerawat, idAhli: data.user.id } })" />
         </div>
     </div>
@@ -84,13 +89,11 @@ export default {
     created() {
         this.getPerawat(),
             this.getDokter()
-        this.getSpesialis(),
-            this.fetchData()
+        this.getSpesialis()
     },
     computed: {
         limitData() {
             return {
-                dokters: this.dokters.slice(0, this.dokterLimit),
                 specialist: this.specialist.slice(0, this.specialistLimit),
                 nurses: this.nurses.slice(0, this.dokterLimit)
             }
@@ -151,49 +154,15 @@ export default {
         },
         getDokter() {
             let type = "getData";
-            let url = ["akun/dokter/data", {}];
+            let url = ["akun/dokter", {}];
             return this.$store.dispatch(type, url)
                 .then((result) => {
-                    return result.data;
+                    this.dokters = result.data
                 })
                 .catch((err) => {
                     console.log(err);
                 });
-        },
-        fetchData() {
-            this.isLoading = true;
-
-            // Panggil metode getDokter() untuk mendapatkan data dokter
-            this.getDokter()
-                .then((dokters) => {
-                    this.dokters = dokters;
-
-                    // Dapatkan array dari userId.id untuk setiap dokter
-                    const userIds = dokters.map((dokter) => dokter.userId.id);
-
-                    // Panggil endpoint master/ahli/keahlian/master/{userIds}/get dengan userId.id yang ada
-                    return axios.get(`master/ahli/keahlian/master/${userIds.join(",")}/get`);
-                })
-                .then((response) => {
-                    const keahlian = response.data.data;
-
-                    // Gabungkan data dokter dan keahlian
-                    this.dokters.forEach((dokterItem) => {
-                        const matchingKeahlian = keahlian.find(
-                            (keahlianItem) => keahlianItem.user.id === dokterItem.userId.id
-                        );
-                        if (matchingKeahlian) {
-                            dokterItem.keahlianId = matchingKeahlian.keahlianId;
-                        }
-                    });
-                    this.kontol = response.data
-                    this.isLoading = false;
-                })
-                .catch((error) => {
-                    console.error("Error retrieving data:", error);
-                    this.isLoading = false;
-                });
-        },
+        }
     },
 }
 </script>

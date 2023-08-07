@@ -12,8 +12,9 @@
                     <h3>{{ detailProduk.hargaProduk }}</h3>
                     <hr>
                     <h5 class="text-primary"><b>Detail</b></h5>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Nisi magnam consequatur sequi, aliquam temporibus in minima iure vel mollitia minus obcaecati, error soluta quis labore voluptatem ea. Est, blanditiis consequatur.
-                        {{ detailProduk.deskripsiProduk }}</p>
+                    <p>
+                        {{ detailProduk.deskripsiProduk }}
+                    </p>
                         <button class="btn btn-sm btn-outline-primary" @click="addCart(detailProduk.id)">
                           Add to cart  <i class="fas fa-cart-shopping"></i>
                         </button>

@@ -28,7 +28,7 @@ router.beforeEach((to, from, next) => {
   const allowedRoles = ["RO-2003064"];
   const token = Cookies.get("token");
   const routeName = ["Detail Janji", "ProfilUser", "Keranjang", "AlamatUser", "Checkout", "Riwayat Konsumen",
-    "Riwayat Pembelian", "AccountUser"
+    "Riwayat Pembelian", "AccountUser", "Detail Janji Jadwal Dokter"
   ]
 
   if (routeName.includes(to.name)) {

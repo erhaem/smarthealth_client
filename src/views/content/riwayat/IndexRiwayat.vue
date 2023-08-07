@@ -170,6 +170,7 @@ export default {
                             icon: 'success',
                             title: 'berhasil batalkan kunjungan'
                         })
+                        this.getAntrian()
                     }).catch((err) => {
                         console.log(err);
                     })

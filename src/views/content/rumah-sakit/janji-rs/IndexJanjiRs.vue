@@ -18,7 +18,7 @@
                         <div v-for="item in limitedData">
                             <h5 class="card-title mb-0">dr. {{ item.praktek.dokter }}</h5>
                         </div>
-                        <p class="card-text text-secondary"><i>Dokter {{ spesialis.namaSpesialis }}</i></p>
+                        <p class="card-text text-secondary"><i>Dokter {{this.$route.params.namaSpesialis}}</i></p>
                         <hr>
                         <div class="d-flex justify-content-between">
                             <p class=""><i class="fas fa-thumbs-up text-primary"></i><small class="text-primary"> 99%
@@ -36,13 +36,7 @@
                 <div data-aos="fade-right" data-aos-duration="700">
                     <h5>Profil Dokter</h5>
                     <p>
-                        dr. Amelia Suganda, Sp.OG merupakan seorang Dokter Kandungan. Beliau lulusan pendidikan Spesialis
-                        Obstetri
-                        dan
-                        Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
-                        Cirebon
-                        dan
-                        RS Sumber Kasih Cirebon.
+                        Lorem ipsum dolor sit amet consectetur, adipisicing elit. Maxime corrupti enim nisi voluptatibus amet possimus, quam nobis necessitatibus architecto natus quidem excepturi suscipit molestiae totam doloribus dolorum exercitationem officia est?
                     </p>
                     <h5>Keahlian Medis</h5>
                     <div v-for="(data, index) in keahlian" :key="index" class="mb-2">
@@ -97,7 +91,6 @@ export default {
     data() {
         return {
             jadwalPraktek: [],
-            spesialis: {},
             keahlian: [],
             selectedIdJdwl: null,
             limit: 1,
@@ -126,7 +119,6 @@ export default {
         this.getJadwalPraktek()
     },
     created() {
-        this.getSpesialis(),
             this.getKeahlian()
     },
     methods: {
@@ -157,20 +149,6 @@ export default {
                     params: { idAhli: this.idAhli, idJadwalPraktek: this.selectIdJdwl }
                 });
             }
-        },
-        getSpesialis() {
-            const idSpesialis = this.$route.params.idSpesialis
-            let type = "getData"
-            let url = [
-                `master/penyakit/spesialis_penyakit/${idSpesialis}/edit`, {}
-            ]
-            this.isLoading = true
-            this.$store.dispatch(type, url).then((result) => {
-                this.spesialis = result.data
-                this.isLoading = false
-            }).catch((err) => {
-                console.log(err);
-            })
         },
         getKeahlian() {
             const ahliId = this.$route.params.idAhli

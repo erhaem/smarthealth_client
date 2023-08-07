@@ -18,14 +18,7 @@
                 <template v-else>
                     <h5>Profil Dokter</h5>
                     <p>
-                        dr. {{ detailDokter.userId.nama }}, merupakan seorang Dokter Kandungan. Lahir pada tanggal {{
-                            detailDokter.userId.tanggalLahir }} di {{ detailDokter.userId.tempatLahir }}. Beliau lulusan pendidikan
-                        Spesialis Obstetri
-                        dan
-                        Ginekologi Universitas Padjadjaran, Bandung. Saat ini beliau berpraktek di Rumah Sakit Mitra Plumbon
-                        Cirebon
-                        dan
-                        RS Sumber Kasih Cirebon.
+                        Lorem ipsum dolor, sit amet consectetur adipisicing elit. Aut iste laudantium ab eligendi! Cum doloremque facere, enim itaque ut illum qui labore quisquam nulla perspiciatis, voluptas quasi dolor odio rem.
                     </p>
                 </template>
                 <template v-if="isLoading">
@@ -33,7 +26,14 @@
                 </template>
                 <template v-else>
                 <h5>Keahlian Medis</h5>
-                <div class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
+                <template v-if="!detailKeahlian.length">
+                    <div class="alert alert-info text-center">
+                        <p>
+                            Belum menambahkan keahlian
+                        </p>
+                    </div>
+                </template>
+                <div v-else class="mb-2" v-for="(data, index) in detailKeahlian" :key="index">
                         <p class="mb-0 text-dark">
                             <small>
                                 {{ index + 1 }}. Mengatasi {{ data.keahlianId.namaKeahlian }}
