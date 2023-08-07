@@ -92,7 +92,11 @@ export default {
         }
       }
       ).catch((err) => {
-        console.log(err.response);
+        this.$swal({
+          icon: 'error',
+          title: "Maaf Error",
+          text: 'Periksa Kembali Nomor Hp dan Password'
+        })
       })
     },
   },

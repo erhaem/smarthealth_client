@@ -35,7 +35,7 @@
                         pilih alamat pengiriman
                     </button>
                 </div>
-                <label for="" class="mb-2">Pilih Metode Pembayaran</label>
+                <!-- <label for="" class="mb-2">Pilih Metode Pembayaran</label>
                 <select name="" class="form-select mb-2" id="">
                     <option value="">--Metode Pembayaran--</option>
                     <option :value="'bank_transfer'">Transfer Bank</option>
@@ -48,7 +48,7 @@
                     <option :value="data.slugBank" v-for="data in bank">
                         {{ data.namaBank }}
                     </option>
-                </select>
+                </select> -->
                 <div class="row g-0 mt-2">
                     <template v-for="(data, index) in detail" :key="index">
                         <div class="col-md-10 border-bottom border-5 mt-2 border-light container">
@@ -170,12 +170,12 @@ import Cookies from 'js-cookie'
 export default {
     data() {
         return {
-            bank: [],
+            // bank: [],
             items: {},
             produk_id: '',
             idKeranjangDetail: '',
             bank: 'bank_transfer',
-            payment_method: '',
+            payment_method: 'bni',
             isLoading: false,
             selected: [],
             detail: [],
@@ -230,18 +230,18 @@ export default {
         }
     },
     methods: {
-        getListBank(){
-            let type = "getData"
-            let url = [
-                "midtrans/bank", {}
-            ]
-            this.$store.dispatch(type, url).then((result)=>{
-                this.bank = result.data
-                console.log(result);
-            }).catch((err)=>{
-                console.log(err);
-            })
-        },
+        // getListBank(){
+        //     let type = "getData"
+        //     let url = [
+        //         "midtrans/bank", {}
+        //     ]
+        //     this.$store.dispatch(type, url).then((result)=>{
+        //         this.bank = result.data
+        //         console.log(result);
+        //     }).catch((err)=>{
+        //         console.log(err);
+        //     })
+        // },
         gantiHalaman(){
             window.location = '/alamat'
         },
@@ -425,7 +425,7 @@ export default {
             // this.getProvinsi(),
     },
     created() {
-        this.getListBank()
+        // this.getListBank()
     },
     components: {
         LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField

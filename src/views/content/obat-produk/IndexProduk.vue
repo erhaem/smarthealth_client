@@ -56,14 +56,19 @@
                             </template>
                             <div v-else class="card shadow border-0" v-if="!isLoading">
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
+                                    <img src="../../../assets/images/obat.jpeg" class="card-img-top h-50" alt="...">
                                 </div>
                                 <div class="card-body">
                                     <p class="mb-0">{{ data.namaProduk }}</p>
-                                    <div class="text-secondary" style="font-size: 14px">
-                                        <p class="mb-0"><small>{{ data.deskripsiProduk }}</small></p>
+                                    <p class="mb-1 text-secondary" style="font-size: 14px"><small>{{ data.hargaProduk }}
+                                        <br> Cirebon | terjual 2
+                                    </small></p>
+                                    <div class="text-secondary">
                                         <div class="d-flex justify-content-end">
-                                            <p class="mb-2"><small>{{ data.hargaProduk }}</small></p>
+                                            <p class="mb-0" style="font-size: 12px">
+                                                4.5
+                                            <i class="fas fa-star text-warning mb-2"></i>
+                                            </p>
                                         </div>
                                         <div class="d-flex justify-content-between">
                                             <router-link class="btn btn-sm btn-outline-primary w-75"
