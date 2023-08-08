@@ -74,7 +74,12 @@ export default {
                 "keranjang", {produk_id}, {}
             ]
             this.$store.dispatch(type, url).then((result)=>{
-                console.log(result);
+                iziToast.success({
+                    icon: 'sucesss',
+                    title: 'Berhasil menambahkan produk ke keranjang',
+                    position: 'topRight',
+                    timeout: 2000
+                })
             }).catch((err)=>{
                 console.log(err);
             })

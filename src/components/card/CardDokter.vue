@@ -65,7 +65,7 @@ export default {
         },
         rating: {
             type: String,
-            default: '0'
+            default: '5'
         }
     }
 }

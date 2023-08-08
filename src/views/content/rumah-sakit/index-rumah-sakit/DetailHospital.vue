@@ -11,7 +11,7 @@
                             <LoadingComponent />
                         </div>
                         <div v-else-if="detailRS.foto === null">
-                            <img src="../../../../assets/images/9.png" class="img-fluid" alt="">
+                            <img src="../../../../assets/images/fotors.jpg" class="img-fluid" alt="">
                         </div>
                         <div v-else>
                             <img :src="detailRS.foto" alt="" class="img-fluid">
