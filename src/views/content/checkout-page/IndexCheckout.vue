@@ -1,14 +1,14 @@
 <template>
     <div class="container">
         <template v-if="isLoading">
-            <LoadingComponent class="mt-4"/>
+            <LoadingComponent class="mt-4" />
         </template>
         <template v-else-if="!detail.length">
             <div class="alert alert-warning mt-4 text-center">
                 <p>
                     Yuk, segera checkout barang kamu sekarangg
                 </p>
-            </div> 
+            </div>
         </template>
         <div v-else class="row p-lg-4">
             <h5 class="mb-3"><b>Checkout</b></h5>
@@ -35,20 +35,6 @@
                         pilih alamat pengiriman
                     </button>
                 </div>
-                <label for="" class="mb-2">Pilih Metode Pembayaran</label>
-                <select name="" class="form-select mb-2" id="">
-                    <option value="">--Metode Pembayaran--</option>
-                    <option :value="'bank_transfer'">Transfer Bank</option>
-                </select>
-                <label for="" class="mb-2">Pilih Jenis Bank</label>
-                <select name="" class="form-select" id="" v-model="payment_method">
-                    <option value="">
-                        --pilih bank--
-                    </option>
-                    <option :value="data.slugBank" v-for="data in listBank">
-                        {{ data.namaBank }}
-                    </option>
-                </select>
                 <div class="row g-0 mt-2">
                     <template v-for="(data, index) in detail" :key="index">
                         <div class="col-md-10 border-bottom border-5 mt-2 border-light container">
@@ -98,8 +84,8 @@
     </div>
     <ModalComponent id="tambahData" labelBy="exampleModalLabel" :modalTitle="'Pilih Alamat Pengiriman'">
         <template #modal>
-            <button class="btn rounded btn-outline-success mb-2 text-center w-100"
-                @click="gantiHalaman">Tambah Alamat Baru</button>
+            <button class="btn rounded btn-outline-success mb-2 text-center w-100" @click="gantiHalaman">Tambah Alamat
+                Baru</button>
             <div v-for="(data, index) in alamat" :key="index">
                 <div :class="['card shadow mb-2', { 'border-primary': data.clicked }]" @click="aksi(data, index)">
                     <div class="card-body">
@@ -158,6 +144,7 @@
             </div>
         </template>
     </ModalComponent>
+    {{ idKeranjang }}
 </template>
   
 <script>
@@ -170,12 +157,9 @@ import Cookies from 'js-cookie'
 export default {
     data() {
         return {
-            listBank: [],
             items: {},
             produk_id: '',
             idKeranjangDetail: '',
-            bank: 'bank_transfer',
-            payment_method: '',
             isLoading: false,
             selected: [],
             detail: [],
@@ -184,10 +168,6 @@ export default {
             produk_id: '',
             profil: {},
             alamat: [],
-            // provinsi: [],
-            // kota: [],
-            // kecamatan: [],
-            // kelurahan: [],
             form: {
                 simpan_sebagai: 'Rumah',
                 lokasi: '',
@@ -207,42 +187,28 @@ export default {
         idDetail() {
             return this.items.idKeranjang
         },
-        // isKotaDisabled() {
-        //     return !this.selectedProvinsi;
-        // },
-        // isKecamatanDisabled() {
-        //     return !this.selectedKota
-        // },
-        // isKelurahanDisabled() {
-        //     return !this.selectedKecamatan
-        // },
-        // selectedLocations() {
-        //     const selectedProvinsiName = this.getSelectedName(this.selectedProvinsi, this.provinsi);
-        //     const selectedKotaName = this.getSelectedName(this.selectedKota, this.kota);
-        //     const selectedKecamatanName = this.getSelectedName(this.selectedKecamatan, this.kecamatan);
-        //     const selectedKelurahanName = this.getSelectedName(this.selectedKelurahan, this.kelurahan);
-
-        //     return `${selectedProvinsiName}, ${selectedKotaName}, ${selectedKecamatanName}, ${selectedKelurahanName}`;
-        // },
         selectedAddressData() {
             const selectedAddressJson = Cookies.get('selectedAddress');
             return selectedAddressJson ? JSON.parse(selectedAddressJson) : null;
+        },
+        idKeranjang(){
+            return this.detail
         }
     },
     methods: {
-        getListBank(){
+        getToken(){
+            let idKeranjangDetail = this.detail.map(detailItem => detailItem.idKeranjangDetail);
             let type = "getData"
             let url = [
-                "midtrans/bank", {}
+                `midtrans/get_token/${idKeranjangDetail}`, {}
             ]
             this.$store.dispatch(type, url).then((result)=>{
-                this.listBank = result.data
                 console.log(result);
             }).catch((err)=>{
                 console.log(err);
             })
         },
-        gantiHalaman(){
+        gantiHalaman() {
             window.location = '/alamat'
         },
         saveAlamatToCookies() {
@@ -337,95 +303,12 @@ export default {
             const selectedData = data.find(item => item.id === selectedId);
             return selectedData ? selectedData.nama : ''; // Return the name or an empty string if not found
         },
-        // getProvinsi() {
-        //     axios({
-        //         method: "get",
-        //         url: "http://dev.farizdotid.com/api/daerahindonesia/provinsi"
-        //     }).then((result) => {
-        //         this.provinsi = result.data.provinsi
-        //     })
-        // },
-        // showKabupaten() {
-        //     const idProvinsi = this.selectedProvinsi;
-        //     axios({
-        //         method: "get",
-        //         url: `http://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${idProvinsi}`
-        //     }).then((result) => {
-        //         this.kota = result.data.kota_kabupaten
-        //     })
-        // },
-        // showKecamatan() {
-        //     const idKabupaten = this.selectedKota;
-        //     axios({
-        //         method: "get",
-        //         url: `http://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${idKabupaten}`
-        //     }).then((result) => {
-        //         this.kecamatan = result.data.kecamatan
-        //     })
-        // },
-        // showKelurahan() {
-        //     const idKecamatan = this.selectedKecamatan
-        //     axios({
-        //         method: "get",
-        //         url: `http://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${idKecamatan}`
-        //     }).then((result) => {
-        //         this.kelurahan = result.data.kelurahan
-        //         console.log(result);
-        //     })
-        // },
-        // postAlamat() {
-        //     let type = "postData"
-        //     let url = [
-        //         "master/alamat_user", {
-        //             simpan_sebagai: this.form.simpan_sebagai,
-        //             lokasi: this.selectedLocations,
-        //             detail: this.form.detail
-        //         }, {}
-        //     ]
-        //     this.$store.dispatch(type, url).then((result) => {
-        //         this.$swal({
-        //             icon: 'success',
-        //             title: 'berhasil menambahkan alamat'
-        //         }).then(() => {
-        //             window.location.reload()
-        //         })
-        //     }).catch((err) => {
-        //         console.log(err);
-        //     })
-        // },
-        buyProduct() {
-            let type = "postData";
-            let idKeranjangDetail = this.detail.map(detailItem => detailItem.idKeranjangDetail);
-            let url = [
-                "master/pembelian/transaksi", {
-                    id_keranjang: this.items.idKeranjang,
-                    id_keranjang_detail: idKeranjangDetail,
-                    payment_method: this.payment_method,
-                    bank: this.bank
-                }, {}
-            ];
-            this.$store.dispatch(type, url)
-                .then((result) => {
-                    this.$swal({
-                        icon: 'success',
-                        title: 'berhasil melakukan pembayaran'
-                    }).then(() => {
-                        this.$router.push({ name: 'Riwayat Pembelian' })
-                    })
-                })
-                .catch((err) => {
-                    console.log(err);
-                });
-        },
     },
     mounted() {
         this.getDetailCheckout(),
             this.getProfil(),
             this.getAlamat()
-            // this.getProvinsi(),
-    },
-    created() {
-        this.getListBank()
+        // this.getProvinsi(),
     },
     components: {
         LoadingComponent, ButtonComponent, SkeletonLoading, ModalComponent, InputField

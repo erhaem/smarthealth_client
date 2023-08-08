@@ -39,7 +39,7 @@ export default [
         component: () => import('@/views/content/test-ongkir/IndexOngkir.vue')
     },
     {
-        path: '/keranjang',
+        path: '/keranjang/:idKeranjang',
         name: 'Keranjang',
         component: () => import('@/views/content/checkout-page/IndexKeranjang.vue'),
         meta: {
@@ -58,6 +58,14 @@ export default [
         path: '/detail/:idJadwalDokter',
         name: 'Detail Janji Jadwal Dokter',
         component: ()=>import('@/views/content/riwayat/IndexQrCode.vue'),
+        meta: {
+            requiresAuth: true
+        }
+    },
+    {
+        path: '/detail-pembayaran/:idKeranjanggg',
+        name: 'Detail Pembayaran',
+        component: ()=>import('@/views/content/checkout-page/DetailPembayaran.vue'),
         meta: {
             requiresAuth: true
         }

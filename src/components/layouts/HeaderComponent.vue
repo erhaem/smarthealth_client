@@ -76,7 +76,7 @@
           <div v-if="isAuthenticated && user.data.getRole.idRole === 'RO-2003064'">
             <NavItem>
               <template #router>
-                <router-link to="/keranjang" class="nav-link">
+                <router-link :to="'/keranjang/' + keranjang.idKeranjang" class="nav-link">
                   <i class="fas fa-cart-shopping text-primary">
                     <span class="badge bg-primary">
                       {{ keranjang.total }}

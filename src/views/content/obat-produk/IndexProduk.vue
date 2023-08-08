@@ -56,18 +56,18 @@
                             </template>
                             <div v-else class="card shadow border-0" v-if="!isLoading">
                                 <div class="embed-responsive embed-responsive-16by9">
-                                    <img src="../../../assets/images/obat.jpeg" class="card-img-top h-50" alt="...">
+                                    <img src="../../../assets/images/obat.jpeg" class="card-img-top h-50" alt="foto belum tersedia">
                                 </div>
                                 <div class="card-body">
                                     <p class="mb-0">{{ data.namaProduk }}</p>
                                     <p class="mb-1 text-secondary" style="font-size: 14px"><small>{{ data.hargaProduk }}
-                                        <br> Cirebon | terjual 2
-                                    </small></p>
+                                            <br> Cirebon | terjual 2
+                                        </small></p>
                                     <div class="text-secondary">
                                         <div class="d-flex justify-content-end">
                                             <p class="mb-0" style="font-size: 12px">
                                                 4.5
-                                            <i class="fas fa-star text-warning mb-2"></i>
+                                                <i class="fas fa-star text-warning mb-2"></i>
                                             </p>
                                         </div>
                                         <div class="d-flex justify-content-between">
@@ -77,8 +77,7 @@
                                             </router-link>
                                             <div class="">
                                                 <button class="btn btn-sm btn-primary" @click="addToCart(data.id)">
-                                                    <i class="fas fa-cart-shopping text-light"
-                                                        ></i>
+                                                    <i class="fas fa-cart-shopping text-light"></i>
                                                 </button>
                                             </div>
                                         </div>
@@ -213,15 +212,15 @@ export default {
                     this.$swal({
                         icon: 'success',
                         title: 'berhasil menambahkan ke keranjang'
-                    }).then(()=>{
+                    }).then(() => {
                         window.location.reload()
                     })
                 } else {
                     this.$swal({
                         icon: 'error',
                         title: 'kamu harus login dulu nih'
-                    }).then(()=>{
-                        this.$router.push({name: 'LoginUser'})
+                    }).then(() => {
+                        this.$router.push({ name: 'LoginUser' })
                     })
                 }
             }).catch((err) => {

@@ -71,7 +71,7 @@
                         </p>
                     </div>
                     <div class="card-footer text-center">
-                        <button @click="$redirect({ name: 'Checkout' })" :class="'btn btn-sm w-100 btn-dark'"
+                        <button @click="$redirect({ name: 'Detail Pembayaran', params: {idKeranjanggg: this.$route.params.idKeranjang} })" :class="'btn btn-sm w-100 btn-dark'"
                             :disabled="selected.length === 0">
                             Beli Sekarang ({{ calculateProduct() }})
                         </button>
@@ -153,6 +153,15 @@ export default {
         }
     },
     methods: {
+        getToken(){
+            let type = "getData"
+            let url = [
+                `midtrans/get_token/${this.$route.params.idKeranjang}`, {}
+            ]
+            this.$store.dispatch(type, url).then((result)=>{
+                console.log(result);
+            })
+        },
         calculateProduct() {
             let totalPrice = 0;
             for (const data of this.detail) {
@@ -182,6 +191,7 @@ export default {
             this.$store.dispatch(type, [
                 `keranjang/${this.idDetail}`, []
             ]).then((result) => {
+                console.log(result);
                 this.isLoading = false
                 this.detail = result.data
             }).catch((err) => {
@@ -325,7 +335,8 @@ export default {
         this.getDetailCheckout()
     },
     created() {
-        this.getProduk()
+        this.getProduk(),
+        this.getToken()
     },
     components: {
         LoadingComponent, ButtonComponent, SkeletonLoading

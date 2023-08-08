@@ -22,7 +22,7 @@
         <div class="col" v-else v-for="data in dokter" :key="data.idDokter">
             <template v-if="hasDokter(data) && data.user.idRole === 'RO-2003062'">
                 <CardDokter :Label="spesialis.namaSpesialis" :nama="'dr ' + data.user.nama"
-                    :biaya="data.keahlianId.namaKeahlian"
+                    
                     @click="$redirect('/detail/' + data.idDokter + '/' + data.userId.id)" />
             </template>
         </div>

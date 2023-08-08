@@ -3,7 +3,7 @@
         <div class="row">
             <div class="col-lg-4">
                 <div class="pt-5">
-                    <img src="../../../assets/images/obat.jpeg" class="img-fluid" alt="">
+                    <img :src="detailProduk.fotoProduk" class="img-fluid" alt="foto belum tersedia">
                 </div>
             </div>
             <div class="col-lg-4">

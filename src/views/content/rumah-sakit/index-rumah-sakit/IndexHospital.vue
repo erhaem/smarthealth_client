@@ -1,5 +1,5 @@
 <template>
-  <SectionHeaderBody Judul="Rumah sakit dan Apotek terdekat" Slogan="Pelayanan medis yang akurat" Alamat="Alamat Saya">
+  <SectionHeaderBody Judul="Rumah sakit dan Apotek terdekat" Slogan="Pelayanan medis yang akurat">
     <template #router>
       <router-link style="text-decoration: none" to="/">
         <p class="text-light">
@@ -95,9 +95,11 @@
                   <template v-slot:default>
                     <div class="custom-popup">
                       <p class="mb-0">{{ result.namaRs }}</p>
-                      <div v-if="hasLocation">
-                        <p>{{ Math.floor(result.distance) }} km dari {{ locationName.address.village }}</p>
-                      </div>
+                      <!-- <div v-if="hasLocation"> -->
+                        <p>{{ Math.floor(result.distance) }} km  dari kamu
+                          <!-- km dari {{ locationName.address.village }} -->
+                        </p>
+                      <!-- </div> -->
                     </div>
                   </template>
                 </l-popup>
@@ -109,9 +111,11 @@
                   <template v-slot:default>
                     <div class="custom-popup">
                       <p class="mb-0">{{ data.namaApotek }}</p>
-                      <div v-if="hasLocation">
-                        <p>{{ Math.floor(data.distance) }} km dari {{ locationName.address.village }}</p>
-                      </div>
+                      <!-- <div v-if="hasLocation"> -->
+                        <p>{{ Math.floor(data.distance) }} km dari kamu
+                          <!-- km dari {{ locationName.address.village }} -->
+                        </p>
+                      <!-- </div> -->
                     </div>
                   </template>
                 </l-popup>

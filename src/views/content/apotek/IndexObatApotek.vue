@@ -36,7 +36,7 @@
                             <div class="col" v-for="data in produkKategori" v-if="hasProduk">
                                 <div class="card shadow border-0">
                                     <div class="embed-responsive embed-responsive-16by9">
-                                        <img src="../../../assets/images/9.png" class="card-img-top" alt="...">
+                                        <img src="../../../assets/images/obat.jpeg" class="card-img-top" alt="...">
                                     </div>
                                     <div class="card-body">
                                         <p class="mb-0">{{ data.produk.namaProduk }}</p>

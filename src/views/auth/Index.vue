@@ -79,10 +79,11 @@ export default {
                 nama: 'tegar',
                 nomorHp: '081411126356',
                 password: 'password',
-                jenisKelamin: '',
+                jenisKelamin: 'L',
                 option: 'dokter',
                 foto: null,
-                fileDokumen: null
+                fileDokumen: null,
+                noKtp: '2223383828288'
             },
             akun: [
                 { value: 'perawat', label: 'Perawat' },
@@ -111,6 +112,7 @@ export default {
             formData.append('password', this.form.password);
             formData.append('option', this.form.option);
             formData.append('jenis_kelamin', this.form.jenisKelamin);
+            formData.append('no_ktp', this.form.noKtp)
 
             const fotoFile = this.form.foto;
             if (fotoFile && (fotoFile.type === 'image/png' || fotoFile.type === 'image/jpeg')) {
@@ -146,7 +148,7 @@ export default {
                     } else {
                         this.$swal({
                             icon: 'success',
-                            title: result.message,
+                            title: "berhasil melakukan registrasi",
                         }).then(() => {
                             this.$router.push({ name: 'LoginUser' });
                         });
