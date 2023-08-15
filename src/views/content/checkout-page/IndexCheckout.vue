@@ -73,7 +73,7 @@
                             </p>
                         </div>
                         <div class="card-footer text-center">
-                            <button @click="buyProduct" :class="'btn btn-sm w-100 btn-dark'">
+                            <button @click="initiatePayment" :class="'btn btn-sm w-100 btn-dark'">
                                 Bayar Sekarang
                             </button>
                         </div>
@@ -144,7 +144,15 @@
             </div>
         </template>
     </ModalComponent>
-    {{ idKeranjang }}
+    <!-- <div class="container">
+        <button class="btn btn-sm btn-primary" id="pay-button" @click="initiatePayment">Pay!</button>
+        <pre><div id="result-json">JSON result will appear here after payment:<br>{{ paymentResult }}</div></pre>
+      </div> -->
+<!--     
+      <form id="submit" method="POST" @submit.prevent="kirimPesan">
+        <input type="hidden" id="cart" :value="this.$route.params.idKeranjanggg">
+        <input type="hidden" name="json" id="json_callback">
+      </form> -->
 </template>
   
 <script>
@@ -178,6 +186,8 @@ export default {
             selectedKecamatan: null,
             selectedKelurahan: null,
             selectedIndex: null,
+            paymentResult: '',
+      snapp: []
         }
     },
     computed: {
@@ -196,18 +206,44 @@ export default {
         }
     },
     methods: {
-        getToken(){
-            let idKeranjangDetail = this.detail.map(detailItem => detailItem.idKeranjangDetail);
-            let type = "getData"
-            let url = [
-                `midtrans/get_token/${idKeranjangDetail}`, {}
-            ]
-            this.$store.dispatch(type, url).then((result)=>{
-                console.log(result);
-            }).catch((err)=>{
-                console.log(err);
-            })
+        getToken() {
+      let type = "getData"
+      let url = [
+        `midtrans/get_token/${this.$route.params.idKeranjang}`, {}
+      ]
+      this.$store.dispatch(type, url).then((result) => {
+        this.snapp = result[0]
+        console.log(result);
+      })
+    },
+        initiatePayment() {
+      window.snap.pay(this.snapp.snapToken, {
+        onSuccess: function (result) {
+          let id_keranjang = document.getElementById("cart").value;
+          axios.post("master/pembelian/checkout", {
+            id_keranjang: id_keranjang
+          }).then((response) => {
+            window.location = "/"
+          }).catch((error) => {
+            console.log(error);
+          })
         },
+        onPending: function()
+                {
+                    alert("Good, Data Anda Sedang di Proses");
+
+                    window.location = "/";
+                },
+                onError: function()
+                {
+                    alert("Periksa Kembali Data Anda");
+                },
+                onClose: function()
+                {
+                    alert("Yaah, Transaksi Anda Dibatalkan");
+                }
+      })
+    },
         gantiHalaman() {
             window.location = '/alamat'
         },
@@ -307,7 +343,8 @@ export default {
     mounted() {
         this.getDetailCheckout(),
             this.getProfil(),
-            this.getAlamat()
+            this.getAlamat(),
+            this.getToken()
         // this.getProvinsi(),
     },
     components: {

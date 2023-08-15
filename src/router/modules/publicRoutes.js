@@ -47,7 +47,7 @@ export default [
         }
     },
     {
-        path: '/keranjang/shipment',
+        path: '/keranjang/shipment/:idKeranjang',
         name: 'Checkout',
         component: () => import('@/views/content/checkout-page/IndexCheckout.vue'),
         meta: {

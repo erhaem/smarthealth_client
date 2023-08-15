@@ -2,14 +2,14 @@
     <div class="col-lg-12 col-md-6 pt-3 pb-3">
         <div class="d-flex align-items-center mt-5 pt-3">
             <div class="col-12 mx-auto">
-                <div class="text-center pt-5" v-if="antrian.status == 1">
+                <div class="text-center pt-5" v-if="antrian.status == 0">
                     <h5><b>Kunjungan kamu ke dokter {{antrian.praktek.ahli.user.nama}} udah selesai nihhh</b></h5>
                     <p><small>
                         {{ antrian.praktek.jadwal.tanggal }}
                     </small></p>
                     <img class="img-fluid" src="../../../assets/images/giftsuccess.gif" alt="">
                 </div>
-                <div v-else class="card shadow pb-2">
+                <div v-else class="card shadow w-50 mx-auto pb-2">
                     <div class="card-body">
                         <div class="card-title px-4">
                             <p class="mb-0"><b>Ringkasan Detail Janji Kunjungan</b></p>
@@ -45,7 +45,7 @@
                                     Biaya Konsultasi
                                 </p>
                                 <p class="mb-0 text-dark">
-                                    Rp. {{ antrian.praktek.ahli.biaya.toLocaleString('id-ID') }}
+                                    {{ antrian.praktek.ahli.biaya.toLocaleString('id-ID') }}
                                 </p>
                             </div>
                             <hr>
@@ -56,7 +56,7 @@
                                     </b>
                                 </p>
                                 <p class="mb-0 text-dark">
-                                    Rp. {{ antrian.praktek.ahli.biaya.toLocaleString('id-ID') }}
+                                    {{ antrian.praktek.ahli.biaya.toLocaleString('id-ID') }}
                                 </p>
                             </div>
                             <div class="alert alert-info mt-4" role="alert">
@@ -72,7 +72,6 @@
             </div>
         </div>
     </div>
-    {{ antrian }}
 </template>
 <script>
 export default {

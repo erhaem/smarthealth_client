@@ -54,7 +54,7 @@
                                 <input type="file" id="fotoInput" class="form-control-file" @change="handleFoto">
                             </div>
                             <div class="mb-3">
-                                <label for="fileInput" class="form-label me-2">Dokumen Pendukung STR atau STRP</label>
+                                <label for="fileInput" class="form-label me-2">Dokumen Pendukung STR, STRP, atau Bukti Kepemilikan</label>
                                 <br>
                                 <input type="file" id="fileInput" class="form-control-file" @change="handleFileDokumen">
                             </div>
@@ -76,7 +76,7 @@ export default {
     data() {
         return {
             form: {
-                nama: 'tegar',
+                nama: 'fikri',
                 nomorHp: '081411126356',
                 password: 'password',
                 jenisKelamin: 'L',
@@ -150,7 +150,7 @@ export default {
                             icon: 'success',
                             title: "berhasil melakukan registrasi",
                         }).then(() => {
-                            this.$router.push({ name: 'LoginUser' });
+                            // this.$router.push({ name: 'LoginUser' });
                         });
                     }
                 })

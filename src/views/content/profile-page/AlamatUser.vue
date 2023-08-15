@@ -45,18 +45,44 @@
             <div class="col-lg-6 col-md-6">
                 <div class="card shadow">
                     <div class="card-body">
-                        <l-map :zoom="zoom" :center="mapCenter" class="rounded" style="height:350px; width: 100%">
+                        <!-- <l-map :zoom="zoom" :center="mapCenter" class="rounded" style="height:350px; width: 100%">
                             <l-tile-layer :url="tileLayerUrl"></l-tile-layer>
                             <l-marker v-if="selectedPosition" :lat-lng="selectedPosition" :draggable="true"
                                 @dragend="handleMarkerDrag"></l-marker>
-                        </l-map>
+                        </l-map> -->
+                        <!-- <div class="form-group">
+                            <label for=""><b>Pilih Provinsi</b></label>
+                            <select class="form-select w-100" v-model="selectedProvinsi" @change="showKabupaten">
+                                <option value=""><b>pilih provinsi</b></option>
+                                <option :value="data.id" v-for="data in provinsi">{{ data.nama }}</option>
+                            </select>
+                            <label for=""><b>Pilih Kabupaten atau Kota</b></label>
+                            <select class="form-select w-100 mb-1" :disabled="isKotaDisabled" @change="showKecamatan"
+                                v-model="selectedKota" id="kota" placeholder="pilih kota">
+                                <option value="" selected>pilih kota</option>
+                                <option :value="data.id" v-for="data in kota">{{ data.nama }}</option>
+                            </select>
+                            <label for=""><b>Pilih Kecamatan</b></label>
+                            <select class="form-select w-100 mb-1" :disabled="isKecamatanDisabled"
+                                v-model="selectedKecamatan" id="kecamatan" @change="showKelurahan"
+                                placeholder="pilih kecamatan">
+                                <option value="" selected>pilih kecamatan</option>
+                                <option :value="data.id" v-for="data in kecamatan">{{ data.nama }}</option>
+                            </select>
+                            <label for=""><b>Pilih Kelurahan</b></label>
+                            <select class="form-select w-100 mb-1" :disabled="isKelurahanDisabled"
+                                v-model="selectedKelurahan" id="kelurahan" placeholder="pilih kelurahan">
+                                <option value="">pilih kelurahan</option>
+                                <option :value="data.id" v-for="data in kelurahan">{{ data.nama }}</option>
+                            </select>
+                        </div> -->
                         <label class="mt-2"><b>Label Alamat</b></label>
                         <input type="text" class="form-control" placeholder="ex: Rumah" v-model="form.simpan_sebagai">
                         <label class="mt-2"><b>Detail Lokasi</b></label>
-                        <textarea class="form-control" rows="4" disabled :value="locationName"></textarea>
+                        <textarea class="form-control" rows="4" v-model="form.lokasi"></textarea>
                         <label class="mt-2"><b>Catatan untuk Kurir</b></label>
                         <textarea class="form-control" rows="4" placeholder="ex: taro di depan pintu"
-                            v-model="form.detail"></textarea>
+                            :value="detail"></textarea>
                         <div class="d-flex justify-content-between mt-3">
                             <div>
                                 <p class="mb-0 text-dark"><b>Pakai metode lain?</b></p>
@@ -82,6 +108,10 @@ export default {
     data() {
         return {
             alamat: [],
+            provinsi: [],
+            kota: [],
+            kecamatan: [],
+            kelurahan: [],
             zoom: 15,
             tileLayerUrl: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             selectedPosition: null,
@@ -92,15 +122,46 @@ export default {
                 detail: 'Taro di depan aja'
             },
             profil: {},
-            isLoading: false
+            isLoading: false,
+            selectedKota: null,
+            selectedProvinsi: null,
+            selectedKecamatan: null,
+            selectedKelurahan: null,
+            selectedIndex: null,
+            selectedId: [],
         }
     },
     mounted() {
         this.geolocate(),
             this.getAlamat(),
-            this.getProfil()
+            this.getProfil(),
+            this.getProvinsi()
+    },
+    computed: {
+        isKotaDisabled() {
+            return !this.selectedProvinsi;
+        },
+        isKecamatanDisabled() {
+            return !this.selectedKota
+        },
+        isKelurahanDisabled() {
+            return !this.selectedKecamatan
+        },
+        selectedLocations() {
+            const selectedProvinsiName = this.getSelectedName(this.selectedProvinsi, this.provinsi);
+            const selectedKotaName = this.getSelectedName(this.selectedKota, this.kota);
+            const selectedKecamatanName = this.getSelectedName(this.selectedKecamatan, this.kecamatan);
+            const selectedKelurahanName = this.getSelectedName(this.selectedKelurahan, this.kelurahan);
+
+            return `${selectedProvinsiName}, ${selectedKotaName}, ${selectedKecamatanName}, ${selectedKelurahanName}`;
+        },
     },
     methods: {
+        getSelectedName(selectedId, data) {
+            if (!selectedId || !data) return ''; // Return an empty string if no data or ID is selected
+            const selectedData = data.find(item => item.id === selectedId);
+            return selectedData ? selectedData.nama : ''; // Return the name or an empty string if not found
+        },
         hapusAlamat(idAlamat) {
             let type = "deleteData"
             let url = [
@@ -157,6 +218,42 @@ export default {
                     console.error('Error occurred while fetching location details:', error);
                 });
         },
+        getProvinsi() {
+            axios({
+                method: "get",
+                url: "http://dev.farizdotid.com/api/daerahindonesia/provinsi"
+            }).then((result) => {
+                this.provinsi = result.data.provinsi
+            })
+        },
+        showKabupaten() {
+            const idProvinsi = this.selectedProvinsi;
+            axios({
+                method: "get",
+                url: `http://dev.farizdotid.com/api/daerahindonesia/kota?id_provinsi=${idProvinsi}`
+            }).then((result) => {
+                this.kota = result.data.kota_kabupaten
+            })
+        },
+        showKecamatan() {
+            const idKabupaten = this.selectedKota;
+            axios({
+                method: "get",
+                url: `http://dev.farizdotid.com/api/daerahindonesia/kecamatan?id_kota=${idKabupaten}`
+            }).then((result) => {
+                this.kecamatan = result.data.kecamatan
+            })
+        },
+        showKelurahan() {
+            const idKecamatan = this.selectedKecamatan
+            axios({
+                method: "get",
+                url: `http://dev.farizdotid.com/api/daerahindonesia/kelurahan?id_kecamatan=${idKecamatan}`
+            }).then((result) => {
+                this.kelurahan = result.data.kelurahan
+                console.log(result);
+            })
+        },
         getAlamat() {
             let type = "getData"
             let url = [
@@ -186,7 +283,7 @@ export default {
             let url = [
                 "master/alamat_user", {
                     simpan_sebagai: this.form.simpan_sebagai,
-                    lokasi: this.locationName,
+                    lokasi: this.form.lokasi,
                     detail: this.form.detail
                 }, {}
             ]

@@ -71,10 +71,13 @@
                         </p>
                     </div>
                     <div class="card-footer text-center">
-                        <button @click="$redirect({ name: 'Detail Pembayaran', params: {idKeranjanggg: this.$route.params.idKeranjang} })" :class="'btn btn-sm w-100 btn-dark'"
+                        <button @click="$redirect({ name: 'Checkout', params: {idKeranjang: this.$route.params.idKeranjang} })" :class="'btn btn-sm w-100 btn-dark'"
                             :disabled="selected.length === 0">
                             Beli Sekarang ({{ calculateProduct() }})
                         </button>
+                        <!-- <button @click="$redirect({name: 'Checkout', params: {idKeranjang: this.$route.params.idKeranjang}})">
+                            ganti
+                        </button> -->
                     </div>
                 </div>
             </div>
@@ -124,6 +127,7 @@
             </div>
         </div>
     </div>
+    {{  }}
 </template>
   
 <script>
