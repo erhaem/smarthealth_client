@@ -22,9 +22,19 @@
                   <label class="form-label" for="form3Example3">Phone number</label>
                   <input type="text" name="phoneNumber" class="form-control" v-model="user.nomor_hp" />
                 </div>
-                <div :class="['form-outline mb-2 text-start', { 'has-error': submitted && !user.password}]">
+                <div :class="['form-outline mb-2 text-start', { 'has-error': submitted && !user.password }]">
                   <label class="form-label" for="form3Example4">Password</label>
                   <input type="password" class="form-control" v-model="user.password" />
+                </div>
+                <div class="d-flex justify-content-start">
+                  <input type="text" class="form-control w-50 me-3" :value="captchaText" disabled>
+                  <input type="text" class="form-control" placeholder="captcha" v-model="userInput" @input="checkCaptcha">
+                </div>
+                <div class="d-flex justify-content-start">
+                  <p @click="reload" class="me-4 text-primary"><small>re-load captcha</small></p>
+                  <p v-if="showMessage" :class="messageClass">
+                  <small>{{ message }}</small>
+                  </p>
                 </div>
                 <button type="submit" class="btn btn-primary btn-block w-100 mb-2">
                   Sign In
@@ -55,51 +65,92 @@ export default {
       },
       errorMsg: '',
       errorClass: 'text-danger',
-      submitted: false
+      submitted: false,
+      captchaText: this.generateCaptchaText(),
+      userInput: '',
+      showMessage: false,
+      message: '',
+      messageClass: '',
+      captchaValid: false,
     }
   },
   components: {
     Form, InputField
   },
   methods: {
-    async handleSubmit() {
-    this.submitted = true;
-
-    let type = "postData";
-    let url = ["autentikasi/login", this.user, {}];
-
-    try {
-      const response = await this.$store.dispatch(type, url);
-      const cekRole = response.data.getRole.idRole;
-
-      if (cekRole == "RO-2003064") {
-        Cookies.set("token", response.data.token);
-        Cookies.set("user", JSON.stringify(response));
-        iziToast.success({
-          transitionIn: 'fadeInUp',
-          timeout: 2000,
-          title: "Berhasil",
-          message: "Berhasil Login",
-          position: "bottomCenter",
-        });
-        window.location = '/';
+    reload() {
+      window.location = '/login-user'
+    },
+    generateCaptchaText() {
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let captcha = '';
+      for (let i = 0; i < 6; i++) {
+        captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+      }
+      return captcha;
+    },
+    checkCaptcha() {
+      if (this.userInput === this.captchaText) {
+        this.showMessage = true;
+        this.message = 'Captcha benar!';
+        this.messageClass = 'success';
+        this.captchaValid = true;
       } else {
-        iziToast.error({
-          transitionIn: 'fadeInUp',
-          timeout: 2000,
-          title: "Gagal",
-          message: "maaf, hanya konsumen yang dapat login",
-          position: "topCenter",
+        this.showMessage = true;
+        this.message = 'Captcha salah';
+        this.messageClass = 'error';
+        this.captchaValid = false;
+      }
+    },
+    async handleSubmit() {
+      this.submitted = true;
+
+      this.checkCaptcha();
+
+      if (!this.captchaValid) {
+        this.$swal({
+          icon: 'error',
+          title: 'Invalid CAPTCHA',
+          text: 'Please enter the correct CAPTCHA value.',
+        });
+        return;
+      }
+
+      let type = "postData";
+      let url = ["autentikasi/login", this.user, {}];
+
+      try {
+        const response = await this.$store.dispatch(type, url);
+        const cekRole = response.data.getRole.idRole;
+
+        if (cekRole == "RO-2003064") {
+          Cookies.set("token", response.data.token);
+          Cookies.set("user", JSON.stringify(response));
+          iziToast.success({
+            transitionIn: 'fadeInUp',
+            timeout: 2000,
+            title: "Berhasil",
+            message: "Berhasil Login",
+            position: "bottomCenter",
+          });
+          window.location = '/';
+        } else {
+          iziToast.error({
+            transitionIn: 'fadeInUp',
+            timeout: 2000,
+            title: "Gagal",
+            message: "maaf, hanya konsumen yang dapat login",
+            position: "topCenter",
+          });
+        }
+      } catch (err) {
+        this.$swal({
+          icon: 'error',
+          title: "Maaf Error",
+          text: 'Periksa Kembali Nomor Hp dan Password',
         });
       }
-    } catch (err) {
-      this.$swal({
-        icon: 'error',
-        title: "Maaf Error",
-        text: 'Periksa Kembali Nomor Hp dan Password',
-      });
-    }
-  },
+    },
   },
 }
 </script>
