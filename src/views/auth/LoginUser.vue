@@ -38,11 +38,9 @@
       </div>
     </div>
   </div>
-  <CaptchaComponent @verify="handleCaptchaVerify"/>
 </template>
 
 <script>
-import CaptchaComponent from "../../components/partials-component/CaptchaComponent.vue";
 import Cookies from "js-cookie";
 // import * as validate from 'yup'
 import { Form } from 'vee-validate'
@@ -61,17 +59,11 @@ export default {
     }
   },
   components: {
-    Form, InputField, CaptchaComponent
+    Form, InputField
   },
   methods: {
     async handleSubmit() {
     this.submitted = true;
-    
-    // Verify hCaptcha challenge
-    if (!this.hcaptchaVerified) {
-      // hCaptcha challenge not completed, show an error or take appropriate action
-      return;
-    }
 
     let type = "postData";
     let url = ["autentikasi/login", this.user, {}];
@@ -107,16 +99,6 @@ export default {
         text: 'Periksa Kembali Nomor Hp dan Password',
       });
     }
-  },
-
-  // hCaptcha verification callback
-  handleCaptchaVerify(token) {
-    // Perform any necessary verification or processing of the hCaptcha token
-    // For example, you can send it to your server for validation
-    console.log('hCaptcha token:', token);
-
-    // Set the hCaptcha verification status to true
-    this.hcaptchaVerified = true;
   },
   },
 }

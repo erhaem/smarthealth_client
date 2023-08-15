@@ -21,6 +21,11 @@ export default [
         path: '/alamat',
         name: 'AlamatUser',
         component: () => import('@/views/content/profile-page/AlamatUser.vue')
+    },
+    {
+        path: '/forgot_password',
+        name: 'Forgot Password',
+        component: () =>import('@/views/auth/ForgotPassword.vue')
     }
 
 ]
