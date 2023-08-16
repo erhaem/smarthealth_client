@@ -17,9 +17,9 @@ router.beforeEach((to, from, next) => {
   const isAuthenticated = Cookies.get('user') != null;
 
   if (allowedRoutes.includes(to.name) && isAuthenticated) {
-    next({ name: 'IndexHome' }); // Redirect to home page or other appropriate route
+    next({ name: 'IndexHome' }); 
   } else {
-    next(); // Allow access to the route
+    next(); 
   }
 });
 
@@ -33,7 +33,6 @@ router.beforeEach((to, from, next) => {
 
   if (routeName.includes(to.name)) {
     if (!token) {
-      // Redirect to the login page if the user is not logged in
       next({ name: "LoginUser" });
     } else {
       const userCookie = Cookies.get('user');

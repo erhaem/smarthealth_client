@@ -66,7 +66,7 @@
         <div class="p-3">
           <div class="d-flex justify-content-between mb-2">
             <div class="fw-5">
-              <p class="text-light mb-0">Update seputar kesehatan</p>
+              <p class="text-light mb-0">Update kesehatan</p>
             </div>
           </div>
           <div class="row g-4">

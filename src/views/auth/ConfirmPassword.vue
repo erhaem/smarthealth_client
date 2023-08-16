@@ -12,16 +12,16 @@
                         <div class="form-group">
                             <label for="">Password Baru</label>
                             <input type="password" name="passwordd" class="form-control" v-model="form.password">
-                            <span>
+                            <!-- <span>
                                 {{ errors.passwordd }}
-                            </span>
+                            </span> -->
                         </div>
                         <div class="form-group mt-2">
                             <label for="">Konfirmasi Password</label>
                             <input type="password" name="confirm" class="form-control" v-model="form.confirm_password">
-                            <span>
+                            <!-- <span>
                                 {{ errors.confirm }}
-                            </span>
+                            </span> -->
                         </div>
                     </Form>
                 <div class="form-group">
@@ -64,11 +64,11 @@ export default {
                 `autentikasi/forgot_password/${this.idFromParams}`, this.form, {}
             ]
             this.$store.dispatch(type, url).then((response) => {
-                if(response.status === false){
+                if(response.success === false){
                     this.$swal({
                         icon: 'error',
                         title: 'gagal',
-                        text: 'token sudah digunakan'
+                        text: response.data.confirmPassword
                     })
                 } else{
                     this.$swal({
