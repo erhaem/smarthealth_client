@@ -68,8 +68,8 @@ export default {
         return {
             nik: '223829932',
             form: {
-                nama: 'Yakel',
-                email: 'yakel@gmail.com',
+                nama: 'Muhamad Rafli Septian',
+                email: 'rafliseptiannn25@gmail.com',
                 nomor_hp: '081233327788',
                 password: 'password',
                 alamat: 'jakarta',

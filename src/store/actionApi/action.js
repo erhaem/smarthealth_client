@@ -86,7 +86,7 @@ const process = {
                 Api.init();
                 Api.put(param[0], param[1], param[2]).then(
                     (response) => {
-                        resolve(response.data.data);
+                        resolve(response.data);
                     },
                     (error) => {
                         reject(error);
