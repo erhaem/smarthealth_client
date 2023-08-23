@@ -64,13 +64,20 @@ export default {
                 `autentikasi/forgot_password/${this.idFromParams}`, this.form, {}
             ]
             this.$store.dispatch(type, url).then((response) => {
-                if(response.success === false){
+                if(response.status == false){
                     this.$swal({
                         icon: 'error',
                         title: 'gagal',
-                        text: response.data.confirmPassword
+                        text: response.pesan
                     })
-                } else{
+                } else if(response.success == false){
+                    this.$swal({
+                        icon: 'error',
+                        title: 'gagal',
+                        text: response.message
+                    })
+                }
+                else{
                     this.$swal({
                         icon: 'success',
                         title: 'berhasil reset password',

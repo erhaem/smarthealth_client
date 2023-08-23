@@ -40,8 +40,8 @@
                   Sign In
                 </button>
               </Form>
-              <p class="text-center">dont have any account? <span class="text-primary"><router-link
-                    style="text-decoration: none;" :to="{ name: 'RegisterKonsumen' }">register</router-link></span></p>
+              <p class="text-center">lupa password? <span class="text-primary"><router-link
+                    style="text-decoration: none;" :to="{ name: 'Forgot Password' }">klik di sini</router-link></span></p>
             </div>
           </div>
         </div>
