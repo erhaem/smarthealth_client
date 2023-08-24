@@ -5,7 +5,7 @@
         <h1 :class="'display-4 fw-bold ' + colorText">Solusii Kesehatan Anda</h1>
         <div class="col-lg-6">
           <p class="lead fw-bold">Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan,
-            Semua bisa
+            Semua bisaaa
             di
             Berobat+</p>
           <ButtonComponent Label="get started" Color=" btn-primary" />
