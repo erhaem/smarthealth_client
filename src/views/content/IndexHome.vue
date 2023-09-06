@@ -47,7 +47,7 @@
   </section>
   <section id="services" class="services">
     <div class="container">
-      <div class="row">
+      <div class="row" style="flex-wrap: nowrap">
         <div class="d-flex justify-content-between">
           <div class="col-sm-6">
             <TitleFeature Label="Baca Artikel" class="mb-0" />
@@ -62,23 +62,14 @@
           </template>
         </div>
       </div>
-      <div class="col-xxl-12 col-md-6 p-2 ms-2 rounded" style="background-color: cornflowerblue">
-        <div class="p-3">
-          <div class="d-flex justify-content-between mb-2">
-            <div class="fw-5">
-              <p class="text-light mb-0">Update kesehatan</p>
-            </div>
-          </div>
-          <div class="row g-4">
-            <div class="col-md-4 col-lg-3 rounded" v-for="data in limitedData.artikels" :key="data.id">
-              <template v-if="loadingArtikel">
-                <SkeletonLoading />
-              </template>
-              <CardArtikel v-else :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
-                @click="$redirect('/artikel/' + data.slugArtikel)">
-              </CardArtikel>
-            </div>
-          </div>
+      <div class="row row-cols-1 row-cols-md-4 g-4">
+        <div class="col"  v-for="data in limitedData.artikels" :key="data.id">
+          <template v-if="loadingArtikel">
+            <SkeletonLoading />
+          </template>
+          <CardArtikel v-else :title="data.judulArtikel" :image="data.foto" :description="data.deskripsi"
+            @click="$redirect('/artikel/' + data.slugArtikel)">
+          </CardArtikel>
         </div>
       </div>
     </div>
@@ -191,5 +182,4 @@ export default {
     flex: 0 0 auto;
     width: auto;
   }
-}
-</style>
+}</style>
