@@ -19,30 +19,28 @@
             </div>
         </template>
     </SectionHeaderBody>
-    <div class="container-fluid">
-        <div class="container col-xxl-10 col-md-6 pb-3 mt-3">
-            <div class="d-flex justify-content-between">
-                <h6><b>Cari Produk Sesuai Kategori</b></h6>
-                <h6 style="color: navy" @click="$redirect({ name: 'Semua Kategori' })"><b>Lihat Semua Kategori</b></h6>
-            </div>
-            <div class="row g-4 p-lg-2 row-cols-sm-6">
-                <div class="col-6 col-sm-4 col-md-3 col-lg-2" v-for="data in limitData.kategori">
-                    <template v-if="isLoading">
-                        <LoadingComponent />
-                    </template>
-                    <div v-else class="card shadow border" style="background-color: ghostwhite;"
-                        @click="$redirect({ name: 'Produk Kategori', params: { idKategori: data.idKategoriProduk, namaKategori: data.slugKategoriProduk } })">
-                        <div class="card-body">
-                            <div class="card-text text-center">
-                                {{ data.namaKategoriProduk }}
-                            </div>
+    <div class="container mt-3">
+        <div class="d-flex justify-content-between align-items-center mb-3">
+            <h6 class="mb-0"><b>Cari Produk Sesuai Kategori</b></h6>
+            <h6 style="color: navy" @click="$router.push({ name: 'Semua Kategori' })"><b>Lihat Semua Kategori</b></h6>
+        </div>
+        <div class="row g-4">
+            <div v-for="data in limitData.kategori" :key="data.idKategoriProduk" class="col-6 col-sm-4 col-md-3 col-lg-2">
+                <template v-if="isLoading">
+                    <LoadingComponent />
+                </template>
+                <div v-else class="card shadow border" style="background-color: ghostwhite;">
+                    <div class="card-body">
+                        <div class="card-text text-center">
+                            <a class="text-dark" :href="`/produk/${data.slugKategoriProduk}`"
+                                style="text-decoration: none">{{ data.namaKategoriProduk }}</a>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <div class="container-fluid col-xxl-12" style="background-color:ghostwhite;">
+    <div class="container-fluid" style="background-color:ghostwhite;">
         <div class="container col-xxl-10 col-md-6 pb-3">
             <div class="d-flex justify-content-between mt-3 pt-3">
                 <h6><b>Produk</b></h6>
@@ -74,7 +72,7 @@
                                         detail
                                     </router-link>
                                     <!-- <button class="btn btn-sm btn-primary" > -->
-                                        <i class="fas fa-cart-shopping text-primary mt-2 ms-1" @click="addToCart(data.id)"></i>
+                                    <i class="fas fa-cart-shopping text-primary mt-2 ms-1" @click="addToCart(data.id)"></i>
                                     <!-- </button> -->
                                 </div>
                             </div>
