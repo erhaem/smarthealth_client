@@ -41,7 +41,7 @@
         </div>
     </div>
     <div class="container-fluid" style="background-color:ghostwhite;">
-        <div class="container col-xxl-10 col-md-6 pb-3">
+        <div class="container pb-3">
             <div class="d-flex justify-content-between mt-3 pt-3">
                 <h6><b>Produk</b></h6>
             </div>
