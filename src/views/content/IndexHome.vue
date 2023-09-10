@@ -63,7 +63,7 @@
         </div>
       </div>
       <div class="row row-cols-1 row-cols-md-4 g-4">
-        <div class="col"  v-for="data in limitedData.artikels" :key="data.id">
+        <div class="col" v-for="data in limitedData.artikels" :key="data.id">
           <template v-if="loadingArtikel">
             <SkeletonLoading />
           </template>
@@ -182,4 +182,5 @@ export default {
     flex: 0 0 auto;
     width: auto;
   }
-}</style>
+}
+</style>

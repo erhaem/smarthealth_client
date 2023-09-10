@@ -47,41 +47,35 @@
             <div class="d-flex justify-content-between mt-3 pt-3">
                 <h6><b>Produk</b></h6>
             </div>
-            <div class="d-flex justify-content-center">
-                <div class="col-12 py-2 px-2">
-                    <div class="row row-cols-1 row-cols-md-6 g-4">
-                        <div class="col" v-for="data in dataProduk">
-                            <template v-if="isLoading">
-                                <SkeletonLoading />
-                            </template>
-                            <div v-else class="card shadow border-0" v-if="!isLoading">
-                                <div class="embed-responsive embed-responsive-16by9">
-                                    <img src="../../../assets/images/obat.jpeg" class="card-img-top h-50" alt="foto belum tersedia">
+            <div class="row row-cols-1 row-cols-md-6 g-4">
+                <div class="col" v-for="data in dataProduk">
+                    <template v-if="isLoading">
+                        <SkeletonLoading />
+                    </template>
+                    <div v-else class="card shadow border-0" v-if="!isLoading">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <img src="../../../assets/images/obat.jpeg" class="card-img-top h-50" alt="foto belum tersedia">
+                        </div>
+                        <div class="card-body">
+                            <p class="mb-0">{{ data.namaProduk }}</p>
+                            <p class="mb-1 text-secondary" style="font-size: 14px"><small>{{ data.hargaProduk }}
+                                    <br> Cirebon | terjual 2
+                                </small></p>
+                            <div class="text-secondary">
+                                <div class="d-flex justify-content-end">
+                                    <p class="mb-0" style="font-size: 12px">
+                                        4.5
+                                        <i class="fas fa-star text-warning mb-2"></i>
+                                    </p>
                                 </div>
-                                <div class="card-body">
-                                    <p class="mb-0">{{ data.namaProduk }}</p>
-                                    <p class="mb-1 text-secondary" style="font-size: 14px"><small>{{ data.hargaProduk }}
-                                            <br> Cirebon | terjual 2
-                                        </small></p>
-                                    <div class="text-secondary">
-                                        <div class="d-flex justify-content-end">
-                                            <p class="mb-0" style="font-size: 12px">
-                                                4.5
-                                                <i class="fas fa-star text-warning mb-2"></i>
-                                            </p>
-                                        </div>
-                                        <div class="d-flex justify-content-between">
-                                            <router-link class="btn btn-sm btn-outline-primary w-75"
-                                                :to="{ name: 'Detail Produk', params: { id: data.kodeProduk } }">
-                                                detail
-                                            </router-link>
-                                            <div class="">
-                                                <button class="btn btn-sm btn-primary" @click="addToCart(data.id)">
-                                                    <i class="fas fa-cart-shopping text-light"></i>
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
+                                <div class="d-flex justify-content-between">
+                                    <router-link class="btn btn-sm btn-outline-primary w-100"
+                                        :to="{ name: 'Detail Produk', params: { id: data.kodeProduk } }">
+                                        detail
+                                    </router-link>
+                                    <!-- <button class="btn btn-sm btn-primary" > -->
+                                        <i class="fas fa-cart-shopping text-primary mt-2 ms-1" @click="addToCart(data.id)"></i>
+                                    <!-- </button> -->
                                 </div>
                             </div>
                         </div>
