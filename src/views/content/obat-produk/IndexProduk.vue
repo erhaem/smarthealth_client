@@ -32,7 +32,7 @@
                 <div v-else class="card shadow border" style="background-color: ghostwhite;">
                     <div class="card-body">
                         <div class="card-text text-center">
-                            <a class="text-dark" :href="`/produk/${data.slugKategoriProduk}`"
+                            <a class="text-dark" @click="$redirect({ name: 'Produk Kategori', params: { idKategori: data.idKategoriProduk, namaKategori: data.slugKategoriProduk } })"
                                 style="text-decoration: none">{{ data.namaKategoriProduk }}</a>
                         </div>
                     </div>
@@ -50,7 +50,7 @@
                     <template v-if="isLoading">
                         <SkeletonLoading />
                     </template>
-                    <div v-else class="card shadow border-0" v-if="!isLoading">
+                    <div v-else class="card shadow border-0">
                         <div class="embed-responsive embed-responsive-16by9">
                             <img src="../../../assets/images/obat.jpeg" class="card-img-top h-50" alt="foto belum tersedia">
                         </div>

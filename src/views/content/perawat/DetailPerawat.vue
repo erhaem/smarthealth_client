@@ -4,7 +4,7 @@
         </i>
     </button>
     <div class="container pt-3">
-        <div class="col-xxl-10 px-5 py-2 mb-5 col-md-4 mx-auto">
+        <div class="px-5 py-2 mb-5 mx-auto">
             <div class="d-flex justify-content-center">
                 <template v-if="isLoading">
                     <LoadingComponent />

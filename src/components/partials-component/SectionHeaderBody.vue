@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid p-lg-4 bg-primary">
-        <div class="container col-xxl-10 col-md-6">
+        <div class="container">
             <slot name="router"></slot>
             <div class="d-flex justify-content-between">
                 <div class="text-light mb-3 d-none d-sm-block">
