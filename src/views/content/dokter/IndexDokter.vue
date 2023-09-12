@@ -1,6 +1,6 @@
 <template>
     <div class="container-fluid p-lg-4 bg-primary" >
-        <div class="container col-xxl-10 col-md-6">
+        <div class="container">
             <router-link style="text-decoration: none" to="/">
                 <p class="text-light">
                     Home
@@ -31,20 +31,21 @@
             </div>
         </div>
     </div>
-    <div class="container col-xxl-12 px-4 py-2">
-        <div class="row align-items-top g-lg-5 py-2">
-            <div class="col-lg-4 d-sm-block d-none">
+    <div class="container">
+        <div class="row align-items-top py-2">
+            <div class="col-lg-4 col-md-6">
                 <h4><b>BerobatPlus</b></h4>
                 <p class="mb-0">
-                    Berobatplus merupakan layanan kesehatan yang dapat diakses kapanpun dan di manapun. beragam pelayanan kesehatan tersedia dalam satu aplikasi                </p>
+                    Berobatplus merupakan layanan kesehatan yang dapat diakses kapanpun dan di manapun. Beragam pelayanan kesehatan tersedia dalam satu aplikasi.
+                </p>
                 <img src="../../../assets/images/injury-rafiki.png" class="img-fluid animated" alt="">
-                <ol>
+                <ul>
                     <li>Cepat dan Mudah</li>
                     <li>Tersedia dokter dan perawat terbaik</li>
                     <li>Dokter spesialis yang professional</li>
-                </ol>
+                </ul>
             </div>
-            <div class="col-md-7 col-sm-10 col-lg-8" data-aos="fade-up" data-aos-duration="500"
+            <div class="col-md-6 col-lg-8" data-aos="fade-up" data-aos-duration="500"
                 style="overflow-y: auto; max-height: 600px">
                 <router-view :valueSearch="valueSearch"></router-view>
             </div>

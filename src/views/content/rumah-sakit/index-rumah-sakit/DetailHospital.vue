@@ -1,5 +1,5 @@
 <template>
-    <div class="container col-xl-10 col-xxl-9 border-top">
+    <div class="container col-xl-10 col-xxl-12 border-top">
         <div class="row mb-3 mt-3 text-center">
             <div class="col-md-12 themed-grid-col">
                 <div class="pb-1 text-start">
@@ -98,7 +98,7 @@
                 <div class="col" v-for="data in limitedDataSpesialis" :key="data.id">
                     <CardMedicine
                         @click="$redirect({name: 'Detail Spesialis Rs', params: {idPenyakit: data.penyakit.idSpesialisPenyakit, id: data.idRumahSakit, namaSpesialis: data.penyakit.namaSpesialis}})"
-                        class="mb-2 rounded-circle" :icon="data.penyakit.icon" :labelTitle="data.penyakit.namaSpesialis" />
+                        class="mb-2" :icon="data.penyakit.icon" :labelTitle="data.penyakit.namaSpesialis" />
                 </div>
                 <div class="px-3 py-4 text-center">
                 </div>

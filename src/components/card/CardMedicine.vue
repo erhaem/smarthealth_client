@@ -1,13 +1,9 @@
 <template>
-    <div class="medicine">
-        <div class="row me-2 ms-2">
-            <div class="d-inline-flex box">
-                <span>
-                    <i :class="'fa-solid ' + icon"></i> 
-                </span>
-                <h4 class="px-2">{{ labelTitle }}
-                </h4>
-            </div>
+    <div class="card shadow border-0 rounded">
+        <div class="card-body">
+            <i :class="'fa-solid px-2 text-dark ' + icon"></i>
+            <h4 class="px-2 text-dark">{{ labelTitle }}
+            </h4>
         </div>
     </div>
 </template>
@@ -23,7 +19,7 @@ export default {
             type: String,
             default: "Belum Diisi"
         },
-        icon :{
+        icon: {
             type: String,
             default: "fa-briefcase"
         }
@@ -63,7 +59,7 @@ export default {
 }
 
 .medicine .box:hover span,
-.medicine .box:hover h4{
+.medicine .box:hover h4 {
     color: #1843ff;
 }
 </style>
