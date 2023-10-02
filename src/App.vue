@@ -37,6 +37,31 @@ export default {
     }
   },
   methods: {
+    async handleImageCaptured(imageData) {
+      this.showCamera = false;
+      this.capturedImage = imageData;
+
+      const formData = new FormData();
+      formData.append('file', imageData);
+
+      try {
+        await this.uploadImage(formData);
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    },
+    async uploadImage(formData) {
+      try {
+        await axios.post('http://localhost:8000/diagnosa-stroke/', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data',
+          },
+        });
+        console.log('Image uploaded successfully');
+      } catch (error) {
+        console.error('Error uploading image:', error);
+      }
+    },
     getUsers() {
       let type = "getData"
       let url = ["create-api", {}]

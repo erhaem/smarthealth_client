@@ -24,21 +24,25 @@
             labelParagraph="Konsultasi chat dengan dokter ">
           </FeaturePrimary>
         </div>
+
         <template v-if="isLoading">
           <SkeletonLoading />
         </template>
+
         <div v-else @click="$redirect({ name: 'Data Produk' })">
           <FeaturePrimary v-if="!isLoading" labelTitle="Toko Kesehatan" icon="fa-suitcase-medical"
             labelParagraph="Obat dan Vitamin">
           </FeaturePrimary>
         </div>
+
         <div @click="$redirect({ name: 'Rumah Sakit Terdekat' })">
           <SkeletonLoading v-if="isLoading" />
           <FeaturePrimary v-if="!isLoading" labelTitle="Rumah Sakit" icon="fa-hospital"
             labelParagraph="Buat janji dengan RS">
           </FeaturePrimary>
         </div>
-        <div @click="$redirect({ name: 'Halaman Diagnosa Stroke' })" class="cols-lg-3">
+
+        <div @click="$redirect({ name: 'Halaman Diagnosa Stroke' })" >
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
@@ -46,6 +50,7 @@
             labelParagraph="Diagnosa Stroke">
           </FeaturePrimary>
         </div>
+
       </div>
 
       <div>
