@@ -3,6 +3,7 @@ import LoginUser from "./modules/auth";
 import ProfilUser from "./modules/account"
 import ArtikelModules from "./modules/artikel"
 import DokterModules from "./modules/dokter"
+import DiagnosaModules from "./modules/diagnosa"
 import RumahSakitModules from "./modules/rumahSakit"
 import IndexHome from "@/views/content/IndexHome.vue"
 import PageNotFound from "@/views/not-found-page/NotFound.vue"
@@ -13,6 +14,7 @@ const routes = [
     ...LoginUser,
     ...ProfilUser,
     ...ArtikelModules,
+    ...DiagnosaModules,
     ...DokterModules,
     ...RumahSakitModules,
     {
