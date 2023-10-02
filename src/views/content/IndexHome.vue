@@ -2,12 +2,9 @@
   <section id="hero" class="d-flex align-items-start">
     <div class="container">
       <div class="px-5 py-5 mt-4" data-aos="fade-right" data-aos-duration="3000">
-        <h1 :class="'display-4 fw-bold ' + colorText">Solusii Kesehatan Anda</h1>
+        <h1 :class="'display-4 fw-bold ' + colorText">Solusi Kesehatan </h1>
         <div class="col-lg-6">
-          <p class="lead fw-bold">Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan,
-            Semua bisaaa
-            di
-            Berobat+</p>
+          <p class="lead fw-bold">Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan, Semua bisaaa di Berobat+</p>
           <ButtonComponent Label="get started" Color=" btn-primary" />
         </div>
       </div>
@@ -15,6 +12,7 @@
   </section>
   <section id="feature">
     <div class="container">
+
       <TitleFeature Label="Layanan Utama" />
       <p class="ms-2">Berikut pelayanan klinis yang tersedia</p>
       <div class="row g-4 row-cols-lg-3">
@@ -40,7 +38,16 @@
             labelParagraph="Buat janji dengan RS">
           </FeaturePrimary>
         </div>
+        <div @click="$redirect({ name: 'Halaman Diagnosa Stroke' })" class="cols-lg-3">
+          <template v-if="isLoading">
+            <SkeletonLoading />
+          </template>
+          <FeaturePrimary v-else labelTitle="Diagnosa Stroke" icon="fa-solid fa-stethoscope"
+            labelParagraph="Diagnosa Stroke">
+          </FeaturePrimary>
+        </div>
       </div>
+
       <div>
       </div>
     </div>
