@@ -52,7 +52,7 @@ export default {
   data() {
     return {
       isCameraOpen: false,
-      canvasHeight: 400,
+      canvasHeight: 380,
       canvasWidth: 500,
       isPhotoTaken: false,
       capturedImage: null,
@@ -66,9 +66,18 @@ export default {
       let formData = new FormData()
       formData.append('file', capturedPhotoFile)
       // Upload image api
-      axios.post('http://10.40.0.105:8001/send-stroke-face', formData).then((response) => {
-        console.log(response)
-      })
+      axios
+        .post('http://10.0.40.105:8001/api/send-stroke-face', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+        .then((response) => {
+          console.log(response)
+        })
+        .catch((error) => {
+          console.error(error) // Log the error for troubleshooting
+        })
     },
     toggleCamera() {
       if (this.isCameraOpen) {
