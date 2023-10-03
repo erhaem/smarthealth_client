@@ -21,7 +21,7 @@
             </button>
           </div>
         </div>
-        <div style="display: flex; height: 600px; justify-content: center">
+        <div style="display: flex; height: 500px; justify-content: center">
           <div v-if="isCameraOpen" class="camera-canvas">
             <video ref="camera" :width="canvasWidth" :height="canvasHeight" autoplay></video>
             <canvas
@@ -35,10 +35,11 @@
         </div>
       </div>
     </div>
+    <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" />
   </div>
-  <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" />
 </template>
 <script>
+import axios from 'axios'
 import izitoast from 'izitoast'
 export default {
   props: {
@@ -51,8 +52,8 @@ export default {
   data() {
     return {
       isCameraOpen: false,
-      canvasHeight: 500,
-      canvasWidth: 490,
+      canvasHeight: 400,
+      canvasWidth: 500,
       isPhotoTaken: false,
       capturedImage: null,
       items: []
@@ -64,6 +65,10 @@ export default {
       let capturedPhotoFile = this.dataURLtoFile(dataURL, uniquePictureName + '.jpg')
       let formData = new FormData()
       formData.append('file', capturedPhotoFile)
+      // Upload image api
+      axios.post('http://10.40.0.105:8001/send-stroke-face', formData).then((response) => {
+        console.log(response)
+      })
     },
     toggleCamera() {
       if (this.isCameraOpen) {
