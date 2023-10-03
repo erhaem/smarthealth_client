@@ -19,7 +19,7 @@
             </button>
           </div>
         </div>
-        <div style="display: flex; height: 600px; justify-content: center">
+        <div style="display: flex; height: 500px; justify-content: center">
           <div v-if="isCameraOpen" class="camera-canvas">
             <video ref="camera" :width="canvasWidth" :height="canvasHeight" autoplay></video>
             <canvas
@@ -41,6 +41,7 @@
         </div>
       </div>
     </div>
+    <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" />
   </div>
 </template>
 
@@ -53,6 +54,7 @@ export default {
       type: String
     }
   },
+  // eslint-disable-next-line vue/multi-word-component-names
   name: 'Camera',
 
   data() {
