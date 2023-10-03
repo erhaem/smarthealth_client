@@ -36,8 +36,10 @@
       </div>
     </div>
   </div>
+  <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" />
 </template>
 <script>
+import izitoast from 'izitoast'
 export default {
   props: {
     icon: {
@@ -51,7 +53,9 @@ export default {
       isCameraOpen: false,
       canvasHeight: 500,
       canvasWidth: 490,
-      isPhotoTaken: false
+      isPhotoTaken: false,
+      capturedImage: null,
+      items: []
     }
   },
   methods: {
@@ -60,10 +64,6 @@ export default {
       let capturedPhotoFile = this.dataURLtoFile(dataURL, uniquePictureName + '.jpg')
       let formData = new FormData()
       formData.append('file', capturedPhotoFile)
-      // Upload api
-      // axios.post('http://your-url-upload', formData).then(response => {
-      //   console.log(response)
-      // })
     },
     toggleCamera() {
       if (this.isCameraOpen) {
@@ -104,12 +104,31 @@ export default {
           .replace('image/jpeg', 'image/octet-stream')
         self.addToPhotoGallery(dataUrl)
         self.uploadPhoto(dataUrl)
-        self.isCameraOpen = false
-        self.stopCameraStream()
+        izitoast.success({
+          icon: 'success',
+          title: 'berhasil upload foto',
+          position: 'topRight'
+        })
+
+        // Display the captured image
+        self.isPhotoTaken = true
+        self.capturedImage = dataUrl
+
+        console.log(self.capturedImage)
+
+        self.isCameraOpen = true
+        self.startCameraStream()
       }, FLASH_TIMEOUT)
     },
-    addToPhotoGallery(dataUrl) {
-      //displaying
+
+    addToPhotoGallery(dataURI) {
+      this.items.push({
+        src: dataURI,
+        thumbnail: dataURI,
+        w: this.canvasWidth,
+        h: this.canvasHeight,
+        alt: 'some numbers on a grey background' // optional alt attribute for thumbnail image
+      })
     },
     uploadPicture(dataUrl) {
       let name = this.generateUniquePictureName()
@@ -122,17 +141,35 @@ export default {
     generateUniquePictureName() {
       return Math.random().toString(36).substring(2, 15)
     },
-    dataUrlToFile(dataUrl, filename) {
-      let arr = dataUrl.split(','),
-        mime = arr[0].match(/;(.*?);/)[1],
-        bstr = atob(arr[1]),
-        n = bstr.length,
-        u8arr = new Uint8Array(n)
+    dataURLtoFile(dataUrl, filename) {
+      // Split the dataURL into parts
+      const parts = dataUrl.split(',')
 
-      while (n--) {
-        u8arr[n] = bstr.charCodeAt(n)
+      // Check if there are at least two parts (MIME type and data)
+      if (parts.length >= 2) {
+        const mimePart = parts[0]
+
+        // Use a regular expression to extract the MIME type
+        const match = mimePart.match(/data:([^;]+)/)
+
+        if (match) {
+          const mime = match[1]
+          const bstr = atob(parts[1])
+          const n = bstr.length
+          const u8arr = new Uint8Array(n)
+
+          for (let i = 0; i < n; i++) {
+            u8arr[i] = bstr.charCodeAt(i)
+          }
+
+          // Create a File object with the extracted MIME type
+          return new File([u8arr], filename, { type: mime })
+        }
       }
-      return new File([u8arr], filename, { type: mime })
+
+      // Handle the case where there is no valid MIME type
+      console.error('No valid MIME type found in dataURL:', dataUrl)
+      return null // or throw an error, depending on your use case
     }
   }
 }
