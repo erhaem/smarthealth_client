@@ -17,7 +17,7 @@
               <span v-if="!isCameraOpen"
                 >Open Camera <br /><i :class="'text-success ' + icon"></i
               ></span>
-              <span v-else>Close Camera <br /><i class="fa-solid fa-circle-xmark"></i></span>
+              <span v-else>Close Cameraa <br /><i class="fa-solid fa-circle-xmark"></i></span>
             </button>
           </div>
         </div>
