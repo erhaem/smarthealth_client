@@ -62,51 +62,6 @@ const Api = {
     })
   },
 
-<<<<<<< HEAD
-    init() {
-    axios.defaults.baseURL = "http://localhost:8000/api";
-        axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
-        axios.defaults.headers.common.Authorization =
-            "Bearer " + Cookies.get("token");
-    },
-    setAccessControl() {
-        axios.defaults.headers.common["Access-Control-Allow-Origin"] = "*";
-        axios.defaults.headers.common["Cache-Control"] = "no-cache, private";
-        axios.defaults.headers.common["Access-Control-AlloW-Method"] = ["GET", "POST", "PUT", "DELETE"];
-    },
-    setHeaderMultipartFormData() {
-        axios.defaults.headers.post["Content-Type"] = "multipart/form-data";
-    },
-    get(resource, params) {
-        return axios.get(`${resource}`, {
-            params: params,
-            transformResponse: [
-                (data) => {
-                    return camelcaseKeys(JSON.parse(data), { deep: true });
-                },
-            ],
-        });
-    },
-    post(resource, params) {
-        return axios.post(
-            `${resource}`,
-            snakecaseKeys(params, { deep: true }),
-            {
-                transformResponse: [
-                    (data) => {
-                        if (data) {
-                            return camelcaseKeys(JSON.parse(data), {
-                                deep: true,
-                            });
-                        }
-                    },
-                ],
-            }
-        );
-    },
-    postFormData(resource, params) {
-        return axios.post(`${resource}`, params);
-=======
   put(resource, params) {
     return axios.put(`${resource}`, snakecaseKeys(params, { deep: true }))
   },
@@ -117,6 +72,5 @@ const Api = {
     })
   }
 }
->>>>>>> f7d9842 (Penambahan placeholder pada register)
 
 export default Api
