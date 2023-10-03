@@ -17,7 +17,7 @@
               <span v-if="!isCameraOpen"
                 >Open Camera <br /><i :class="'text-success ' + icon"></i
               ></span>
-              <span v-else>Close Cameraa <br /><i class="fa-solid fa-circle-xmark"></i></span>
+              <span v-else><i class="fa-solid fa-circle-xmark"></i></span>
             </button>
           </div>
         </div>
@@ -25,20 +25,28 @@
           <div v-if="isCameraOpen" class="camera-canvas">
             <video ref="camera" :width="canvasWidth" :height="canvasHeight" autoplay></video>
             <canvas
-              v-show="false"
               id="photoTaken"
               ref="canvas"
               :width="canvasWidth"
               :height="canvasHeight"
             ></canvas>
+
+            <pre>
+              Hasil: {{ result }}
+              Persentase: {{ percentage }}%
+            </pre>
+
+            <!-- Display the captured image -->
+            <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
           </div>
         </div>
       </div>
     </div>
   </div>
-  <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" />
 </template>
+
 <script>
+import axios from 'axios'
 import izitoast from 'izitoast'
 export default {
   props: {
@@ -51,23 +59,67 @@ export default {
   data() {
     return {
       isCameraOpen: false,
-      canvasHeight: 500,
+      canvasHeight: 320,
       canvasWidth: 490,
       isPhotoTaken: false,
       capturedImage: null,
-      items: []
+      items: [],
+      result: null,
+      percentage: null
     }
   },
   methods: {
-    uploadPhoto(dataURL) {
-      let uniquePictureName = this.generateUniquePictureName()
-      let capturedPhotoFile = this.dataURLtoFile(dataURL, uniquePictureName + '.jpg')
-      let formData = new FormData()
-      formData.append('file', capturedPhotoFile)
+    async uploadPhoto(dataURL) {
+      try {
+        let uniquePictureName = this.generateUniquePictureName()
+        let capturedPhotoFile = this.dataURLtoFile(dataURL, uniquePictureName + '.jpg')
+        let formData = new FormData()
+        formData.append('file', capturedPhotoFile)
+
+        // Make the POST request using Axios
+        let response = await axios.post('http://127.0.0.1:8000/api/send-stroke-face', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        })
+
+        if (response.status === 200) {
+          // Handle the successful response
+          // console.log('File uploaded successfully:', response.data)
+
+          let data = response.data
+
+          self.result = data.message
+          self.percentage = data.percentage
+
+          izitoast.success({
+            icon: 'success',
+            title: 'Berhasil upload foto',
+            position: 'topRight'
+          })
+        } else {
+          // Handle any errors
+          console.error('File upload failed:', response.status, response.data)
+          izitoast.error({
+            icon: 'error',
+            title: 'Gagal upload foto',
+            position: 'topRight'
+          })
+        }
+      } catch (error) {
+        console.error('An error occurred while uploading the file:', error)
+        izitoast.error({
+          icon: 'error',
+          title: 'Gagal upload foto',
+          position: 'topRight'
+        })
+      }
     },
+
     toggleCamera() {
       if (this.isCameraOpen) {
-        ;(this.isCameraOpen = false), this.stopCameraStream()
+        this.isCameraOpen = false
+        this.stopCameraStream()
       } else {
         this.isCameraOpen = true
         this.startCameraStream()
@@ -99,16 +151,17 @@ export default {
       setTimeout(() => {
         const context = self.$refs.canvas.getContext('2d')
         context.drawImage(self.$refs.camera, 0, 0, self.canvasWidth, self.canvasHeight)
-        const dataUrl = self.$refs.canvas
-          .toDataURL('image/jpeg')
-          .replace('image/jpeg', 'image/octet-stream')
+        const dataUrl = self.$refs.canvas.toDataURL('image/jpeg')
+        // .replace('image/jpeg', 'image/octet-stream')
+
         self.addToPhotoGallery(dataUrl)
         self.uploadPhoto(dataUrl)
-        izitoast.success({
-          icon: 'success',
-          title: 'berhasil upload foto',
-          position: 'topRight'
-        })
+
+        // izitoast.success({
+        //   icon: 'success',
+        //   title: 'berhasil upload foto',
+        //   position: 'topRight'
+        // })
 
         // Display the captured image
         self.isPhotoTaken = true
