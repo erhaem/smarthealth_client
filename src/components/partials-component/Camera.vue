@@ -31,7 +31,7 @@
               :height="canvasHeight"
             ></canvas>
 
-            <pre>
+            <pre v-if="result && percentage">
               Hasil: {{ result }}
               Persentase: {{ percentage }}%
             </pre>
@@ -70,6 +70,9 @@ export default {
   },
   methods: {
     async uploadPhoto(dataURL) {
+      this.result = null
+      this.percentage = null
+
       try {
         let uniquePictureName = this.generateUniquePictureName()
         let capturedPhotoFile = this.dataURLtoFile(dataURL, uniquePictureName + '.jpg')
@@ -85,12 +88,12 @@ export default {
 
         if (response.status === 200) {
           // Handle the successful response
-          // console.log('File uploaded successfully:', response.data)
+          console.log(JSON.parse(response.data.response))
 
-          let data = response.data
+          let data = JSON.parse(response.data.response)
 
-          self.result = data.message
-          self.percentage = data.percentage
+          this.result = data.message
+          this.percentage = data.percentage
 
           izitoast.success({
             icon: 'success',
