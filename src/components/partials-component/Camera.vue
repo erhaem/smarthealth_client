@@ -60,7 +60,7 @@ export default {
     return {
       isCameraOpen: false,
       canvasHeight: 320,
-      canvasWidth: 490,
+      canvasWidth: 430,
       isPhotoTaken: false,
       capturedImage: null,
       items: [],
