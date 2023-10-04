@@ -1,8 +1,6 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <h4>Diagnosa Gejala Stroke Berdasarkan Wajah</h4>
-      <h6 style="display: flex; justify-content: start">Kenali gejala stroke lebih awal.</h6>
       <div class="camera-box">
         <div style="display: flex; justify-content: center; background-color: rgb(210, 209, 212)">
           <i :class="'text-success ' + icon" v-if="isCameraOpen" @click="capture"></i>
@@ -30,11 +28,12 @@
               :width="canvasWidth"
               :height="canvasHeight"
             ></canvas>
-
-            <pre v-if="result && percentage">
-              Hasil: {{ result }}
-              Persentase: {{ percentage }}%
-            </pre>
+              <pre v-if="result && percentage">
+    Hasil: {{ result }}
+    Persentase: {{ percentage }}%
+  </pre
+              >
+            
 
             <!-- Display the captured image -->
             <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
@@ -70,8 +69,8 @@ export default {
   },
   methods: {
     async uploadPhoto(dataURL) {
-      this.result = null
-      this.percentage = null
+      // this.result = null
+      // this.percentage = null
 
       try {
         let uniquePictureName = this.generateUniquePictureName()
@@ -80,11 +79,15 @@ export default {
         formData.append('file', capturedPhotoFile)
 
         // Make the POST request using Axios
-        let response = await axios.post('http://127.0.0.1:8000/api/send-stroke-face', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        let response = await axios.post(
+          'https://api.rafliseptiannn25.web.ti.polindra.ac.id/smarthealth_api/public/api/send-stroke-face ',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        })
+        )
 
         if (response.status === 200) {
           // Handle the successful response
