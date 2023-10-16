@@ -1,10 +1,18 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <div class="camera-box">
+      <div style="padding-top: 70px" class="camera-box">
+        <div class="analisis" v-if="!isCameraOpen">
+          <img src="../../assets/images/face-detection.png" alt="face-detection" />
+          <h5><b>Skin Analyzer</b></h5>
+          <p>
+            Gejala stroke salah satunya ditandai dengan ketidaksimetrisan pada wajah. Analisa
+            sekarang untuk mengenali tanda!
+          </p>
+        </div>
+
         <div style="display: flex; justify-content: center; background-color: rgb(210, 209, 212)">
           <i :class="'text-success ' + icon" v-if="isCameraOpen" @click="capture"></i>
-
           <div class="camera-button">
             <button
               type="button"
@@ -28,12 +36,11 @@
               :width="canvasWidth"
               :height="canvasHeight"
             ></canvas>
-              <pre v-if="result && percentage">
+            <pre v-if="result && percentage">
     Hasil: {{ result }}
     Persentase: {{ percentage }}%
   </pre
-              >
-            
+            >
 
             <!-- Display the captured image -->
             <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
@@ -41,7 +48,7 @@
         </div>
       </div>
     </div>
-    <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" />
+    <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
   </div>
 </template>
 
@@ -241,7 +248,28 @@ export default {
   border: 1px dashed #d6d6d6;
   border-radius: 4px;
   padding: 2px;
-  width: 80%;
+  width: 100%;
   min-height: 300px;
+}
+.analisis {
+  padding-top: 30px;
+}
+
+img {
+  width: 197px;
+  height: 197px;
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+}
+h5,
+p {
+  text-align: center;
+  padding-right: 10px;
+}
+.center {
+  margin: 0;
+  position: relative;
+  left: 50%;
 }
 </style>
