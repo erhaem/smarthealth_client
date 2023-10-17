@@ -1,8 +1,6 @@
 <template>
   <div class="container-fluid">
     <div class="row">
-      <h4>Diagnosa Gejala Stroke Berdasarkan Wajah</h4>
-      <h6 style="display: flex; justify-content: start">Kenali gejala stroke lebih awal.</h6>
       <div class="camera-box">
         <div style="display: flex; justify-content: center; background-color: rgb(210, 209, 212)">
           <i :class="'text-success ' + icon" v-if="isCameraOpen" @click="capture"></i>
@@ -31,11 +29,10 @@
               :height="canvasHeight"
             ></canvas>
 
-            <pre v-if="result != null && percentage != null">
-              Hasil: {{ result }}
-              Persentase: {{ percentage }}%
+            <pre v-if="result !== null && percentage !== null">
+              Deskripsi: {{ result }}
+              Kecenderungan: {{ percentage }}%
             </pre>
-
             <!-- Display the captured image -->
             <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
           </div>
@@ -80,15 +77,11 @@ export default {
         formData.append('file', capturedPhotoFile)
 
         // Make the POST request using Axios
-        let response = await axios.post(
-          'http://api.rafliseptiannn25.web.ti.polindra.ac.id/smarthealth_api/public/api/send-stroke-face',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+        let response = await axios.post('/send-stroke-face', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
-        )
+        })
 
         if (response.status === 200) {
           // Handle the successful response
@@ -98,8 +91,6 @@ export default {
 
           this.result = data.message
           this.percentage = data.percentage
-
-          // console.log(this.result)
 
           izitoast.success({
             icon: 'success',
@@ -176,7 +167,7 @@ export default {
         self.isPhotoTaken = true
         self.capturedImage = dataUrl
 
-        console.log(self.capturedImage)
+        // console.log(self.capturedImage)
 
         self.isCameraOpen = true
         self.startCameraStream()
