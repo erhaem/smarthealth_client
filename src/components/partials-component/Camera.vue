@@ -57,7 +57,7 @@ export default {
     return {
       isCameraOpen: false,
       canvasHeight: 320,
-      canvasWidth: 490,
+      canvasWidth: 430,
       isPhotoTaken: false,
       capturedImage: null,
       items: [],
@@ -67,8 +67,8 @@ export default {
   },
   methods: {
     async uploadPhoto(dataURL) {
-      this.result = null
-      this.percentage = null
+      // this.result = null
+      // this.percentage = null
 
       try {
         let uniquePictureName = this.generateUniquePictureName()
@@ -77,7 +77,7 @@ export default {
         formData.append('file', capturedPhotoFile)
 
         // Make the POST request using Axios
-        let response = await axios.post('/send-stroke-face', formData, {
+        let response = await axios.post('http://127.0.0.1:8000/api/send-stroke-face', formData, {
           headers: {
             'Content-Type': 'multipart/form-data'
           }
