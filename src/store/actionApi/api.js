@@ -14,7 +14,7 @@ const Api = {
   setAccessControl() {
     axios.defaults.headers.common['Access-Control-Allow-Origin'] = '*'
     axios.defaults.headers.common['Cache-Control'] = 'no-cache, private'
-    axios.defaults.headers.common['Access-Control-AlloW-Method'] = ['GET', 'POST', 'PUT', 'DELETE']
+    axios.defaults.headers.common['Access-Control-Allow-Method'] = ['GET', 'POST', 'PUT', 'DELETE']
   },
   setHeaderMultipartFormData() {
     axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'

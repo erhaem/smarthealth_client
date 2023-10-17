@@ -39,11 +39,11 @@
               :width="canvasWidth"
               :height="canvasHeight"
             ></canvas>
+
             <pre v-if="result !== null && percentage !== null">
               Deskripsi: {{ result }}
               Kecenderungan: {{ percentage }}%
             </pre>
-
             <!-- Display the captured image -->
             <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
           </div>
@@ -90,19 +90,15 @@ export default {
         formData.append('file', capturedPhotoFile)
 
         // Make the POST request using Axios
-        let response = await axios.post(
-          'https://api.rafliseptiannn25.web.ti.polindra.ac.id/smarthealth_api/public/api/send-stroke-face ',
-          formData,
-          {
-            headers: {
-              'Content-Type': 'multipart/form-data'
-            }
+        let response = await axios.post('http://127.0.0.1:8000/api/send-stroke-face', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
           }
-        )
+        })
 
         if (response.status === 200) {
           // Handle the successful response
-          console.log(JSON.parse(response.data.response))
+          // console.log(JSON.parse(response.data.response))
 
           let data = JSON.parse(response.data.response)
 
@@ -184,7 +180,7 @@ export default {
         self.isPhotoTaken = true
         self.capturedImage = dataUrl
 
-        console.log(self.capturedImage)
+        // console.log(self.capturedImage)
 
         self.isCameraOpen = true
         self.startCameraStream()
