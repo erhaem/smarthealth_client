@@ -39,11 +39,10 @@
               :width="canvasWidth"
               :height="canvasHeight"
             ></canvas>
-            <pre v-if="result && percentage">
-    Hasil: {{ result }}
-    Persentase: {{ percentage }}%
-  </pre
-            >
+            <pre v-if="result !== null && percentage !== null">
+              Deskripsi: {{ result }}
+              Kecenderungan: {{ percentage }}%
+            </pre>
 
             <!-- Display the captured image -->
             <!-- <img v-if="isPhotoTaken" :src="capturedImage" alt="Captured Image" /> -->
