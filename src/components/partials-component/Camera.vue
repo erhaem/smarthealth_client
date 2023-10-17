@@ -9,20 +9,23 @@
             Gejala stroke salah satunya ditandai dengan ketidaksimetrisan pada wajah. Analisa
             sekarang untuk mengenali tanda!
           </p>
+          <h6>
+            <b><u>Disclaimer</u></b> <br />
+            <span>
+              <i class="fa-solid fa-circle-exclamation"></i> Test ini bukan bertujuan untuk
+              mendiagnosis secara klinik atau memberikan anjuran medis.
+            </span>
+          </h6>
         </div>
 
-        <div style="display: flex; justify-content: center; background-color: rgb(210, 209, 212)">
-          <i :class="'text-success ' + icon" v-if="isCameraOpen" @click="capture"></i>
-          <div class="camera-button">
-            <button
-              type="button"
-              class="button is-rounded cam-button"
-              style="margin-left: 5%; background-color: rgb(241, 241, 241); border: 0px"
-              @click="toggleCamera"
-            >
-              <span v-if="!isCameraOpen"
-                >Open Camera <br /><i :class="'text-success ' + icon"></i
-              ></span>
+        <div style="display: flex">
+          <button v-if="isCameraOpen" type="button" class="btn btn-primary" style="border: 0px">
+            <span><i class="fa-solid fa-camera" v-if="isCameraOpen" @click="capture"></i></span>
+          </button>
+
+          <div class="camera-button" style="position: relative; left: 39%">
+            <button type="button" class="btn btn-primary" style="border: 0px" @click="toggleCamera">
+              <span v-if="!isCameraOpen">ASESMEN <i class="fa-solid fa-camera"></i></span>
               <span v-else><i class="fa-solid fa-circle-xmark"></i></span>
             </button>
           </div>
@@ -263,11 +266,20 @@ img {
   margin-right: auto;
 }
 h5,
+h6,
 p {
   text-align: center;
   padding-right: 10px;
 }
-.center {
+.fa-circle-check {
+  font-size: initial;
+  text-transform: none;
+}
+span {
+  font-size: x-small;
+}
+.center,
+button {
   margin: 0;
   position: relative;
   left: 50%;
