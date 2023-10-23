@@ -19,19 +19,30 @@
         </div>
 
         <div style="display: flex">
-          <button v-if="isCameraOpen" type="button" class="btn btn-primary" style="border: 0px">
-            <span><i class="fa-solid fa-camera" v-if="isCameraOpen" @click="capture"></i></span>
-          </button>
-
-          <div class="camera-button" style="position: relative; left: 39%">
+          <div v-if="!isCameraOpen" class="d-grid gap-2 col-6 mx-auto">
             <button type="button" class="btn btn-primary" style="border: 0px" @click="toggleCamera">
-              <span v-if="!isCameraOpen">ASESMEN <i class="fa-solid fa-camera"></i></span>
-              <span v-else><i class="fa-solid fa-circle-xmark"></i></span>
+              <span>ASESMEN <i class="fa-solid fa-camera"></i></span>
+            </button>
+          </div>
+          <div
+            v-if="isCameraOpen"
+            class="btn-group mx-auto"
+            role="group"
+            aria-label="Basic example"
+          >
+            <button type="button" class="btn btn-warning">
+              <span><i class="fa-solid fa-camera" v-if="isCameraOpen" @click="capture"></i></span>
+            </button>
+            <button type="button" class="btn btn-danger" @click="toggleCamera">
+              <span v-if="isCameraOpen"><i class="fa-solid fa-circle-xmark"></i></span>
             </button>
           </div>
         </div>
-        <div style="display: flex; height: 500px; justify-content: center">
-          <div v-if="isCameraOpen" class="camera-canvas">
+        <div
+          style="display: flex; height: auto; justify-content: center"
+          class="camera-canvas m-3 p-3"
+        >
+          <div v-if="isCameraOpen">
             <video ref="camera" :width="canvasWidth" :height="canvasHeight" autoplay></video>
             <canvas
               id="photoTaken"
@@ -39,6 +50,12 @@
               :width="canvasWidth"
               :height="canvasHeight"
             ></canvas>
+            <!-- <img
+              src="../../assets/images/facial-paralyse.jpg"
+              style="width: 430px; height: 320px"
+            />
+            <p>Deskripsi : Terindikasi Stroke</p>
+            <p>Kecenderungan : 96%</p> -->
 
             <pre v-if="result !== null && percentage !== null">
               Deskripsi: {{ result }}
@@ -273,8 +290,7 @@ p {
 span {
   font-size: x-small;
 }
-.center,
-button {
+.center {
   margin: 0;
   position: relative;
   left: 50%;

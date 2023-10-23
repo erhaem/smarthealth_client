@@ -70,9 +70,22 @@
           </template>
           <FeaturePrimary
             v-else
-            labelTitle="Diagnosa Stroke"
+            labelTitle="Diagnosis Stroke"
             icon="fa-solid fa-stethoscope"
-            labelParagraph="Diagnosa Stroke"
+            labelParagraph="Diagnosis Stroke"
+          >
+          </FeaturePrimary>
+        </div>
+
+        <div @click="$redirect({ name: 'Halaman Stroke Analysis' })">
+          <template v-if="isLoading">
+            <SkeletonLoading />
+          </template>
+          <FeaturePrimary
+            v-else
+            labelTitle="Test Risiko Stroke"
+            icon="fa-solid fa-brain"
+            labelParagraph="Kenali tanda kamu menginap stroke"
           >
           </FeaturePrimary>
         </div>
