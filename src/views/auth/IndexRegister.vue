@@ -45,20 +45,13 @@
               <div ref="modalButton" class="text-center">
                 <!-- <button class="btn w-100 btn-primary">Register</button> -->
                 <!-- <button class="btn w-100 btn-primary" @click="openOtpModal">Verifikasi</button> -->
-                <button
-                  type="button"
-                  data-bs-target="#otpModal"
-                  data-bs-toggle="modal"
-                  class="btn w-100 btn-primary"
-                >
-                  Register
-                </button>
+                <button class="btn w-100 btn-primary">Register</button>
                 <!-- Button trigger modal -->
                 <!-- <button
                   :hidden="hideModal"
                   type="button"
                   class="btn btn-primary"
-                  
+
                   ref="modalButton"
                 >
                   Launch demo modal
@@ -199,6 +192,7 @@ export default {
     ButtonComponent
   },
   methods: {
+    // TODO: bikin function handle submitan dari modal OTP
     handleSubmit() {
       this.submitted = true
       let type = 'postData'
@@ -216,11 +210,16 @@ export default {
         .dispatch(type, url)
         .then((result) => {
           if (result.success === false) {
-            this.$swal({
-              icon: 'error',
-              title: 'gagal',
-              text: 'Semua kolom wajib diisi'
+            this.$nextTick(() => {
+              // pake function Bootstrap modal (jquery)
+              $(this.$refs.otpModal).modal('show')
             })
+
+            // this.$swal({
+            //   icon: 'error',
+            //   title: 'gagal',
+            //   text: 'Semua kolom wajib diisi'
+            // })
           } else {
             // this.$refs.otpModal.show();
 
