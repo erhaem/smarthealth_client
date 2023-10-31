@@ -74,6 +74,9 @@
           </div>
         </div>
       </div>
+      
+    
+
       <div class="col-lg-6 d-none d-sm-block mt-5">
         <img src="../../assets/images/register.png" class="img-fluid" alt="" />
       </div>
