@@ -193,6 +193,7 @@ export default {
   },
   methods: {
     // TODO: bikin function handle submitan dari modal OTP
+    //TODO: Bikin module terpisah untuk reusability modal
     handleSubmit() {
       this.submitted = true
       let type = 'postData'

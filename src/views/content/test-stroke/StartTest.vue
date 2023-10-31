@@ -97,16 +97,16 @@
             </div>
           </div>
           <div
-            class="fixed-bottom shadow-sm p-2 mb-5 bg-body-tertiary rounded mx-auto"
+            class="fixed-bottom shadow-sm p-1 mb-0 bg-body-tertiary rounded mx-auto"
             style="width: 488px"
           >
-            <div class="d-grid p-2 gap-2 col-12 mx-auto">
+            <div class="d-grid p-1 gap-2 col-12 mx-auto">
               <button
-                @click="$redirect({ name: 'Onboarding Stroke Analysis' })"
                 type="button"
-                class="btn btn-primary"
+                @click="$redirect({ name: 'Halaman Stroke Analysis' })"
+                class="btn btn-secondary"
               >
-                Lakukan Pengecekan
+                Next
               </button>
             </div>
           </div>
