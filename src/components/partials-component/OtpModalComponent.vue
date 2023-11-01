@@ -94,15 +94,59 @@
 
 <script>
 export default {
+  name: 'ModalOtp',
   props: {
     otpModal: String
   },
   methods: {
-    openModal() {
-      $(this.$refs.modal).modal('show')
-    },  
-    closeModal() {
-      $(this.$refs.modal).modal('hide')
+    // TODO: bikin function handle submitan dari modal OTP
+    //TODO: Bikin module terpisah untuk reusability modal
+    handleSubmit() {
+      this.submitted = true
+      let type = 'postData'
+      const data = {
+        nik: this.nik,
+        nama: this.form.nama,
+        email: this.form.email,
+        alamat: this.form.alamat,
+        nomor_hp: this.form.nomor_hp,
+        password: this.form.password,
+        status: 1
+      }
+      let url = ['akun/konsumen', data]
+      this.$nextTick(() => {
+        // pake function Bootstrap modal (jquery)
+        $(this.$refs.otpModal).modal('show')
+      })
+
+        // this.$store
+        //   .dispatch(type, url)
+        //   .then((result) => {
+        //     if (result.success === false) {
+        //       this.$nextTick(() => {
+        //         // pake function Bootstrap modal (jquery)
+        //         $(this.$refs.otpModal).modal('show')
+        //       })
+
+        //       // this.$swal({
+        //       //   icon: 'error',
+        //       //   title: 'gagal',
+        //       //   text: 'Semua kolom wajib diisi'
+        //       // })
+        //     } else {
+        //       // this.$refs.otpModal.show();
+
+        //       this.$swal({
+        //         icon: 'success',
+        //         title: 'berhasil register'
+        //       }).then(() => {
+        //         this.$router.push({ name: 'LoginUser' })
+        //       })
+        //     }
+        //   })
+        .catch((err) => {
+          console.log(err)
+        })
     }
   },
   mounted() {
