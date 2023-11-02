@@ -20,12 +20,29 @@
                 <div :class="['col-md-6', { 'has-error': submitted && !form.nomorHp }]">
                   <label for="nomor hp" class="form-label">Nomor HP</label>
                   <input type="text" class="form-control" v-model="form.nomorHp" />
+                  <div class="text-danger small" v-if="phoneError">{{ phoneError }}</div>
                 </div>
               </div>
               <div class="row mb-3">
                 <div :class="['col-md-6', { 'has-error': submitted && !form.password }]">
                   <label for="name" class="form-label">Password</label>
                   <input type="password" class="form-control" v-model="form.password" />
+                </div>
+                <div :class="['col-md-6', { 'has-error': submitted && !form.email }]">
+                  <label for="name" class="form-label">Email</label>
+                  <input type="email" class="form-control" v-model="form.email" />
+                  <div class="text-danger small" v-if="emailError">{{ emailError }}</div>
+                </div>
+              </div>
+              <div class="row mb-3">
+                <div class="col-md-6">
+                  <label for="selectOption" class="form-label">Jenis Akun</label>
+                  <select id="selectOption" class="form-select" v-model="form.option">
+                    <option value="" disabled>----Pilih Jenis Akun----</option>
+                    <option v-for="data in akun" :value="data.value" :key="data.value">
+                      {{ data.label }}
+                    </option>
+                  </select>
                 </div>
                 <div class="col-md-6">
                   <label for="selectOption" class="form-label">Jenis Kelamin</label>
@@ -43,15 +60,6 @@
                 </div>
               </div>
               <div class="mb-3">
-                <label for="selectOption" class="form-label">Jenis Akun</label>
-                <select id="selectOption" class="form-select" v-model="form.option">
-                  <option value="" disabled>----Pilih Jenis Akun----</option>
-                  <option v-for="data in akun" :value="data.value" :key="data.value">
-                    {{ data.label }}
-                  </option>
-                </select>
-              </div>
-              <div class="mb-3">
                 <label for="fotoInput" class="form-label me-2">Foto Pribadi *formal</label> <br />
                 <input type="file" id="fotoInput" class="form-control-file" @change="handleFoto" />
               </div>
@@ -66,6 +74,60 @@
                   class="form-control-file"
                   @change="handleFileDokumen"
                 />
+              </div>
+              <div class="row mb-3">
+                <div :class="['col-md-12', { 'has-error': submitted && !form.nomorHp }]">
+                  <label for="name" class="form-label">Verification Code</label>
+                  <!-- <input type="text" class="form-control" v-model="form.nomorHp" /> -->
+                  <div class="input-group">
+                    <input
+                      type="text"
+                      id="verificationCode"
+                      class="form-control"
+                      placeholder="Verification Code"
+                      aria-label="Recipient's username with two button addons"
+                    />
+                    <button
+                      v-if="!countingDown"
+                      class="btn btn-outline-primary"
+                      type="button"
+                      @click="sendCode"
+                    >
+                      Send
+                    </button>
+                    <button
+                      v-if="countingDown"
+                      class="btn btn-outline-primary disabled"
+                      type="button"
+                    >
+                      Sent ({{ countdownTime }})
+                    </button>
+                  </div>
+                  <div v-if="showMessageWA && !showMessageMail" class="small">
+                    <div class="text-success pb-2">{{ showMessageWA }}</div>
+                    <span>Belum menerima kode ?</span>
+                    <button
+                      type="button"
+                      class="btn btn-link text-decoration-none btn-sm"
+                      @click="sendEmailCode"
+                      :disabled="countingDown"
+                    >
+                      Kirim Kode Melalui Email
+                    </button>
+                  </div>
+                  <div v-if="sendEmailCode && showMessageMail" class="small">
+                    <div class="text-success pb-2">{{ showMessageMail }}</div>
+
+                    <button
+                      type="button"
+                      class="btn btn-link text-decoration-none btn-sm"
+                      @click="sendCode"
+                      :disabled="countingDown"
+                    >
+                      Kirim Kode Melalui WhatsApp
+                    </button>
+                  </div>
+                </div>
               </div>
               <div ref="modalButton" class="text-center">
                 <button class="btn w-100 btn-primary">Register</button>
@@ -181,6 +243,7 @@ export default {
       form: {
         nama: '',
         nomorHp: '',
+        email: '',
         password: '',
         jenisKelamin: '',
         option: 'dokter',
@@ -194,10 +257,47 @@ export default {
         { value: 'rumah_sakit', label: 'Rumah Sakit' },
         { value: 'apotek', label: 'Apotek' }
       ],
-      submitted: false
+      submitted: false,
+      showMessageWA: null,
+      showMessageMail: null,
+      phoneError: null,
+      emailError: null,
+      countdownTime: 0,
+      countingDown: false,
+      sendEmail: false
     }
   },
   methods: {
+    sendCode() {
+      if (!this.form.nomorHp) {
+        this.phoneError = 'Phone number cannot be empty'
+        return
+      }
+      this.showMessageWA = 'Verification code has been sent to your WhatsApp'
+      this.countdown()
+      this.phoneError = null
+    },
+    sendEmailCode() {
+      if (!this.form.email) {
+        this.emailError = 'Email cannot be empty'
+        return
+      }
+      this.sendEmail = true
+      this.showMessageMail = 'Verification code has been sent to your Email'
+      this.countdown()
+      this.emailError = null
+    },
+    countdown() {
+      this.countingDown = true
+      this.countdownTime = 30
+      var intervalId = setInterval(() => {
+        this.countdownTime -= 1
+        if (this.countdownTime <= 0) {
+          clearInterval(intervalId)
+          this.countingDown = false
+        }
+      }, 1000)
+    },
     changeRoute() {
       this.$router.push('RegisterKonsumen')
     },
@@ -211,7 +311,8 @@ export default {
       this.submitted = true
       const formData = new FormData()
       formData.append('nama', this.form.nama)
-      formData.append('nomor_hp', this.form.nomorHp)
+      formData.append('nomorHp', this.form.nomorHp)
+      formData.append('email', this.form.email)
       formData.append('password', this.form.password)
       formData.append('option', this.form.option)
       formData.append('jenis_kelamin', this.form.jenisKelamin)
