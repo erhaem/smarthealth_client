@@ -9,6 +9,7 @@ import PageNotFound from '@/views/not-found-page/NotFound.vue'
 import PublicRoutes from './modules/publicRoutes'
 import Diagnosis from './modules/diagnosis'
 import DiagnosaModules from './modules/diagnosa'
+import TestStrokeModules from './modules/test-stroke'
 
 const routes = [
   ...PublicRoutes,
@@ -20,6 +21,7 @@ const routes = [
   ...RumahSakitModules,
   ...Diagnosis,
   ...DiagnosaModules,
+  ...TestStrokeModules,
   {
     path: '/',
     name: 'IndexHome',
