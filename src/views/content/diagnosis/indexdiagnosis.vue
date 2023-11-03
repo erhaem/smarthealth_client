@@ -1,5 +1,5 @@
 <template>
-  <div class="text-center">
+ <div class="text-center">
     <h2>Diagnosa Penyakit</h2>
 
     <a href="/hasil_diagnosis">Check Hasil Diagnosa</a>
