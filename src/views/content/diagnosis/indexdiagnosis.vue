@@ -1,47 +1,41 @@
 <template>
 
-    <h2>Diagnosa Penyakit</h2>
-
-    <a href="/hasil_diagnosis">Check Hasil Diagnosa</a>
-    
-    <!-- Error Alert -->
-    <div v-if="error" class="alert alert-danger mx-auto" style="max-width: 600px;">{{ error }}</div>
+  <div class="container py-5 ">
+    <h2 class="text-center mb-4 fw-semibold">DIAGNOSA PENYAKIT</h2>
     
 
-      <!-- chart section -->
-      <div class="col-md-12">
-        <div class="card mx-auto" style="max-width: 800px;">
-          <div class="card-body">
-            <form @submit.prevent="submitForm">
 
-              <!-- <label for="nama"><b><i class="fas fa-user mr-1"></i> Nama</b></label>
-              <input type="text" class="form-control mb-3 mx-auto" style="max-width: 300px;" v-model="nama"> -->
-
-              <p>Pilih gejala yang sedang dirasakan.</p>
-              <label for=""><b><i class="fas fa-th mr-1"></i> Gejala-gejala</b></label>
-
-          
-              <div class="row">
-                
-                <div class="col-md-4 mx-auto border-data border-container" v-for="(item, index) in gejala" :key="index">
-    <div class=" border-container">
-        <span class="ml-2">{{ item.nama }}</span>
-        <select v-model="diagnosa[item.id]" 
-                class="form-control form-control-sm select-control" 
-                :class="getBorderColor(diagnosa[item.id])">
-            <option :value="`${item.id}+-1`">Pasti tidak</option>
-            <option :value="`${item.id}+-0.8`">Hampir pasti tidak</option>
-            <option :value="`${item.id}+-0.6`">Kemungkinan besar tidak</option>
-            <option :value="`${item.id}+-0.4`">Mungkin tidak</option>
-            <option value="" selected>Tidak tahu</option>
-            <option :value="`${item.id}+0.4`">Mungkin</option>
-            <option :value="`${item.id}+0.6`">Sangat mungkin</option>
-            <option :value="`${item.id}+0.8`">Hampir pasti</option>
-            <option :value="`${item.id}+1`">Pasti</option>
-        </select>
+    <div class="text-center mb-3 ">
+      <router-link to="/hasil_diagnosis" class="btn btn-primary btn-sm btn-outline-dark  " style="color:white;box-shadow: 2px 2px black; ">Lihat Hasil Diagnosa</router-link>
     </div>
-</div>
-</div>
+    <!-- Error Alert -->
+    <div v-if="error" class="alert alert-danger">{{ error }}</div>
+
+    <div class="card shadow-lg p-3 mb-5 bg-white rounded">
+      <div class="card-body" >
+        <form @submit.prevent="submitForm">
+          <p > Pilih gejala yang sedang dirasakan.</p>
+          <div class="row">
+            <div class="col-md-6 "  style="font-weight: bold;" v-for="(item, index) in gejala" :key="index">
+              <div class="form-group ">
+                <label><b>{{ item.nama }}</b>
+                </label>
+                <select v-model="diagnosa[item.id]" class="form-control select-control" 
+                        :class="getBorderColor(diagnosa[item.id])">
+                  <option :value="null" disabled :selected="!diagnosa[item.id]">Pilihlah Opsi Gejala</option>
+                  <option :value="`${item.id}+-1`" >Pasti tidak</option>
+                  <option :value="`${item.id}+-0.8`">Hampir pasti tidak</option>
+                  <option :value="`${item.id}+-0.6`">Kemungkinan besar tidak</option>
+                  <option :value="`${item.id}+-0.4`">Mungkin tidak</option>
+                  <option value="" selected>Tidak tahu</option>
+                  <option :value="`${item.id}+0.4`">Mungkin</option>
+                  <option :value="`${item.id}+0.6`">Sangat mungkin</option>
+                  <option :value="`${item.id}+0.8`">Hampir pasti</option>
+                  <option :value="`${item.id}+1`">Pasti</option>
+                </select>
+              </div>
+            </div>
+          </div>
 
           <div class="text-center mt-3">
             <button type="submit" class="btn btn-primary  btn-outline-dark  " style="color:white;box-shadow: 2px 2px black; " :disabled="isLoading">Diagnosa sekarang</button>
@@ -52,9 +46,11 @@
     </div>
 
   </div>
+ 
 </template>
 
 <script>
+
 import axios from 'axios';
 
 export default {
@@ -100,29 +96,30 @@ export default {
 
 </script>
 
-<style scoped>
-.red-border {
-  border: 1px solid rgba(227, 39, 79, .8);
-}
-.green-border {
-  border: 1px solid rgba(50, 179, 104, .8);
-}
+<style  scoped>
 
-.select-control {
-    margin-right: 4rem;
-    border-radius: 0.25rem;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-    border: 1px solid #d1d5db;
-    align-items: center;
+  
+
+
+.form-group option {
+  font-family: cursive;
 
 }
 
-
-.select-control:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+h2{
+  text-shadow: 1px 1px #0099ff;
+  color: rgb(0, 0, 0);
+  font-family: cursive;
+}
+.container {
+  max-width: 800px;
+  margin: auto;
 }
 
+p{
+  font-weight: bold;
+
+}
 .select-control:focus {
   outline: none;
   box-shadow: none !important;
