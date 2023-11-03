@@ -42,7 +42,7 @@
           <img
             src="../../../assets/images/palsy.jpg"
             alt="Banner"
-            class="img-fluid animated"
+            class="img-fluid"
             height="700"
             justify-content
           />
