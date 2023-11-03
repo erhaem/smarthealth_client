@@ -1,5 +1,5 @@
 <template>
- <div class="text-center">
+
     <h2>Diagnosa Penyakit</h2>
 
     <a href="/hasil_diagnosis">Check Hasil Diagnosa</a>
@@ -7,7 +7,7 @@
     <!-- Error Alert -->
     <div v-if="error" class="alert alert-danger mx-auto" style="max-width: 600px;">{{ error }}</div>
     
-    <section class="row">
+
       <!-- chart section -->
       <div class="col-md-12">
         <div class="card mx-auto" style="max-width: 800px;">
