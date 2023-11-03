@@ -17,9 +17,9 @@
                   <label for="name" class="form-label">Nama</label>
                   <input type="text" id="name" class="form-control" v-model="form.nama" />
                 </div>
-                <div :class="['col-md-6', { 'has-error': submitted && !form.nomorHp }]">
-                  <label for="nomor hp" class="form-label">Nomor HP</label>
-                  <input type="text" class="form-control" v-model="form.nomorHp" />
+                <div :class="['col-md-6', { 'has-error': submitted && !form.nomor_hp }]">
+                  <label for="nomor_hp" class="form-label">Nomor HP</label>
+                  <input type="text" class="form-control" v-model="form.nomor_hp" />
                   <div class="text-danger small" v-if="phoneError">{{ phoneError }}</div>
                 </div>
               </div>
@@ -76,16 +76,15 @@
                 />
               </div>
               <div class="row mb-3">
-                <div :class="['col-md-12', { 'has-error': submitted && !form.nomorHp }]">
-                  <label for="name" class="form-label">Verification Code</label>
-                  <!-- <input type="text" class="form-control" v-model="form.nomorHp" /> -->
+                <div :class="['col-md-12', { 'has-error': submitted && !form.nomor_hp }]">
+                  <label for="name" class="form-label">Kode Verifikasi</label>
+                  <!-- <input type="text" class="form-control" v-model="form.nomor_hp" /> -->
                   <div class="input-group">
                     <input
                       type="text"
+                      v-model="form.verificationCode"
                       id="verificationCode"
                       class="form-control"
-                      placeholder="Verification Code"
-                      aria-label="Recipient's username with two button addons"
                     />
                     <button
                       v-if="!countingDown"
@@ -93,139 +92,51 @@
                       type="button"
                       @click="sendCode"
                     >
-                      Send
+                      Kirim
                     </button>
                     <button
                       v-if="countingDown"
                       class="btn btn-outline-primary disabled"
                       type="button"
                     >
-                      Sent ({{ countdownTime }})
+                      Kirim Ulang ({{ countdownTime }})
                     </button>
                   </div>
-                  <div v-if="showMessageWA && !showMessageMail" class="small">
-                    <div class="text-success pb-2">{{ showMessageWA }}</div>
-                    <span>Belum menerima kode ?</span>
+                  <div v-if="sendProceed" class="small">
+                    <div :class="`text-${sendSuccess ? 'success' : 'danger'} pb-2`">
+                      {{ showMessageWA || showMessageMail }}
+                    </div>
+                  </div>
+                  <div class="small mt-2">
+                    <span>Kirim kode verifikasi ke email?</span>
+
                     <button
-                      type="button"
-                      class="btn btn-link text-decoration-none btn-sm"
-                      @click="sendEmailCode"
+                      class="btn btn-link btn-sm text-decoration-none"
+                      style="cursor: pointer"
+                      @click.prevent="sendEmailCode"
                       :disabled="countingDown"
                     >
-                      Kirim Kode Melalui Email
+                      Klik di sini
                     </button>
                   </div>
-                  <div v-if="sendEmailCode && showMessageMail" class="small">
+                  <!-- <div v-if="sendEmailCode && showMessageMail" class="small">
                     <div class="text-success pb-2">{{ showMessageMail }}</div>
 
                     <button
                       type="button"
-                      class="btn btn-link text-decoration-none btn-sm"
+                      class="btn btn-link btn-sm"
                       @click="sendCode"
                       :disabled="countingDown"
                     >
                       Kirim Kode Melalui WhatsApp
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div ref="modalButton" class="text-center">
                 <button class="btn w-100 btn-primary">Register</button>
               </div>
             </form>
-          </div>
-        </div>
-      </div>
-
-      <!-- Modal -->
-      <div
-        class="modal fade"
-        id="otpModal"
-        ref="otpModal"
-        tabindex="-1"
-        aria-labelledby="exampleModalLabel"
-        aria-hidden="true"
-      >
-        <div class="modal-dialog modal-dialog-centered modal-lg">
-          <div class="modal-content">
-            <!-- <div class="modal-header"> -->
-
-            <!-- <button
-                type="button"
-                class="btn-close"
-                data-bs-dismiss="modal"
-                aria-label="Close"
-              ></button> -->
-            <!-- </div> -->
-            <div class="modal-body">
-              <div class="container-fluid text-center p-4">
-                <h5 class="modal-title mb-4" id="exampleModalLabel">
-                  <b>Masukkan kode verifikasi</b>
-                </h5>
-                <p><b>Kode 6 digit verifikasi</b> telah dikirimkan melalui Nomor Whatsapp</p>
-                <div
-                  id="otp"
-                  class="inputs d-flex flex-row justify-content-center mt-2"
-                  style="height: 100px"
-                >
-                  <input
-                    class="m-2 text-center form-control rounded"
-                    type="text"
-                    id="first"
-                    maxlength="1"
-                  />
-                  <input
-                    class="m-2 text-center form-control rounded"
-                    type="text"
-                    id="second"
-                    maxlength="1"
-                  />
-                  <input
-                    class="m-2 text-center form-control rounded"
-                    type="text"
-                    id="third"
-                    maxlength="1"
-                  />
-                  <input
-                    class="m-2 text-center form-control rounded"
-                    type="text"
-                    id="fourth"
-                    maxlength="1"
-                  />
-                  <input
-                    class="m-2 text-center form-control rounded"
-                    type="text"
-                    id="fifth"
-                    maxlength="1"
-                  />
-                  <input
-                    class="m-2 text-center form-control rounded"
-                    type="text"
-                    id="sixth"
-                    maxlength="1"
-                  />
-                </div>
-                <a href="#" class="text-decoration-none ms-3">Kirim Ulang(1/3)</a>
-              </div>
-              <div class="content d-flex justify-content-center align-items-center">
-                <span>Belum menerima kode ?</span>
-                <a href="#" class="text-decoration-none ms-2">Kirim Kode Melalui Email</a>
-              </div>
-              <div class="d-grid mx-auto mt-4 pb-4" style="width: 400px">
-                <button
-                  @click="handleSubmit"
-                  class="btn btn-primary"
-                  style="height: 60px; border-radius: 25px"
-                >
-                  Verifikasi
-                </button>
-              </div>
-            </div>
-
-            <!-- <div class="modal-footer">
-              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-              <button type="button" class="btn btn-primary">Save changes</button>
-            </div> -->
           </div>
         </div>
       </div>
@@ -242,14 +153,15 @@ export default {
     return {
       form: {
         nama: '',
-        nomorHp: '',
+        nomor_hp: '',
         email: '',
         password: '',
         jenisKelamin: '',
         option: 'dokter',
         foto: null,
         fileDokumen: null,
-        noKtp: ''
+        noKtp: '',
+        verificationCode: ''
       },
       akun: [
         { value: 'perawat', label: 'Perawat' },
@@ -268,24 +180,76 @@ export default {
     }
   },
   methods: {
+    //TODO: bikin error message yang spesifik
     sendCode() {
-      if (!this.form.nomorHp) {
-        this.phoneError = 'Phone number cannot be empty'
+      this.sendProceed = true
+      this.showMessageWA = null
+      this.showMessageMail = null
+
+      if (!this.form.nomor_hp) {
+        this.phoneError = 'Mohon isi nomor hp'
         return
       }
-      this.showMessageWA = 'Verification code has been sent to your WhatsApp'
-      this.countdown()
+
       this.phoneError = null
+
+      let type = 'postData'
+
+      const data = {
+        to: this.form.nomor_hp,
+        user_id: this.user_id
+      }
+
+      let url = ['send-otp-wa', data]
+
+      this.$store.dispatch(type, url).then((result) => {
+        //TODO: tambahin http status sebagai penentu error
+        if (result.success == false) {
+          this.sendSuccess = false
+          this.showMessageWA = 'Kode verifikasi gagal dikirim ke WhatsApp Anda'
+        } else {
+          this.sendSuccess = true
+          // console.log('sendOTP: sukses', result.message)
+
+          this.showMessageWA = 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
+        }
+
+        this.countdown()
+      })
     },
     sendEmailCode() {
+      this.sendProceed = true
+      this.showMessageMail = null
+      this.showMessageWA = null
+
       if (!this.form.email) {
-        this.emailError = 'Email cannot be empty'
+        this.emailError = 'Mohon isi alamat email anda'
         return
       }
-      this.sendEmail = true
-      this.showMessageMail = 'Verification code has been sent to your Email'
-      this.countdown()
+
       this.emailError = null
+
+      let type = 'postData'
+
+      const data = {
+        email: this.form.email
+      }
+
+      let url = ['send-otp-email', data]
+
+      this.$store.dispatch(type, url).then((result) => {
+        //TODO: tambahin http status sebagai penentu error
+        if (result.success == false) {
+          this.sendSuccess = false
+          this.showMessageMail = 'Kode verifikasi gagal dikirim ke email Anda'
+        } else {
+          this.sendSuccess = true
+          // this.sendEmail = true
+          this.showMessageMail = 'Kode verifikasi berhasil dikirim ke email Anda'
+        }
+
+        this.countdown()
+      })
     },
     countdown() {
       this.countingDown = true
@@ -311,12 +275,13 @@ export default {
       this.submitted = true
       const formData = new FormData()
       formData.append('nama', this.form.nama)
-      formData.append('nomorHp', this.form.nomorHp)
+      formData.append('nomor_hp', this.form.nomor_hp)
       formData.append('email', this.form.email)
       formData.append('password', this.form.password)
       formData.append('option', this.form.option)
       formData.append('jenis_kelamin', this.form.jenisKelamin)
       formData.append('no_ktp', this.form.noKtp)
+      formData.append('verificationCode', this.form.verificationCode)
 
       const fotoFile = this.form.foto
       if (fotoFile && (fotoFile.type === 'image/png' || fotoFile.type === 'image/jpeg')) {
@@ -345,27 +310,24 @@ export default {
         .then((result) => {
           console.log(result.success)
           if (result.success === false) {
-            // this.$nextTick(() => {
-            //   $(this.$refs.otpModal).modal('show')
-            // })
             const resdat = result.data
             this.$swal({
               icon: 'error',
-              title: result.message,
-              text: Object.keys(resdat)
-                .map((dat) => resdat[dat])
-                .join(' ')
+              title: 'Failed!',
+              text: Array.isArray(resdat)
+                ? Object.keys(resdat)
+                    .map((dat) => resdat[dat])
+                    .join(' ')
+                : result.message
             })
           } else {
-            this.$nextTick(() => {
-              $(this.$refs.otpModal).modal('show')
+            this.$swal({
+              icon: 'success',
+              title: 'Success!',
+              text: 'Verifikasi berhasil! Akun anda berhasil terdaftar'
+            }).then(() => {
+              this.$router.push({ name: 'LoginUser' })
             })
-            // this.$swal({
-            //   icon: 'success',
-            //   title: 'Berhasil melakukan registrasi'
-            // }).then(() => {
-            //   // this.$router.push({ name: 'LoginUser' });
-            // })
           }
         })
         .catch((err) => {
@@ -373,33 +335,7 @@ export default {
         })
     }
   },
-  mounted() {
-    function OTPInput() {
-      const inputs = document.querySelectorAll('#otp > *[id]')
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('keydown', function (event) {
-          if (event.key === 'Backspace') {
-            inputs[i].value = ''
-            if (i !== 0) inputs[i - 1].focus()
-          } else {
-            if (i === inputs.length - 1 && inputs[i].value !== '') {
-              return true
-            } else if (event.keyCode > 47 && event.keyCode < 58) {
-              inputs[i].value = event.key
-              if (i !== inputs.length - 1) inputs[i + 1].focus()
-              event.preventDefault()
-            } else if (event.keyCode > 64 && event.keyCode < 91) {
-              inputs[i].value = String.fromCharCode(event.keyCode)
-              if (i !== inputs.length - 1) inputs[i + 1].focus()
-              event.preventDefault()
-            }
-          }
-        })
-      }
-    }
-
-    OTPInput()
-  }
+  mounted() {}
 }
 </script>
 

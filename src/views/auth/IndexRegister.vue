@@ -35,7 +35,7 @@
               </div>
               <div class="row mb-3">
                 <div :class="['col-md-6', { 'has-error': submitted && !form.nomor_hp }]">
-                  <label for="name" class="form-label">Nomor Hp</label>
+                  <label for="name" class="form-label">Nomor Hp (WhatsApp)</label>
                   <input type="text" class="form-control" v-model="form.nomor_hp" />
                   <div class="text-danger small" v-if="phoneError">{{ phoneError }}</div>
                 </div>
@@ -46,15 +46,14 @@
               </div>
               <div class="row mb-3">
                 <div :class="['col-md-12', { 'has-error': submitted && !form.nomor_hp }]">
-                  <label for="name" class="form-label">Verification Code</label>
+                  <label for="name" class="form-label">Kode Verifikasi</label>
                   <!-- <input type="text" class="form-control" v-model="form.nomor_hp" /> -->
                   <div class="input-group">
                     <input
                       type="text"
+                      v-model="form.verificationCode"
                       id="verificationCode"
                       class="form-control"
-                      placeholder="Verification Code"
-                      aria-label="Recipient's username with two button addons"
                     />
                     <button
                       v-if="!countingDown"
@@ -62,41 +61,45 @@
                       type="button"
                       @click="sendCode"
                     >
-                      Send
+                      Kirim
                     </button>
                     <button
                       v-if="countingDown"
                       class="btn btn-outline-primary disabled"
                       type="button"
                     >
-                      Sent ({{ countdownTime }})
+                      Kirim Ulang ({{ countdownTime }})
                     </button>
                   </div>
-                  <div v-if="showMessageWA && !showMessageMail" class="small">
-                    <div class="text-success pb-2">{{ showMessageWA }}</div>
-                    <span>Belum menerima kode ?</span>
+                  <div v-if="sendProceed" class="small">
+                    <div :class="`text-${sendSuccess ? 'success' : 'danger'} pb-2`">
+                      {{ showMessageWA || showMessageMail }}
+                    </div>
+                  </div>
+                  <div class="small mt-2">
+                    <span>Kirim kode verifikasi ke email?</span>
 
                     <button
-                      type="button"
-                      class="btn btn-link text-decoration-none btn-sm"
-                      @click="sendEmailCode"
+                      class="btn btn-link btn-sm text-decoration-none"
+                      style="cursor: pointer"
+                      @click.prevent="sendEmailCode"
                       :disabled="countingDown"
                     >
-                      Kirim Kode Melalui Email
+                      Klik di sini
                     </button>
                   </div>
-                  <div v-if="sendEmailCode && showMessageMail" class="small">
+                  <!-- <div v-if="sendEmailCode && showMessageMail" class="small">
                     <div class="text-success pb-2">{{ showMessageMail }}</div>
 
                     <button
                       type="button"
-                      class="btn btn-link text-decoration-none btn-sm"
+                      class="btn btn-link btn-sm"
                       @click="sendCode"
                       :disabled="countingDown"
                     >
                       Kirim Kode Melalui WhatsApp
                     </button>
-                  </div>
+                  </div> -->
                 </div>
               </div>
               <div class="text-center">
@@ -106,10 +109,6 @@
           </div>
         </div>
       </div>
-      <!-- MODAL OTP -->
-      <!-- <template> -->
-
-      <!-- </template> -->
 
       <div class="col-lg-6 d-none d-sm-block mt-5">
         <img src="../../assets/images/register.png" class="img-fluid" alt="" />
@@ -128,7 +127,8 @@ export default {
         nomor_hp: '',
         password: '',
         alamat: '',
-        status: ''
+        status: '',
+        verificationCode: ''
       },
       showMessageWA: null,
       showMessageMail: null,
@@ -137,30 +137,81 @@ export default {
       countdownTime: 0,
       countingDown: false,
       sendEmail: false,
-      submitted: false,
-      otpCode: ''
+      sendSuccess: false,
+      sendProceed: false,
+      submitted: false
     }
   },
   components: {},
   methods: {
     sendCode() {
+      this.sendProceed = true
+      this.showMessageWA = null
+      this.showMessageMail = null
+
       if (!this.form.nomor_hp) {
-        this.phoneError = 'Phone number cannot be empty'
+        this.phoneError = 'Mohon isi nomor hp'
         return
       }
-      this.showMessageWA = 'Verification code has been sent to your WhatsApp'
-      this.countdown()
+
       this.phoneError = null
+
+      let type = 'postData'
+
+      const data = {
+        to: this.form.nomor_hp,
+        user_id: this.user_id
+      }
+
+      let url = ['send-otp-wa', data]
+
+      this.$store.dispatch(type, url).then((result) => {
+        if (result.success == false) {
+          this.sendSuccess = false
+          this.showMessageWA = 'Kode verifikasi gagal dikirim ke WhatsApp Anda'
+        } else {
+          this.sendSuccess = true
+          // console.log('sendOTP: sukses', result.message)
+
+          this.showMessageWA = 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
+        }
+
+        this.countdown()
+      })
     },
     sendEmailCode() {
+      this.sendProceed = true
+      this.showMessageMail = null
+      this.showMessageWA = null
+
       if (!this.form.email) {
-        this.emailError = 'Email cannot be empty'
+        this.emailError = 'Mohon isi alamat email anda'
         return
       }
-      this.sendEmail = true
-      this.showMessageMail = 'Verification code has been sent to your Email'
-      this.countdown()
+
       this.emailError = null
+
+      let type = 'postData'
+
+      const data = {
+        email: this.form.email
+      }
+
+      let url = ['send-otp-email', data]
+
+      this.$store.dispatch(type, url).then((result) => {
+        //TODO: tambahin http status sebagai penentu error
+        if (result.success == false) {
+          this.sendSuccess = false
+          this.showMessageMail = 'Kode verifikasi gagal dikirim ke email Anda'
+        } else {
+          this.sendSuccess = true
+          // this.sendEmail = true
+          this.showMessageMail = 'Kode verifikasi berhasil dikirim ke email Anda'
+        }
+
+        this.countdown()
+      })
     },
     countdown() {
       this.countingDown = true
@@ -173,35 +224,34 @@ export default {
         }
       }, 1000)
     },
-    // TODO: bikin function handle submitan dari modal OTP
-    //TODO: Bikin module terpisah untuk reusability modal
+
     handleSubmit() {
       this.submitted = true
       let type = 'postData'
 
       //TODO: validasi form
 
-      if (this.nik == '') {
-        this.$swal({
-          icon: 'error',
-          title: 'Failed!',
-          text: 'NIK masih kosong'
-        })
+      // if (this.nik == '') {
+      //   this.$swal({
+      //     icon: 'error',
+      //     title: 'Failed!',
+      //     text: 'NIK masih kosong'
+      //   })
 
-        return
-      }
+      //   return
+      // }
 
-      if (this.email == '') {
-        this.$swal({
-          icon: 'error',
-          title: 'Failed!',
-          text: 'Email masih kosong'
-        })
+      // if (this.email == '') {
+      //   this.$swal({
+      //     icon: 'error',
+      //     title: 'Failed!',
+      //     text: 'Email masih kosong'
+      //   })
 
-        return
-      } // etc..
+      //   return
+      // } // etc..
 
-      const data = {
+      let data = {
         nik: this.nik,
         nama: this.form.nama,
         email: this.form.email,
@@ -210,33 +260,29 @@ export default {
         password: this.form.password,
         status: 1
       }
+      data['verificationCode'] = this.form.verificationCode
+
       let url = ['akun/konsumen', data]
-      // this.$nextTick(() => {
-      //         // pake function Bootstrap modal (jquery)
-      //         $(this.$refs.otpModal).modal('show')
-      //       })
 
       this.$store
         .dispatch(type, url)
         .then((result) => {
           if (result.success === false) {
+            // console.log('err: reg')
             this.$swal({
               icon: 'error',
               title: 'Failed!',
-              text: Object.keys(result.data)
-                .map((err) => result.data[err])
-                .join(', ')
+              text: Array.isArray(result.data)
+                ? Object.keys(result.data)
+                    .map((err) => result.data[err])
+                    .join(', ')
+                : result.message
             })
           } else {
-            this.$nextTick(() => {
-              // pake function Bootstrap modal (jquery)
-              $(this.$refs.otpModal).modal('show')
-            })
-            // this.$refs.otpModal.show();
-
             this.$swal({
               icon: 'success',
-              title: 'berhasil register'
+              title: 'Success!',
+              text: 'Verifikasi berhasil! Akun anda berhasil terdaftar'
             }).then(() => {
               this.$router.push({ name: 'LoginUser' })
             })
@@ -247,92 +293,10 @@ export default {
         })
     },
 
-    verifyOTP() {
-      let type = 'postData'
-
-      const data = {
-        verification_code: this.otpCode,
-        user_id: this.user_id
-      }
-
-      let url = ['verify-otp-wa', data]
-
-      this.$store.dispatch(type, url).then((result) => {
-        if (result.success == false) {
-          this.$swal({
-            icon: 'error',
-            title: 'Gagal memverifikasi'
-          })
-          console.log('verifyotp: gagal, ', result.message)
-        } else {
-          console.log('verifyotp: sukses', result.message)
-          this.$swal({
-            icon: 'success',
-            title: 'Verifikasi sukses! Anda berhasil register'
-          }).then(() => {
-            this.$router.push({ name: 'LoginUser' })
-          })
-        }
-      })
-    },
-    sendOTP() {
-      let type = 'postData'
-
-      const data = {
-        to: this.form.nomor_hp,
-        user_id: this.user_id
-      }
-
-      let url = ['send-otp-wa', data]
-
-      this.$store.dispatch(type, url).then((result) => {
-        if (result.success == false) {
-          console.log('sendOTP: gagal, ', result.message)
-        } else {
-          console.log('sendOTP: sukses', result.message)
-          // this.$swal({
-          //   icon: 'success',
-          //   title: 'Success!',
-          //   text: 'Verifikasi berhasil! Akun anda berhasil terdaftar'
-          // })
-
-          //malah ga munculll
-          this.$nextTick(() => {
-            // pake function Bootstrap modal (jquery)
-            $(this.$refs.otpModal).modal('show')
-          })
-        }
-      })
-    }
+    sendOTP() {}
   },
 
-  mounted() {
-    function OTPInput() {
-      const inputs = document.querySelectorAll('#otp > *[id]')
-      for (let i = 0; i < inputs.length; i++) {
-        inputs[i].addEventListener('keydown', function (event) {
-          if (event.key === 'Backspace') {
-            inputs[i].value = ''
-            if (i !== 0) inputs[i - 1].focus()
-          } else {
-            if (i === inputs.length - 1 && inputs[i].value !== '') {
-              return true
-            } else if (event.keyCode > 47 && event.keyCode < 58) {
-              inputs[i].value = event.key
-              if (i !== inputs.length - 1) inputs[i + 1].focus()
-              event.preventDefault()
-            } else if (event.keyCode > 64 && event.keyCode < 91) {
-              inputs[i].value = String.fromCharCode(event.keyCode)
-              if (i !== inputs.length - 1) inputs[i + 1].focus()
-              event.preventDefault()
-            }
-          }
-        })
-      }
-    }
-
-    OTPInput()
-  }
+  mounted() {}
 }
 </script>
 
@@ -349,10 +313,10 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-.form-control:focus {
+/* .form-control:focus {
   box-shadow: none;
   border: 2px solid rgb(255, 255, 255);
-}
+} */
 .validate {
   border-radius: 20px;
   height: 40px;
