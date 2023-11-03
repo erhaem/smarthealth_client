@@ -104,7 +104,10 @@ export default {
 .form-group option {
   font-family: cursive;
 
+
+  transform: rotate(-45deg);
 }
+
 
 h2{
   text-shadow: 1px 1px #0099ff;

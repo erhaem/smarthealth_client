@@ -19,19 +19,15 @@
           </tr>
         </tbody>
       </table>
-  
-      <div class="mt-4">
-        <h6 class="font-weight-bold">
-          Tabel perhitungan penyakit: <!---{{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }}) -->
-        </h6>
-      </div>
-  
-      <div class="mt-4" v-for="diagnosa in hasilDiagnosa" :key="diagnosa.kode_penyakit">
-        <div class="card card-body p-0 mt-5 border" style="box-shadow: none !important;">
-          <div class="card-header bg-primary text-white p-2">
-            <h6 class="font-weight-bold">Tabel perhitungan penyakit: {{ diagnosa.nama_penyakit }} ({{ diagnosa.kode_penyakit }})</h6>
-          </div>
-          <table class="table table-hover">
+    </div>
+
+    <div class="mt-4" v-for="diagnosa in hasilDiagnosa" :key="diagnosa.kode_penyakit">
+      <div class="card mt-5 border-0 shadow">
+        <div class="card-header bg-primary text-white">
+          <h6 class="font-weight-bold mb-0">Tabel Perhitungan Penyakit: {{ diagnosa.nama_penyakit }} ({{ diagnosa.kode_penyakit }})</h6>
+        </div>
+        <div class="card-body p-0">
+          <table class="table table-hover mb-0">
             <thead class="thead-light">
               <tr>
                 <th>Gejala</th>
