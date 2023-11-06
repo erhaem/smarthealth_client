@@ -180,7 +180,6 @@ export default {
     }
   },
   methods: {
-    //TODO: bikin error message yang spesifik
     sendCode() {
       this.sendProceed = true
       this.showMessageWA = null
@@ -203,15 +202,16 @@ export default {
       let url = ['send-otp-wa', data]
 
       this.$store.dispatch(type, url).then((result) => {
-        //TODO: tambahin http status sebagai penentu error
+        //REFACTOR - 06/11/23
+        // this.sendSuccess = !!result.success
+        // this.showMessageMail = result.message
+
         if (result.success == false) {
           this.sendSuccess = false
-          this.showMessageWA = 'Kode verifikasi gagal dikirim ke WhatsApp Anda'
+          this.showMessageWA = result.message ?? 'Kode verifikasi gagal dikirim ke WhatsApp Anda'
         } else {
           this.sendSuccess = true
-          // console.log('sendOTP: sukses', result.message)
-
-          this.showMessageWA = 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
+          this.showMessageWA = result.message ?? 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
         }
 
         this.countdown()
@@ -238,14 +238,18 @@ export default {
       let url = ['send-otp-email', data]
 
       this.$store.dispatch(type, url).then((result) => {
-        //TODO: tambahin http status sebagai penentu error
+        //TODO: tambahin http status sebagai penentu error (opsional)
+        //REFACTOR - 06/11/23
+        // this.sendSuccess = !!result.success
+        // this.showMessageMail = result.message
+
         if (result.success == false) {
           this.sendSuccess = false
-          this.showMessageMail = 'Kode verifikasi gagal dikirim ke email Anda'
+          this.showMessageMail = result.message ?? 'Kode verifikasi gagal dikirim ke email Anda'
         } else {
           this.sendSuccess = true
           // this.sendEmail = true
-          this.showMessageMail = 'Kode verifikasi berhasil dikirim ke email Anda'
+          this.showMessageMail = result.message ?? 'Kode verifikasi berhasil dikirim ke email Anda'
         }
 
         this.countdown()
