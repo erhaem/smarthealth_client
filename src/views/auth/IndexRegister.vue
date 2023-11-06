@@ -179,7 +179,6 @@ export default {
           this.countdown()
         }
 
-        this.countdown()
       })
     },
     sendEmailCode() {
