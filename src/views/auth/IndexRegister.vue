@@ -176,9 +176,9 @@ export default {
         } else {
           this.sendSuccess = true
           this.showMessageWA = result.message ?? 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
+          this.countdown()
         }
 
-        this.countdown()
       })
     },
     sendEmailCode() {
@@ -214,9 +214,9 @@ export default {
           this.sendSuccess = true
           // this.sendEmail = true
           this.showMessageMail = result.message ?? 'Kode verifikasi berhasil dikirim ke email Anda'
+          this.countdown()
         }
 
-        this.countdown()
       })
     },
     countdown() {
