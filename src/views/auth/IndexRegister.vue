@@ -176,9 +176,8 @@ export default {
         } else {
           this.sendSuccess = true
           this.showMessageWA = result.message ?? 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
+          this.countdown()
         }
-
-        this.countdown()
       })
     },
     sendEmailCode() {
@@ -214,9 +213,8 @@ export default {
           this.sendSuccess = true
           // this.sendEmail = true
           this.showMessageMail = result.message ?? 'Kode verifikasi berhasil dikirim ke email Anda'
+          this.countdown()
         }
-
-        this.countdown()
       })
     },
     countdown() {
@@ -274,11 +272,10 @@ export default {
         .dispatch(type, url)
         .then((result) => {
           if (result.success === false) {
-            // console.log('err: reg')
             this.$swal({
               icon: 'error',
               title: 'Failed!',
-              text: Array.isArray(result.data)
+              text: !!result.data
                 ? Object.keys(result.data)
                     .map((err) => result.data[err])
                     .join(', ')
