@@ -47,7 +47,7 @@
               <div class="row mb-3">
                 <div :class="['col-md-12', { 'has-error': submitted && !form.nomor_hp }]">
                   <label for="name" class="form-label">Kode Verifikasi</label>
-                  <!-- <input type="text" class="form-control" v-model="form.nomor_hp" /> -->
+         
                   <div class="input-group">
                     <input
                       type="text"
@@ -88,18 +88,7 @@
                       Klik di sini
                     </button>
                   </div>
-                  <!-- <div v-if="sendEmailCode && showMessageMail" class="small">
-                    <div class="text-success pb-2">{{ showMessageMail }}</div>
-
-                    <button
-                      type="button"
-                      class="btn btn-link btn-sm"
-                      @click="sendCode"
-                      :disabled="countingDown"
-                    >
-                      Kirim Kode Melalui WhatsApp
-                    </button>
-                  </div> -->
+    
                 </div>
               </div>
               <div class="text-center">
@@ -110,9 +99,6 @@
         </div>
       </div>
 
-      <div class="col-lg-6 d-none d-sm-block mt-5">
-        <img src="../../assets/images/register.png" class="img-fluid" alt="" />
-      </div>
     </div>
   </div>
 </template>
@@ -166,9 +152,7 @@ export default {
       let url = ['send-otp-wa', data]
 
       this.$store.dispatch(type, url).then((result) => {
-        //REFACTOR - 06/11/23
-        // this.sendSuccess = !!result.success
-        // this.showMessageMail = result.message
+
 
         if (result.success == false) {
           this.sendSuccess = false
@@ -202,17 +186,13 @@ export default {
       let url = ['send-otp-email', data]
 
       this.$store.dispatch(type, url).then((result) => {
-        //TODO: tambahin http status sebagai penentu error (opsional)
-        //REFACTOR - 06/11/23
-        // this.sendSuccess = !!result.success
-        // this.showMessageMail = result.message
 
         if (result.success == false) {
           this.sendSuccess = false
           this.showMessageMail = result.message ?? 'Kode verifikasi gagal dikirim ke email Anda'
         } else {
           this.sendSuccess = true
-          // this.sendEmail = true
+
           this.showMessageMail = result.message ?? 'Kode verifikasi berhasil dikirim ke email Anda'
         }
 
@@ -235,27 +215,7 @@ export default {
       this.submitted = true
       let type = 'postData'
 
-      //TODO: validasi form
 
-      // if (this.nik == '') {
-      //   this.$swal({
-      //     icon: 'error',
-      //     title: 'Failed!',
-      //     text: 'NIK masih kosong'
-      //   })
-
-      //   return
-      // }
-
-      // if (this.email == '') {
-      //   this.$swal({
-      //     icon: 'error',
-      //     title: 'Failed!',
-      //     text: 'Email masih kosong'
-      //   })
-
-      //   return
-      // } // etc..
 
       let data = {
         nik: this.nik,
@@ -319,10 +279,7 @@ input[type='number']::-webkit-outer-spin-button {
   margin: 0;
 }
 
-/* .form-control:focus {
-  box-shadow: none;
-  border: 2px solid rgb(255, 255, 255);
-} */
+
 .validate {
   border-radius: 20px;
   height: 40px;
