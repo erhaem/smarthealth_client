@@ -150,6 +150,21 @@ export default {
 
       try {
         const response = await this.$store.dispatch(type, url)
+
+        /**
+         * 08/11/23
+         * pesan errornya lebih spesifik
+         */
+        if (response.success == false) {
+          this.$swal({
+            icon: 'error',
+            title: 'Gagal',
+            text: response.message ?? 'Login gagal! Pastikan Nomor HP dan Password benar'
+          })
+
+          return
+        }
+
         const cekRole = response.data.getRole.idRole
 
         if (cekRole == 'RO-2003064') {
@@ -168,15 +183,16 @@ export default {
             transitionIn: 'fadeInUp',
             timeout: 2000,
             title: 'Gagal',
-            message: 'maaf, hanya konsumen yang dapat login',
+            message: 'Maaf, hanya konsumen yang dapat login',
             position: 'topCenter'
           })
         }
       } catch (err) {
+        // console.log(err)
         this.$swal({
           icon: 'error',
-          title: 'Maaf Error',
-          text: 'Periksa Kembali Nomor Hp dan Password'
+          title: 'Gagal',
+          text: 'Login gagal! Internal error'
         })
       }
     }
