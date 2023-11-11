@@ -4,7 +4,7 @@
       <div style="padding-top: 70px" class="camera-box">
         <div class="analisis" v-if="!isCameraOpen">
           <img src="../../assets/images/face-detection.png" alt="face-detection" />
-          <h5><b>Skin Analyzer</b></h5>
+          <h5><b>Face Recognition</b></h5>
           <p>
             Gejala stroke salah satunya ditandai dengan ketidaksimetrisan pada wajah. Analisa
             sekarang untuk mengenali tanda!
@@ -12,7 +12,7 @@
           <h6>
             <b><u>Disclaimer</u></b> <br />
             <span>
-              <i class="fa-solid fa-circle-exclamation"></i> Test ini bukan bertujuan untuk
+              <i class="fa-solid fa-circle-exclamation"></i> Tindakan ini bukan bertujuan untuk
               mendiagnosis secara klinik atau memberikan anjuran medis.
             </span>
           </h6>

@@ -4,11 +4,11 @@
       <div class="px-5 py-5 mt-4" data-aos="fade-right" data-aos-duration="3000">
         <h1 :class="'display-4 fw-bold ' + colorText">Solusi Kesehatan Anda</h1>
         <div class="col-lg-6">
-          <p class="lead fw-bold">
-            Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan, Semua
-            bisa di Berobat+
+          <p class="lead">
+            Konsultasi Dokter, Perawatan Intensif, Beli Obat, Informasi Seputar Kesehatan. Semua ada
+            di Berobat+ Smart Health
           </p>
-          <ButtonComponent Label="get started" Color=" btn-primary" />
+          <!-- <ButtonComponent Label="get started" Color=" btn-primary" /> -->
         </div>
       </div>
     </div>
@@ -53,26 +53,26 @@
           </FeaturePrimary>
         </div>
 
-        <div @click="$redirect({ name: 'diagnosispakar' })">
+        <div @click="$redirect({ name: 'skrining_penyakit' })">
           <SkeletonLoading v-if="isLoading" />
           <FeaturePrimary
             v-if="!isLoading"
-            labelTitle="Diagnosis Kesehatan"
+            labelTitle="Skrining Penyakit"
             icon="fa-solid fa-file-medical"
-            labelParagraph="Dapatkan Informasi Kesehatan Dengan Mengisi Form Quersioner"
+            labelParagraph="Skrining penyakit berdasarkan kuesioner"
           >
           </FeaturePrimary>
         </div>
 
-        <div @click="$redirect({ name: 'Halaman Diagnosa Stroke' })">
+        <div @click="$redirect({ name: 'Skrining Penyakit Stroke' })">
           <template v-if="isLoading">
             <SkeletonLoading />
           </template>
           <FeaturePrimary
             v-else
-            labelTitle="Diagnosis Stroke"
+            labelTitle="Skrining Penyakit Stroke"
             icon="fa-solid fa-stethoscope"
-            labelParagraph="Diagnosis Stroke"
+            labelParagraph="Skrining penyakit stroke berdasarkan wajah"
           >
           </FeaturePrimary>
         </div>

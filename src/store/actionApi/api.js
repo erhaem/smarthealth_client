@@ -6,7 +6,6 @@ import snakecaseKeys from 'snakecase-keys'
 const Api = {
   init() {
     axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
-    // 'https://api.rafliseptiannn25.web.ti.polindra.ac.id/smarthealth_api/public/api'
 
     axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
     axios.defaults.headers.common.Authorization = 'Bearer ' + Cookies.get('token')
@@ -21,7 +20,7 @@ const Api = {
   },
   get(resource, params) {
     return axios.get(`${resource}`, {
-      params: params,
+      params,
       transformResponse: [
         (data) => {
           return camelcaseKeys(JSON.parse(data), { deep: true })
