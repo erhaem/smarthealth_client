@@ -21,7 +21,7 @@ const Api = {
   },
   get(resource, params) {
     return axios.get(`${resource}`, {
-      params: params,
+      params,
       transformResponse: [
         (data) => {
           return camelcaseKeys(JSON.parse(data), { deep: true })

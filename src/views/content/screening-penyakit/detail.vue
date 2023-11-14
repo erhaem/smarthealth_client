@@ -1,6 +1,6 @@
 <template>
   <div class="container py-5">
-    <h2 class="text-center mb-4 fw-semibold">DETAIL DIAGNOSA</h2>
+    <h2 class="text-center mb-4 fw-semibold">DETAIL SKRINING PENYAKIT</h2>
 
     <div class="table-responsive">
       <table class="table table-hover border">
@@ -19,17 +19,22 @@
           </tr>
         </tbody>
       </table>
-  
+
       <div class="mt-4">
         <h6 class="font-weight-bold">
-          Tabel perhitungan penyakit: <!---{{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }}) -->
+          Tabel perhitungan penyakit:
+          <!---{{ $diagnosa['nama_penyakit'] }} ({{ $diagnosa['kode_penyakit'] }}) -->
         </h6>
       </div>
-  
+
       <div class="mt-4" v-for="diagnosa in hasilDiagnosa" :key="diagnosa.kode_penyakit">
-        <div class="card card-body p-0 mt-5 border" style="box-shadow: none !important;">
+        <div class="card card-body p-0 mt-5 border" style="box-shadow: none !important">
           <div class="card-header bg-primary text-white p-2">
-            <h6 class="font-weight-bold">Tabel perhitungan penyakit: {{ diagnosa.nama_penyakit }} ({{ diagnosa.kode_penyakit }})</h6>
+            <h6 class="font-weight-bold">
+              Tabel perhitungan penyakit: {{ diagnosa.nama_penyakit }} ({{
+                diagnosa.kode_penyakit
+              }})
+            </h6>
           </div>
           <table class="table table-hover">
             <thead class="thead-light">
@@ -51,7 +56,9 @@
             <tfoot class="font-weight-bold">
               <tr>
                 <td scope="row">Nilai CF</td>
-                <td><span class="text-danger">{{ parseFloat(diagnosa.hasil_cf).toFixed(3) }}</span></td>
+                <td>
+                  <span class="text-danger">{{ parseFloat(diagnosa.hasil_cf).toFixed(3) }}</span>
+                </td>
               </tr>
             </tfoot>
           </table>
@@ -63,10 +70,9 @@
     <div class="alert alert-success mt-5">
       <h5 class="font-weight-bold">Kesimpulan</h5>
 
-      Berdasarkan dari gejala yang kamu pilih atau alami juga berdasarkan
-      Role/Basis aturan yang sudah ditentukan oleh seorang pakar penyakit maka
-      perhitungan Algoritma Certainty Factor mengambil nilai CF yang paling
-      tinggi yakni
+      Berdasarkan dari gejala yang kamu pilih atau alami juga berdasarkan Role/Basis aturan yang
+      sudah ditentukan oleh seorang pakar penyakit maka perhitungan Algoritma Certainty Factor
+      mengambil nilai CF yang paling tinggi yakni
       <!-- Tampilkan hasil diagnosa -->
       <!-- Jika ada cfMax -->
       <span v-if="cfMax">
@@ -77,22 +83,21 @@
       <!-- Jika tidak ada cfMax -->
       <!-- Tampilkan pesan bahwa tidak ada hasil diagnosa -->
       <span v-else>Tidak ada hasil diagnosa.</span>
-
     </div>
-
-  </div> <!-- Tutup div.container -->
+  </div>
+  <!-- Tutup div.container -->
 </template>
 
 <script>
-import axios from 'axios';
+import axios from 'axios'
 
 export default {
   data() {
     return {
       gejalaTerpilih: [],
       hasilDiagnosa: [],
-      cfMax: null,
-    };
+      cfMax: null
+    }
   },
   props: {
     id: {
@@ -101,30 +106,28 @@ export default {
     }
   },
   mounted() {
-    this.fetchDetails();
+    this.fetchDetails()
   },
   methods: {
     async fetchDetails() {
       try {
-        const response = await axios.get(`riwayat/${this.id}`);
-        this.gejalaTerpilih = response.data.gejala_terpilih;
-        this.hasilDiagnosa = response.data.hasil_diagnosa;
-        this.cfMax = response.data.cf_max;
+        const response = await axios.get(`riwayat/${this.id}`)
+        this.gejalaTerpilih = response.data.gejala_terpilih
+        this.hasilDiagnosa = response.data.hasil_diagnosa
+        this.cfMax = response.data.cf_max
       } catch (error) {
-        console.error('Error fetching detail: ', error);
-        alert('Terjadi kesalahan saat mengambil detail diagnosa. Silakan coba lagi nanti.');
+        console.error('Error fetching detail: ', error)
+        alert('Terjadi kesalahan saat mengambil detail diagnosa. Silakan coba lagi nanti.')
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>
-
-h2{
+h2 {
   text-shadow: 1px 1px #0099ff;
   color: rgb(0, 0, 0);
-  font-family: cursive;
 }
 
 /* Gaya untuk container */
@@ -142,5 +145,4 @@ h2{
 .card-header {
   border-radius: 0.5rem 0.5rem 0 0;
 }
-
 </style>

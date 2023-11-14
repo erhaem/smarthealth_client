@@ -1,13 +1,13 @@
 <template>
   <div class="container py-5">
-    <h2 class="text-center mb-4">DIAGNOSA PENYAKIT</h2>
+    <h2 class="text-center mb-4">SKRINING PENYAKIT</h2>
 
     <div class="text-center mb-3">
       <router-link
-        to="/hasil_diagnosis"
+        to="/hasil_screening_penyakit"
         class="btn btn-primary btn-sm"
         style="color: white; box-shadow: 2px 2px black"
-        >Lihat Hasil Diagnosa</router-link
+        >Lihat Hasil Skrining</router-link
       >
     </div>
     <!-- Error Alert -->
@@ -57,7 +57,7 @@
               style="color: white; box-shadow: 2px 2px black"
               :disabled="isLoading"
             >
-              Diagnosa sekarang
+              Submit
             </button>
           </div>
         </form>
@@ -100,7 +100,7 @@ export default {
         })
         .then((response) => {
           this.isLoading = false
-          this.$router.push({ name: 'hasil_riwayat' })
+          this.$router.push({ name: 'hasil_skrining' })
         })
         .catch((error) => {
           this.isLoading = false

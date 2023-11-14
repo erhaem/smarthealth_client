@@ -7,9 +7,9 @@ import RumahSakitModules from './modules/rumahSakit'
 import IndexHome from '@/views/content/IndexHome.vue'
 import PageNotFound from '@/views/not-found-page/NotFound.vue'
 import PublicRoutes from './modules/publicRoutes'
-import Diagnosis from './modules/diagnosis'
-import DiagnosaModules from './modules/diagnosa'
+import ScreeningStroke from './modules/screeningStroke'
 import TestStrokeModules from './modules/test-stroke'
+import screeningPenyakit from './modules/screeningPenyakit'
 
 const routes = [
   ...PublicRoutes,
@@ -19,8 +19,8 @@ const routes = [
   ...ArtikelModules,
   ...DokterModules,
   ...RumahSakitModules,
-  ...Diagnosis,
-  ...DiagnosaModules,
+  ...screeningPenyakit,
+  ...ScreeningStroke,
   ...TestStrokeModules,
   {
     path: '/',
