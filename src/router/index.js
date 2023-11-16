@@ -40,6 +40,7 @@ router.beforeEach((to, from, next) => {
     'Checkout',
     'Riwayat Konsumen',
     'Riwayat Pembelian',
+    'Riwayat Tes Stroke',
     'AccountUser',
     'Detail Janji Jadwal Dokter'
   ]

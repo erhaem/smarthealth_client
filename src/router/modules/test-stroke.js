@@ -7,7 +7,7 @@ export default [
   {
     path: '/stroke-analysis/test',
 
-    name: 'Onboarding Stroke Analysis',
+    name: 'Tes Risiko Stroke',
     component: () => import('@/views/content/test-stroke/StartTest.vue')
   }
 ]

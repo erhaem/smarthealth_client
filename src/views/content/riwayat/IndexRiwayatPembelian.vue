@@ -7,7 +7,7 @@
             <span class="input-group-text border-0 bg-warning" id="search-addon">
                 <i class="fas fa-magnifying-glass text-light"></i>
             </span>
-            <input type="search" class="form-control rounded p-2" placeholder="Cari transaksimu di sini" />
+            <input type="search" class="form-control rounded-end p-2" placeholder="Cari transaksimu di sini" />
         </div>
         <div class="row row-cols-1 row-cols-md-2 g-4">
             <div class="col" v-for="data in riwayat">

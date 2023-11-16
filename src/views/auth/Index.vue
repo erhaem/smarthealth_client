@@ -4,7 +4,7 @@
       <div class="col-lg-6 mt-3">
         <h4>Halo!</h4>
         <p class="text-secondary">
-          <small> Silakan registrasi terlebih dulu </small>
+          <small> Silakan registrasi terlebih  dulu </small>
         </p>
         <div class="card shadow">
           <div class="card-header bg-primary text-white">

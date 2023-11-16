@@ -25,7 +25,7 @@
                     <div class="input-group">
                         <span class="input-group-text border-0 bg-warning" id="search-addon"><i
                                 class="fas fa-magnifying-glass text-light"></i></span>
-                        <input v-model="search"  class="form-control rounded p-2" placeholder="Cari keluhan yang kamu rasakan" />
+                        <input v-model="search"  class="form-control rounded-end p-2" placeholder="Cari keluhan yang kamu rasakan" />
                     </div>
                 </div>
             </div>

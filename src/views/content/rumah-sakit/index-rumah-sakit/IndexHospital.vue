@@ -21,7 +21,7 @@
         </span>
         <input
           type="search"
-          class="form-control rounded p-2"
+          class="form-control rounded-end p-2"
           placeholder="Cari nama rumah sakit atau apotek"
         />
       </div>
