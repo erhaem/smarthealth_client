@@ -34,88 +34,199 @@
     <div class="d-flex justify-content-between align-items-center mb-3">
       <h6 class="mb-0"><b>Semua Hasil</b></h6>
     </div>
+
     <div class="container mt-3">
       <div id="customCarousel" class="carousel slide">
         <div class="carousel-inner">
-          <div class="carousel-item active">
-            <div class="d-flex justify-content-between">
+          <div
+            v-for="(card, index) in cardData"
+            :key="index"
+            class="carousel-item"
+            :class="{ active: index === 0 }"
+          >
+            <div class="d-flex justify-content-between text-center">
+              <!-- <div v-for="index in 4" :key="index" -->
               <div
-                class="carousel-container"
-                style="width: 282px; height: 317px; background-color: pink"
+                v-for="(dokter, indexDokter) in card.dokters"
+                :key="indexDokter"
+                class="card d-flex flex-column border border-primary-subtle rounded-4"
+                style="width: 18rem"
               >
-                <!-- Content for the first container -->
-              </div>
-              <div
-                class="carousel-container"
-                style="width: 282px; height: 317px; background-color: pink"
-              >
-                <!-- Content for the second container -->
+                <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
+                  <img
+                    src="../../../assets/images/user.png"
+                    alt="card-img-top"
+                    style="width: 90px"
+                  />
+                  <div
+                    class="d-flex rounded-circle position-absolute"
+                    style="
+                      bottom: 0;
+                      right: 0;
+                      width: 15px;
+                      height: 15px;
+                      background-color: rgb(0, 195, 0);
+                    "
+                  ></div>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <b>{{ dokter.nama }}</b>
+                  </h5>
+                  <h5 class="card-text small">{{ dokter.spesialis }}</h5>
+                  <h6 class="mx-auto" style="font-size: small">
+                    <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
+
+                    ({{ dokter.rating }})
+                  </h6>
+                  <h6 style="font-size: small">
+                    <i class="fas fa-briefcase text-primary"></i> {{ dokter.pengalaman }}
+                  </h6>
+                  <button
+                    @click="$redirect({ name: 'Buat Antrean Tes' })"
+                    type="button"
+                    class="btn btn-primary mt-4"
+                  >
+                    Pilih Dokter
+                  </button>
+                </div>
               </div>
             </div>
           </div>
           <div class="carousel-item">
-            <div class="d-flex justify-content-between">
+            <div class="d-flex justify-content-between text-center">
               <div
-                class="carousel-container"
-                style="width: 282px; height: 317px; background-color: pink"
+                v-for="index in 4"
+                :key="index"
+                class="card d-flex flex-column border border-primary-subtle rounded-4"
+                style="width: 18rem"
               >
-                <!-- Content for the third container -->
-              </div>
-              <div
-                class="carousel-container"
-                style="width: 282px; height: 317px; background-color: pink"
-              >
-                <!-- Content for the fourth container -->
+                <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
+                  <img
+                    src="../../../assets/images/user.png"
+                    alt="card-img-top"
+                    style="width: 90px"
+                  />
+                  <div
+                    class="d-flex rounded-circle position-absolute"
+                    style="
+                      bottom: 0;
+                      right: 0;
+                      width: 15px;
+                      height: 15px;
+                      background-color: rgb(0, 195, 0);
+                    "
+                  ></div>
+                </div>
+
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <b>Dr Budiman Hakim</b>
+                  </h5>
+                  <h5 class="card-text small">Spesialis Saraf Kejepit</h5>
+                  <h6 class="mx-auto" style="font-size: small">
+                    <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
+
+                    (20)
+                  </h6>
+                  <h6 style="font-size: small">
+                    <i class="fas fa-briefcase text-primary"></i> 1 Tahun Pengalaman
+                  </h6>
+                  <button
+                    @click="$redirect({ name: 'Buat Antrean Tes' })"
+                    type="button"
+                    class="btn btn-primary mt-4"
+                  >
+                    Pilih Dokter
+                  </button>
+                </div>
               </div>
             </div>
           </div>
         </div>
         <button
-          class="carousel-control-prev btn btn-primary rounded-circle"
+          class="my-auto carousel-control-prev btn btn-primary opacity-30 rounded-circle"
           type="button"
-          style="width: 45px; height: 45px;"
+          style="width: 45px; height: 45px"
           data-bs-target="#customCarousel"
           data-bs-slide="prev"
-          
         >
-          <span aria-hidden="true"><i class="fas fa-chevron-left"></i></span>
-          <span class="visually-hidden">Previous</span>
+          <span><i class="fas fa-chevron-left text-dark"></i></span>
         </button>
         <button
-          class="carousel-control-next"
+          class="my-auto carousel-control-next btn btn-primary opacity-30 rounded-circle"
           type="button"
+          style="width: 45px; height: 45px"
           data-bs-target="#customCarousel"
           data-bs-slide="next"
         >
-          <span aria-hidden="true"><i class="fas fa-chevron-right"></i></span>
-          <span class="visually-hidden">Next</span>
+          <span><i class="fas fa-chevron-right text-dark"></i></span>
         </button>
       </div>
     </div>
   </div>
 
+  <div class="container mt-3">
+    <div class="mt-3 d-flex flex-column align-items-center">
+      <img src="../../../assets/images/hearth-rate.png" alt="" justify-content-center />
+      <h6 class="mt-4"><b>Disclaimer</b></h6>
+      <p
+        class="mt-2 text-center fw-lighter text-wrap"
+        style="font-size: 16px; font-weight: 300; width: 50rem"
+      >
+        Harap dicatat bahwa tes ini dilakukan secara on-point bersama dokter yang bertugas, hasil
+        tes anda akan divalidasi secara langsung oleh dokter yang akan melakukan skrining. Hasil
+        dari tes risiko stroke ini dapat Anda lihat setelah sesi tes bersama dokter dilakukan.
+      </p>
+    </div>
+  </div>
 </template>
 
 <script>
-import LoadingComponent from '../../../components/partials-component/LoadingComponent.vue'
-import Cookies from 'js-cookie'
-import iziToast from 'izitoast'
-import CardArtikel from '@/components/card/CardArtikel.vue'
-import SkeletonLoading from '@/components/partials-component/SkeletonLoading.vue'
 import SectionHeaderBody from '../../../components/partials-component/SectionHeaderBody.vue'
 export default {
   data() {
-    return {
-      cart: [],
-      nearestResults: [],
-      dataProduk: [],
-      kategori: [],
-      limit: 6,
-      isLoading: false,
-      latitude: null,
-      longitude: null,
-      produk_id: ''
-    }
+    return (
+      {
+        isLoading: false
+      },
+      {
+        cardData: [
+          {
+            dokters: [
+              {
+                nama: 'Dr Rangga Soetomo',
+                img: '../../../assets/images/user.png',
+                spesialis: 'Spesialis Neurologi',
+                rating: 20,
+                pengalaman: '1 Tahun Pengalaman'
+              },
+              {
+                nama: 'Dr Rangga Soetomo',
+                img: '../../../assets/images/user.png',
+                spesialis: 'Spesialis Neurologi',
+                rating: 20,
+                pengalaman: '1 Tahun Pengalaman'
+              },
+              {
+                nama: 'Dr Rangga Soetomo',
+                img: '../../../assets/images/user.png',
+                spesialis: 'Spesialis Neurologi',
+                rating: 20,
+                pengalaman: '1 Tahun Pengalaman'
+              },
+              {
+                nama: 'Dr Rangga Soetomo',
+                img: '../../../assets/images/user.png',
+                spesialis: 'Spesialis Neurologi',
+                rating: 20,
+                pengalaman: '1 Tahun Pengalaman'
+              }
+            ]
+          }
+        ]
+      }
+    )
   },
   computed: {
     limitData() {
@@ -125,134 +236,14 @@ export default {
     }
   },
   components: {
-    CardArtikel,
-    SkeletonLoading,
-    SectionHeaderBody,
-    LoadingComponent
+    SectionHeaderBody
   },
-  mounted() {
-    this.getLocation()
-  },
-  created() {
-    this.getProduk(), this.getKategoriObat()
-  },
-  methods: {
-    getNeareset() {
-      let type = 'postData'
-      let url = [
-        'apotek/pengaturan/profil_apotek/find_nearest',
-        {
-          latitude: this.latitude,
-          longitude: this.longitude
-        }
-      ]
-      this.isLoading = true
-      this.$store
-        .dispatch(type, url)
-        .then((result) => {
-          this.isLoading = false
-          this.nearestResults = result
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    getLocation() {
-      if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(
-          (position) => {
-            this.latitude = position.coords.latitude
-            this.longitude = position.coords.longitude
-            this.getNeareset()
-          },
-          (error) => {
-            console.error(error)
-          }
-        )
-      } else {
-        console.error('Geolocation is not supported by this browser.')
-      }
-    },
-    getProduk() {
-      let type = 'getData'
-      let url = ['apotek/produk/data_produk', {}]
-      this.$store
-        .dispatch(type, url)
-        .then((result) => {
-          this.dataProduk = result.data
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    getKategoriObat() {
-      let type = 'getData'
-      let url = ['master/produk/kategori_produk', {}]
-      this.isLoading = true
-      this.$store
-        .dispatch(type, url)
-        .then((result) => {
-          this.kategori = result.data
-          setTimeout(() => {
-            this.isLoading = false
-          }, 1000)
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    },
-    showAlertSuccess() {
-      iziToast.success({
-        title: 'success',
-        message: 'berhasil ditambahkan ke keranjang',
-        position: 'topRight'
-      })
-    },
-    addToCart(produk_id) {
-      const message = 'Data Berhasil di Tambahkan'
-      let type = 'postData'
-      let url = [
-        'keranjang',
-        {
-          produk_id
-        },
-        {}
-      ]
-      this.$store
-        .dispatch(type, url)
-        .then((result) => {
-          if (result.pesan == message) {
-            this.$swal({
-              icon: 'success',
-              title: 'berhasil menambahkan ke keranjang'
-            }).then(() => {
-              window.location.reload()
-            })
-          } else {
-            this.$swal({
-              icon: 'error',
-              title: 'kamu harus login dulu nih'
-            }).then(() => {
-              this.$router.push({ name: 'LoginUser' })
-            })
-          }
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-    }
-  }
+  mounted() {},
+  created() {},
+  methods: {}
 }
 </script>
 
-<style>
-
-
-
-.form-control:focus {
-  border-color: #4538db;
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(95, 124, 218, 0.6);
-}
-</style>
+<style></style>
 
 <script></script>

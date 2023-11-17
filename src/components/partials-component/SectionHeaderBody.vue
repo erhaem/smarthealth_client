@@ -11,7 +11,7 @@
                         {{Slogan}}
                     </h4>
                 </div>
-                <div class="text-light mb-3 mt-2">
+                <div class="text-light mb-2 mt-2">
                     <h6 class="text-end">
                         {{ Alamat }}
                     </h6>
