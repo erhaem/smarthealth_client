@@ -31,9 +31,7 @@
         <div class="card card-body p-0 mt-5 border" style="box-shadow: none !important">
           <div class="card-header bg-primary text-white p-2">
             <h6 class="font-weight-bold">
-              Tabel perhitungan penyakit: {{ diagnosa.nama_penyakit }} ({{
-                diagnosa.kode_penyakit
-              }})
+              Tabel perhitungan penyakit: {{ diagnosa.nama_penyakit }} ({{ diagnosa.kode_penyakit }})
             </h6>
           </div>
           <table class="table table-hover">
@@ -84,12 +82,15 @@
       <!-- Tampilkan pesan bahwa tidak ada hasil diagnosa -->
       <span v-else>Tidak ada hasil diagnosa.</span>
     </div>
+
+    <!-- Tombol Cetak PDF hanya untuk di web -->
+    <button @click="cetakPDF" class="btn btn-primary mt-3 d-print-none" id="btnCetakPDF">Cetak PDF</button>
   </div>
-  <!-- Tutup div.container -->
 </template>
 
 <script>
 import axios from 'axios'
+import html2pdf from 'html2pdf.js'
 
 export default {
   data() {
@@ -119,9 +120,59 @@ export default {
         console.error('Error fetching detail: ', error)
         alert('Terjadi kesalahan saat mengambil detail diagnosa. Silakan coba lagi nanti.')
       }
-    }
-  }
-}
+    },
+    cetakPDF() {
+      // Sembunyikan tombol cetak sebelum proses konversi
+      const btnCetakPDF = document.getElementById('btnCetakPDF');
+      if (btnCetakPDF) {
+        btnCetakPDF.style.display = 'none';
+      }
+
+      const element = this.$el;
+      const options = {
+        margin: 10,
+        filename: 'skrining_kesehatan.pdf',
+        image: { type: 'jpeg', quality: 0.98 },
+        html2canvas: { scale: 2 },
+        jsPDF: { unit: 'mm', format: 'a4', orientation: 'portrait' },
+        // Opsi untuk menyembunyikan tombol cetak di file PDF
+        onBeforeSave: (pdf) => {
+          pdf.internal.pages.forEach((page) => {
+            page.content.forEach((pdfElement, index) => {
+              if (
+                pdfElement &&
+                pdfElement.settings &&
+                pdfElement.settings.id === 'btnCetakPDF' &&
+                page.content[index + 1].text === 'Cetak PDF'
+              ) {
+                // Sembunyikan tombol cetak dengan menghapus elemen yang berkaitan
+                page.content.splice(index, 2);
+              }
+            });
+          });
+        },
+      };
+
+      html2pdf(element, options)
+        .then(() => {
+          console.log('PDF berhasil dibuat');
+
+          // Setelah selesai proses konversi, tampilkan kembali tombol cetak
+          if (btnCetakPDF) {
+            btnCetakPDF.style.display = 'block';
+          }
+        })
+        .catch((error) => {
+          console.error('Gagal membuat PDF: ', error);
+
+          // Jika terjadi kesalahan, pastikan tombol cetak ditampilkan kembali
+          if (btnCetakPDF) {
+            btnCetakPDF.style.display = 'block';
+          }
+        });
+    },
+  },
+};
 </script>
 
 <style scoped>
@@ -130,18 +181,15 @@ h2 {
   color: rgb(0, 0, 0);
 }
 
-/* Gaya untuk container */
 .container {
   max-width: 800px;
   margin: auto;
 }
 
-/* Gaya untuk card */
 .card {
   border-radius: 0.5rem;
 }
 
-/* Gaya untuk card header */
 .card-header {
   border-radius: 0.5rem 0.5rem 0 0;
 }
