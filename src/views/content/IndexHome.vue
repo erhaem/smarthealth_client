@@ -83,7 +83,7 @@
           </template>
           <FeaturePrimary
             v-else
-            labelTitle="Test Risiko Stroke"
+            labelTitle="Tes Risiko Stroke"
             icon="fa-solid fa-brain"
             labelParagraph="Kenali tanda kamu menginap stroke"
           >

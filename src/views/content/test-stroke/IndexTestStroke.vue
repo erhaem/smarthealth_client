@@ -6,65 +6,70 @@
           <SkeletonLoading />
         </template>
         <!-- <div class="mh-100 col-md-6 py-4" style="background-color: #e3effa; height: 700px"> -->
-
-        <div class="details p-4">
-          <span class="name">
-            <h6><b>Test Risiko Stroke</b></h6>
-          </span>
-          <span class="description">
-            <p class="mb-0 py-2" style="font-size: 15px">
-              Stroke merupakan gangguan fungsi otak yang terjadi karena terhentinya suplai darah ke
-              otak, baik karena sumbatan (stroke iskemik) ataupun karena pecahnya pembuluh darah
-              (stroke hemoragik). Stroke terjadi secara mendadak, kapanpun dan di manapun, saat
-              beristirahat maupun saat beraktivitas. Untuk itu kamu harus mengenali gejala stroke
-              sedini mungkin dengan langkah mudah. FAST (Face, Arms, Speech dan Time) untuk
-              mendeteksi gejala awal stroke.
-            </p>
-          </span>
-          <span class="info">
-            <dl style="list-style-type: none">
-              <li>
-                <p style="font-size: 18px"><b>Hasil test yang diperoleh</b></p>
-              </li>
-              <li>
-                <i class="fa-solid fa-check-circle py-2 px-2"></i> Informasi seputar Stroke
-                berdasarkan skor risiko
-              </li>
-              <li>
-                <i class="fa-solid fa-check-circle px-2"></i> Akses cepat ke layanan kesehatan yang
-                tepat sesuai risiko
-              </li>
-            </dl>
-          </span>
+        <div class="d-flex flex-column align-items-start" style="min-height: 100vh">
+          <div class="details p-4 flex-grow-1">
+            <span class="name">
+              <h6><b>Tes Risiko Stroke</b></h6>
+            </span>
+            <span class="description">
+              <p class="mb-0 py-2" style="font-size: 15px">
+                Stroke merupakan gangguan fungsi otak yang terjadi karena terhentinya suplai darah
+                ke otak, baik karena sumbatan (stroke iskemik) ataupun karena pecahnya pembuluh
+                darah (stroke hemoragik). Stroke terjadi secara mendadak, kapanpun dan di manapun,
+                saat beristirahat maupun saat beraktivitas. Untuk itu kamu harus mengenali gejala
+                stroke sedini mungkin dengan langkah mudah. FAST (Face, Arms, Speech dan Time) untuk
+                mendeteksi gejala awal stroke.
+              </p>
+            </span>
+            <span class="info">
+              <dl style="list-style-type: none">
+                <li>
+                  <p style="font-size: 18px"><b>Hasil tes yang diperoleh</b></p>
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle py-2 px-2"></i> Informasi seputar Stroke
+                  berdasarkan skor risiko
+                </li>
+                <li>
+                  <i class="fa-solid fa-check-circle px-2"></i> Akses cepat ke layanan kesehatan
+                  yang tepat sesuai risiko
+                </li>
+              </dl>
+            </span>
+          </div>
         </div>
         <!-- Stepper -->
-        <div class="onboarding d-flex justify-content-center align-item-strech">
-          <img
-            src="../../../assets/images/palsy.jpg"
-            alt="Banner"
-            class="img-fluid animated"
-            height="700"
-            justify-content
-          />
-          <div class="px-4">
-            <p class="mb-0 py-0" style="font-size: 14px; color: #625757"><u>Disclaimer</u></p>
-            <p class="mb-0 py-1" style="font-size: 11px; color: #625757">
-              Test ini tidak bertujuan untuk menggantikan diagnosa medis, Anda tetap dianjurkan
-              untuk berkonsultasi dengan pihak medis
-            </p>
+        <div class="d-flex flex-column align-items-start" style="min-height: 100vh">
+          <div class="onboarding flex-grow-1 align-item-strech">
+            <img
+              src="../../../assets/images/palsy.jpg"
+              alt="Banner"
+              class="img-fluid"
+              height="700"
+              justify-content
+            />
+            <div class="px-4">
+              <p class="mb-0 py-0" style="font-size: 14px; color: #625757"><u>Disclaimer</u></p>
+              <p class="mb-0 py-1" style="font-size: 11px; color: #625757">
+                Tes dilakukan bersama dokter ahli, untuk dapat melakukan tes ini Anda perlu
+                mendatangi ahli secara langsung. Lanjutkan untuk mengambil antrean tes risiko stroke
+                bersama dokter ahli
+              </p>
 
-            <div
-              class="fixed-bottom shadow-sm p-1 mb-0 bg-body-tertiary rounded mx-auto"
-              style="width: 488px"
-            >
-              <div class="d-grid p-1 gap-2 col-12 mx-auto">
-                <button
-                  @click="$redirect({ name: 'Onboarding Stroke Analysis' })"
-                  type="button"
-                  class="btn btn-primary"
-                >
-                  Lakukan Pengecekan
-                </button>
+              <div
+                class="fixed-bottom shadow-sm p-1 mb-0 bg-body-tertiary rounded mx-auto"
+                style="width: 100%"
+              >
+                <div class="d-grid p-1 gap-2 col-12 mx-auto">
+                  <button
+                    @click="$redirect({ name: 'Tes Risiko Stroke' })"
+                    type="button"
+                    class="btn btn-primary mx-auto"
+                    style="width: 600px"
+                  >
+                    Mulai Tes Sekarang
+                  </button>
+                </div>
               </div>
             </div>
           </div>
@@ -104,7 +109,7 @@ export default {
   flex-direction: column;
   height: max-content;
   position: relative;
-  background-color: #dbf1ff;
+  background-color: #d8e0eb;
   overflow-x: hidden;
   overflow-y: auto;
   display: flex;
@@ -126,7 +131,7 @@ export default {
   height: 100%;
 }
 .flex-item-right {
-  background-color: #dbf1ff;
+  background-color: #d8e0eb;
   /* flex: 50%; */
   height: 100%;
 }

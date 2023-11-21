@@ -178,6 +178,7 @@ export default {
           this.showMessageWA = result.message ?? 'Kode verifikasi berhasil dikirim ke WhatsApp Anda'
           this.countdown()
         }
+
       })
     },
     sendEmailCode() {
@@ -215,6 +216,7 @@ export default {
           this.showMessageMail = result.message ?? 'Kode verifikasi berhasil dikirim ke email Anda'
           this.countdown()
         }
+
       })
     },
     countdown() {

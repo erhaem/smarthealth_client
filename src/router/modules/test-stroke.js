@@ -7,7 +7,13 @@ export default [
   {
     path: '/stroke-analysis/test',
 
-    name: 'Onboarding Stroke Analysis',
+    name: 'Tes Risiko Stroke',
     component: () => import('@/views/content/test-stroke/StartTest.vue')
+  },
+  {
+    path: '/stroke-analysis/test/antrean',
+
+    name: 'Buat Antrean Tes',
+    component: () => import('@/views/content/test-stroke/IndexAntreanTes.vue')
   }
 ]
