@@ -130,7 +130,7 @@ export default {
 
       const element = this.$el;
       const options = {
-        margin: 10,
+        margin: 30,
         filename: 'skrining_kesehatan.pdf',
         image: { type: 'jpeg', quality: 0.98 },
         html2canvas: { scale: 2 },
