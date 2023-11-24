@@ -81,6 +81,8 @@
       <!-- Jika tidak ada cfMax -->
       <!-- Tampilkan pesan bahwa tidak ada hasil diagnosa -->
       <span v-else>Tidak ada hasil diagnosa.</span>
+      <span> || </span>
+      <span><router-link to="/pelayanan_klinis"  > Check Rumah Sakit Terdekat </router-link></span>
     </div>
 
     <!-- Tombol Cetak PDF hanya untuk di web -->
