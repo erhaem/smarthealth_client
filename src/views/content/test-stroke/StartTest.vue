@@ -192,45 +192,45 @@ export default {
 
       //struktur array kudu diperbaiki, biar g tumpang tindih - 22/11/23
       cardData: [
-        {
-          dokters: [
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomos',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            }
-          ]
-        }
+        // {
+        // dokters: [
+        //   {
+        //     nama: 'Dr Rangga Soetomo',
+        //     img: '../../../assets/images/user.png',
+        //     spesialis: 'Spesialis Neurologi',
+        //     rating: 20,
+        //     pengalaman: '1 Tahun Pengalaman'
+        //   },
+        //   {
+        //     nama: 'Dr Rangga Soetomo',
+        //     img: '../../../assets/images/user.png',
+        //     spesialis: 'Spesialis Neurologi',
+        //     rating: 20,
+        //     pengalaman: '1 Tahun Pengalaman'
+        //   },
+        //   {
+        //     nama: 'Dr Rangga Soetomo',
+        //     img: '../../../assets/images/user.png',
+        //     spesialis: 'Spesialis Neurologi',
+        //     rating: 20,
+        //     pengalaman: '1 Tahun Pengalaman'
+        //   },
+        //   {
+        //     nama: 'Dr Rangga Soetomo',
+        //     img: '../../../assets/images/user.png',
+        //     spesialis: 'Spesialis Neurologi',
+        //     rating: 20,
+        //     pengalaman: '1 Tahun Pengalaman'
+        //   },
+        //   {
+        //     nama: 'Dr Rangga Soetomos',
+        //     img: '../../../assets/images/user.png',
+        //     spesialis: 'Spesialis Neurologi',
+        //     rating: 20,
+        //     pengalaman: '1 Tahun Pengalaman'
+        //   }
+        // ]
+        // }
       ]
     }
   },
@@ -255,31 +255,31 @@ export default {
 
       // this.isLoading = true
 
-      // console.log('getting dokters')
-      // this.$store
-      //   .dispatch(type, url)
-      //   .then((result) => {
-      //     this.isLoading = false
+      console.log('getting dokters')
+      this.$store
+        .dispatch(type, url)
+        .then((result) => {
+          this.isLoading = false
 
-      //     this.cardData = result.data.map((dok) => {
-      //       return {
-      //         dokters: [
-      //           {
-      //             nama: dok.user.nama,
-      //             img: '../../../assets/images/user.png',
-      //             spesialis: dok.keahlian.namaKeahlian,
-      //             rating: 20,
-      //             pengalaman: '20 tahun pengalaman'
-      //           }
-      //         ]
-      //       }
-      //     })
+          this.cardData = result.data.map((dok) => {
+            return {
+              dokters: [
+                {
+                  nama: dok.user.nama,
+                  img: '../../../assets/images/user.png',
+                  spesialis: dok.keahlian.namaKeahlian,
+                  rating: 20,
+                  pengalaman: '20 tahun pengalaman'
+                }
+              ]
+            }
+          })
 
-      //     console.log(this.cardData)
+          console.log(this.cardData)
 
-      //     // console.log(result.data[0].keahlian.namaKeahlian)
-      //   })
-      //   .catch(console.error)
+          // console.log(result.data[0].keahlian.namaKeahlian)
+        })
+        .catch(console.error)
     }
   }
 }
