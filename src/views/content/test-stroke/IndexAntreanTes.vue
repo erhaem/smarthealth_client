@@ -17,7 +17,7 @@
   </SectionHeaderBody>
   <div class="container mt-4">
     <div class="d-lg-flex rounded-top px-5 py-3" style="background-color: #c2daff">
-      <slot name="router" v-if="currentStep===1">
+      <slot name="router" v-if="currentStep === 1">
         <router-link style="text-decoration: none" :to="{ name: 'Tes Risiko Stroke' }">
           <p class="text-primary">
             <i class="fas fa-angle-left text-primary"></i>
@@ -42,8 +42,12 @@
     <div
       class="d-lg-flex flex-column rounded-bottom bg-white border border-primary-subtle mx-auto p-5"
     >
-      <h3 class="mx-auto"><b>{{ stepTitles[currentStep - 1].title }} </b></h3>
-      <h6 class="mx-auto"><b>{{ stepTitles[currentStep - 1].subtitle }}</b></h6>
+      <h3 class="mx-auto">
+        <b>{{ stepTitles[currentStep - 1].title }} </b>
+      </h3>
+      <h6 class="mx-auto">
+        <b>{{ stepTitles[currentStep - 1].subtitle }}</b>
+      </h6>
       <!-- STEPPER HERE -->
       <div class="bs-stepper text-wrap mx-auto" style="width: 40rem">
         <div class="bs-stepper-header" role="tablist">
@@ -95,7 +99,7 @@
             v-show="isCurrentStep(1)"
           >
             <div class="d-flex flex-column">
-              <h6 class="mx-auto fw-bold">Antrean ini untuk siapa ?</h6>
+              <h6 class="mx-auto fw-bold">Antrean ini untuk siapa?</h6>
               <div class="d-flex mx-auto gap-5">
                 <div>
                   <input
@@ -167,10 +171,12 @@ export default {
       stepper: null,
       isLoading: false,
       stepTitles: [
-        {title: 'Buat Antran Tes', subtitle: 'Bagaimana kami dapat membantu Anda?'},
-        {title: 'Anda telah memasuki Antrean Tes', subtitle: 'Tunggu hingga dokter memvalidasi kehadiran Anda'},
-        {title: 'Ruang Tes Risiko Stroke', subtitle: 'Proses Skrining sedang berlangsung '},
-
+        { title: 'Buat Antran Tes', subtitle: 'Bagaimana kami dapat membantu Anda?' },
+        {
+          title: 'Anda telah memasuki Antrean Tes',
+          subtitle: 'Tunggu hingga dokter memvalidasi kehadiran Anda'
+        },
+        { title: 'Ruang Tes Risiko Stroke', subtitle: 'Proses Skrining sedang berlangsung ' }
       ],
       cardData: [
         {
@@ -217,16 +223,16 @@ export default {
     isCurrentStep() {
       return (step) => this.currentStep === step
     },
-    getButtonLabel(){
-      switch(this.currentStep){
+    getButtonLabel() {
+      switch (this.currentStep) {
         case 1:
-          return 'Dapatkan Antrean';
+          return 'Dapatkan Antrean'
         case 2:
-          return 'Mulai Skrining';
+          return 'Mulai Skrining'
         case 3:
-          return 'Lihat hasil';
+          return 'Lihat hasil'
         default:
-          return 'Dapatkan Antrean';
+          return 'Dapatkan Antrean'
       }
     }
   },
@@ -245,6 +251,7 @@ export default {
     })
   },
   created() {},
+
   methods: {
     changeStep(step) {
       this.currentStep = step
@@ -278,5 +285,3 @@ p {
   color: #686868;
 }
 </style>
-
-<script></script>

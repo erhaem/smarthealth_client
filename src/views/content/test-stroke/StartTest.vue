@@ -35,6 +35,7 @@
       <h6 class="mb-0"><b>Semua Hasil</b></h6>
     </div>
 
+    <!-- daftar dokter di bawah ini msih tumpang tindih - 22/11/23 -->
     <div class="container mt-3">
       <div id="customCarousel" class="carousel slide">
         <div class="carousel-inner">
@@ -93,7 +94,7 @@
               </div>
             </div>
           </div>
-          <div class="carousel-item">
+          <!-- <div class="carousel-item">
             <div class="d-flex justify-content-between text-center">
               <div
                 v-for="index in 4"
@@ -142,7 +143,7 @@
                 </div>
               </div>
             </div>
-          </div>
+          </div> -->
         </div>
         <button
           class="my-auto carousel-control-prev btn btn-primary opacity-30 rounded-circle"
@@ -186,47 +187,52 @@
 import SectionHeaderBody from '../../../components/partials-component/SectionHeaderBody.vue'
 export default {
   data() {
-    return (
-      {
-        isLoading: false
-      },
-      {
-        cardData: [
-          {
-            dokters: [
-              {
-                nama: 'Dr Rangga Soetomo',
-                img: '../../../assets/images/user.png',
-                spesialis: 'Spesialis Neurologi',
-                rating: 20,
-                pengalaman: '1 Tahun Pengalaman'
-              },
-              {
-                nama: 'Dr Rangga Soetomo',
-                img: '../../../assets/images/user.png',
-                spesialis: 'Spesialis Neurologi',
-                rating: 20,
-                pengalaman: '1 Tahun Pengalaman'
-              },
-              {
-                nama: 'Dr Rangga Soetomo',
-                img: '../../../assets/images/user.png',
-                spesialis: 'Spesialis Neurologi',
-                rating: 20,
-                pengalaman: '1 Tahun Pengalaman'
-              },
-              {
-                nama: 'Dr Rangga Soetomo',
-                img: '../../../assets/images/user.png',
-                spesialis: 'Spesialis Neurologi',
-                rating: 20,
-                pengalaman: '1 Tahun Pengalaman'
-              }
-            ]
-          }
-        ]
-      }
-    )
+    return {
+      isLoading: false,
+
+      //struktur array kudu diperbaiki, biar g tumpang tindih - 22/11/23
+      cardData: [
+        {
+          dokters: [
+            {
+              nama: 'Dr Rangga Soetomo',
+              img: '../../../assets/images/user.png',
+              spesialis: 'Spesialis Neurologi',
+              rating: 20,
+              pengalaman: '1 Tahun Pengalaman'
+            },
+            {
+              nama: 'Dr Rangga Soetomo',
+              img: '../../../assets/images/user.png',
+              spesialis: 'Spesialis Neurologi',
+              rating: 20,
+              pengalaman: '1 Tahun Pengalaman'
+            },
+            {
+              nama: 'Dr Rangga Soetomo',
+              img: '../../../assets/images/user.png',
+              spesialis: 'Spesialis Neurologi',
+              rating: 20,
+              pengalaman: '1 Tahun Pengalaman'
+            },
+            {
+              nama: 'Dr Rangga Soetomo',
+              img: '../../../assets/images/user.png',
+              spesialis: 'Spesialis Neurologi',
+              rating: 20,
+              pengalaman: '1 Tahun Pengalaman'
+            },
+            {
+              nama: 'Dr Rangga Soetomos',
+              img: '../../../assets/images/user.png',
+              spesialis: 'Spesialis Neurologi',
+              rating: 20,
+              pengalaman: '1 Tahun Pengalaman'
+            }
+          ]
+        }
+      ]
+    }
   },
   computed: {
     limitData() {
@@ -239,11 +245,42 @@ export default {
     SectionHeaderBody
   },
   mounted() {},
-  created() {},
-  methods: {}
+  created() {
+    this.getDokters()
+  },
+  methods: {
+    getDokters() {
+      let type = 'getData'
+      let url = ['list_dokter_sp_stroke', {}]
+
+      // this.isLoading = true
+
+      // console.log('getting dokters')
+      // this.$store
+      //   .dispatch(type, url)
+      //   .then((result) => {
+      //     this.isLoading = false
+
+      //     this.cardData = result.data.map((dok) => {
+      //       return {
+      //         dokters: [
+      //           {
+      //             nama: dok.user.nama,
+      //             img: '../../../assets/images/user.png',
+      //             spesialis: dok.keahlian.namaKeahlian,
+      //             rating: 20,
+      //             pengalaman: '20 tahun pengalaman'
+      //           }
+      //         ]
+      //       }
+      //     })
+
+      //     console.log(this.cardData)
+
+      //     // console.log(result.data[0].keahlian.namaKeahlian)
+      //   })
+      //   .catch(console.error)
+    }
+  }
 }
 </script>
-
-<style></style>
-
-<script></script>
