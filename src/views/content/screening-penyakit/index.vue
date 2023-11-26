@@ -1,6 +1,6 @@
 <template>
   <div class="container py-5">
-    <h2 class="text-center mb-4">SKRINING PENYAKIT</h2>
+    <h2 class="text-center mb-4 fw-semibold">SKRINING PENYAKIT</h2>
 
     <div class="text-center mb-3">
       <router-link
