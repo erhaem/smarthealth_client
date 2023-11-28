@@ -47,103 +47,58 @@
           >
             <div class="d-flex justify-content-between text-center">
               <!-- <div v-for="index in 4" :key="index" -->
-              <div
-                v-for="(dokter, indexDokter) in card.dokters"
-                :key="indexDokter"
-                class="card d-flex flex-column border border-primary-subtle rounded-4"
-                style="width: 18rem"
-              >
-                <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
-                  <img
-                    src="../../../assets/images/user.png"
-                    alt="card-img-top"
-                    style="width: 90px"
-                  />
-                  <div
-                    class="d-flex rounded-circle position-absolute"
-                    style="
-                      bottom: 0;
-                      right: 0;
-                      width: 15px;
-                      height: 15px;
-                      background-color: rgb(0, 195, 0);
-                    "
-                  ></div>
-                </div>
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <b>{{ dokter.nama }}</b>
-                  </h5>
-                  <h5 class="card-text small">{{ dokter.spesialis }}</h5>
-                  <h6 class="mx-auto" style="font-size: small">
-                    <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
+                
 
-                    ({{ dokter.rating }})
-                  </h6>
-                  <h6 style="font-size: small">
-                    <i class="fas fa-briefcase text-primary"></i> {{ dokter.pengalaman }}
-                  </h6>
-                  <button
-                    @click="$redirect({ name: 'Buat Antrean Tes' })"
-                    type="button"
-                    class="btn btn-primary mt-4"
+                  <div
+                    v-for="(dokter, indexDokter) in card.dokters"
+                    :key="indexDokter"
+                    class="card d-flex flex-column border border-primary-subtle rounded-4"
+                    style="width: 18rem"
                   >
-                    Pilih Dokter
-                  </button>
-                </div>
-              </div>
+                    <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
+                      <img
+                        src="../../../assets/images/user.png"
+                        alt="card-img-top"
+                        style="width: 90px"
+                      />
+                      <div
+                        class="d-flex rounded-circle position-absolute"
+                        style="
+                          bottom: 0;
+                          right: 0;
+                          width: 15px;
+                          height: 15px;
+                          background-color: rgb(0, 195, 0);
+                        "
+                      >
+                    </div>
+                    </div>
+                    <div class="card-body">
+                      <h5 class="card-title">
+                        <b>{{ dokter.nama }}</b>
+                      </h5>
+                      <h5 class="card-text small">{{ dokter.spesialis }}</h5>
+                      <h6 class="mx-auto" style="font-size: small">
+                        <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
+    
+                        ({{ dokter.rating }})
+                      </h6>
+                      <h6 style="font-size: small">
+                        <i class="fas fa-briefcase text-primary"></i> {{ dokter.pengalaman }}
+                      </h6>
+                      <button
+                        @click="$redirect({ name: 'Buat Antrean Tes' })"
+                        type="button"
+                        class="btn btn-primary mt-4"
+                      >
+                        Pilih Dokter
+                      </button>
+                    </div>
+                  </div>
+                
             </div>
           </div>
-          <!-- <div class="carousel-item">
-            <div class="d-flex justify-content-between text-center">
-              <div
-                v-for="index in 4"
-                :key="index"
-                class="card d-flex flex-column border border-primary-subtle rounded-4"
-                style="width: 18rem"
-              >
-                <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
-                  <img
-                    src="../../../assets/images/user.png"
-                    alt="card-img-top"
-                    style="width: 90px"
-                  />
-                  <div
-                    class="d-flex rounded-circle position-absolute"
-                    style="
-                      bottom: 0;
-                      right: 0;
-                      width: 15px;
-                      height: 15px;
-                      background-color: rgb(0, 195, 0);
-                    "
-                  ></div>
-                </div>
-
-                <div class="card-body">
-                  <h5 class="card-title">
-                    <b>Dr Budiman Hakim</b>
-                  </h5>
-                  <h5 class="card-text small">Spesialis Saraf Kejepit</h5>
-                  <h6 class="mx-auto" style="font-size: small">
-                    <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
-
-                    (20)
-                  </h6>
-                  <h6 style="font-size: small">
-                    <i class="fas fa-briefcase text-primary"></i> 1 Tahun Pengalaman
-                  </h6>
-                  <button
-                    @click="$redirect({ name: 'Buat Antrean Tes' })"
-                    type="button"
-                    class="btn btn-primary mt-4"
-                  >
-                    Pilih Dokter
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div> -->
+        
         </div>
         <button
           class="my-auto carousel-control-prev btn btn-primary opacity-30 rounded-circle"
@@ -192,45 +147,7 @@ export default {
 
       //struktur array kudu diperbaiki, biar g tumpang tindih - 22/11/23
       cardData: [
-        // {
-        // dokters: [
-        //   {
-        //     nama: 'Dr Rangga Soetomo',
-        //     img: '../../../assets/images/user.png',
-        //     spesialis: 'Spesialis Neurologi',
-        //     rating: 20,
-        //     pengalaman: '1 Tahun Pengalaman'
-        //   },
-        //   {
-        //     nama: 'Dr Rangga Soetomo',
-        //     img: '../../../assets/images/user.png',
-        //     spesialis: 'Spesialis Neurologi',
-        //     rating: 20,
-        //     pengalaman: '1 Tahun Pengalaman'
-        //   },
-        //   {
-        //     nama: 'Dr Rangga Soetomo',
-        //     img: '../../../assets/images/user.png',
-        //     spesialis: 'Spesialis Neurologi',
-        //     rating: 20,
-        //     pengalaman: '1 Tahun Pengalaman'
-        //   },
-        //   {
-        //     nama: 'Dr Rangga Soetomo',
-        //     img: '../../../assets/images/user.png',
-        //     spesialis: 'Spesialis Neurologi',
-        //     rating: 20,
-        //     pengalaman: '1 Tahun Pengalaman'
-        //   },
-        //   {
-        //     nama: 'Dr Rangga Soetomos',
-        //     img: '../../../assets/images/user.png',
-        //     spesialis: 'Spesialis Neurologi',
-        //     rating: 20,
-        //     pengalaman: '1 Tahun Pengalaman'
-        //   }
-        // ]
-        // }
+        
       ]
     }
   },
