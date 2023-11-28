@@ -34,7 +34,7 @@
           ></div>
         </div>
         <div class="d-flex flex-column px-4 pt-3">
-          <h5><b>Something agak panjang dikit ya</b></h5>
+          <h5><b>Dokter Budiman</b></h5>
           <p class="fs-6">Spesialis Saraf Kejepit</p>
         </div>
       </div>
@@ -85,6 +85,18 @@
               id="information-next-trigger"
             >
               <span class="bs-stepper-circle">3</span>
+            </button>
+          </div>
+          <div class="line"></div>
+          <div class="step" data-target="#part4">
+            <button
+              type="button"
+              class="step-trigger"
+              role="tab"
+              aria-controls="information-next"
+              id="information-next-trigger"
+            >
+              <span class="bs-stepper-circle">4</span>
             </button>
           </div>
         </div>
@@ -150,9 +162,53 @@
               <h6>Anda dapat melihat hasil tes setelah sesi tes ini berakhir</h6>
             </div>
           </div>
+          <div
+            id="part4"
+            ref="part4"
+            class="content"
+            role="tabpanel"
+            aria-labelledby="logins-part-trigger"
+            v-show="isCurrentStep(4)"
+          >
+            <div class="d-flex flex-column text-center">
+              <div
+                class="progress mx-auto w-50"
+                role="progressbar"
+                aria-label="bar"
+                aria-valuenow="75"
+                aria-valuemin="0"
+                aria-valuemax="100"
+              >
+                <div class="progress-bar text-bg-warning fw-bold text-light" style="width: 75%">
+                  75%
+                </div>
+              </div>
+              <p class="fw-bold mt-3 text-center">Level Risiko Perempuan, >40 Tahun</p>
+              <div class="d-flex bg-secondary-subtle p-3 rounded-top">
+                <p class="fw-light">
+                  Anjuran dokter di tulis disini....
+                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
+                  incididunt ut labore et dolore magna aliqua.
+                </p>
+              </div>
+              <div
+                class="d-lg-flex rounded-bottom border px-3 py-2"
+                style="background-color: #c2daff"
+              >
+                <span>
+                  <i class="fa-solid fa-circle-info text-primary mx-3"></i>
+                  <a href="" class="text-decoration-none">Unduh hasil tes dalam bentuk file PDF</a>
+                </span>
+              </div>
+              <p class="fw-normal mt-3">
+                <b>NOTE:</b> Anda dianjurkan untuk melakukan skrining wajah untuk menganalisa gejala
+                kelumpuhan pada wajah.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
-      <div class="d-flex justify-content-center mt-5">
+      <div class="d-flex justify-content-center mt-4">
         <button class="btn btn-primary rounded-4 py-2 px-4" @click="getAntrean" type="button">
           {{ getButtonLabel }}
         </button>
@@ -176,42 +232,10 @@ export default {
           title: 'Anda telah memasuki Antrean Tes',
           subtitle: 'Tunggu hingga dokter memvalidasi kehadiran Anda'
         },
-        { title: 'Ruang Tes Risiko Stroke', subtitle: 'Proses Skrining sedang berlangsung ' }
+        { title: 'Ruang Tes Risiko Stroke', subtitle: 'Proses Skrining sedang berlangsung ' },
+        { title: 'Hasil Tes Risiko Stroke', subtitle: 'Risiko Tinggi ' }
       ],
-      cardData: [
-        {
-          dokters: [
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            },
-            {
-              nama: 'Dr Rangga Soetomo',
-              img: '../../../assets/images/user.png',
-              spesialis: 'Spesialis Neurologi',
-              rating: 20,
-              pengalaman: '1 Tahun Pengalaman'
-            }
-          ]
-        }
-      ]
+      cardData: [{}]
     }
   },
   computed: {
@@ -232,7 +256,7 @@ export default {
         case 3:
           return 'Lihat hasil'
         default:
-          return 'Dapatkan Antrean'
+          return 'Lakukan Skrining Wajah'
       }
     }
   },
@@ -262,7 +286,7 @@ export default {
       this.currentStep++
 
       this.$nextTick(() => {
-        for (let i = 1; i <= 3; i++) {
+        for (let i = 1; i <= 4; i++) {
           const contentRef = this.$refs[`part${i}`]
           if (contentRef) {
             contentRef.style.display = this.currentStep === i ? 'block' : 'none'
