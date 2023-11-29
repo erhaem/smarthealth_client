@@ -13,7 +13,7 @@
         placeholder="Cari riwayat tes risiko strokemu di sini"
       />
     </div>
-    <div class=" row row-cols-1 row-cols-md-2 g-4">
+    <div class="row row-cols-1 row-cols-md-2 g-4">
       <table class="table">
         <thead>
           <tr>
@@ -32,7 +32,11 @@
             <td>{{ history.angkaStroke }}</td>
             <td>
               <!-- Add any action buttons here -->
-              <button class=" btn btn-sm btn-warning">
+              <button
+                class="btn btn-sm btn-warning"
+                data-bs-toggle="modal"
+                data-bs-target="#dataRiwayat"
+              >
                 <i class="fa-solid fa-eye text-light"></i>
               </button>
               <button class="mx-1 btn btn-sm btn-primary">
@@ -42,11 +46,33 @@
           </tr>
         </tbody>
       </table>
-    
     </div>
   </div>
-  <ModalComponent id="detailPembelian" modalTitle="Detail Transaksi">
+  <ModalComponent :isScrollable="true" id="dataRiwayat" :modalTitle="'Detail ' + $route.name">
     <template #modal>
+      <div class="d-flex rounded pt-3 text-dark" style="background-color: #effcfc">
+        <ul class="fw-bold" style="list-style-type: none">
+          <li>ID Rekam Medis:</li>
+          <li>Dokter:</li>
+          <li>Waktu Tes:</li>
+        </ul>
+      </div>
+      <div class="ms-4">
+        <h6 class="fw-bold text-primary-emphasis mt-2">Hasil Tes:</h6>
+        <div class="d-flex flex-row gap-5">
+          <h1><span class="badge bg-primary rounded-circle">70</span></h1>
+
+          <h4 class="text-primary-emphasis mt-3">Risiko Tinggi</h4>
+        </div>
+        <h6 class="fw-normal">Level Risiko Perempuan, >40 Tahun</h6>
+        <h6 class="fw-bold text-primary-emphasis mt-2">Anjuran:</h6>
+        <ul>
+          <li>Cobalah untuk minum air putih 1 galon</li>
+          <li>Cobalah untuk minum air putih 1 galon</li>
+          <li>Cobalah untuk minum air putih 1 galon</li>
+        </ul>
+        
+      </div>
     </template>
   </ModalComponent>
 </template>
@@ -72,15 +98,12 @@ export default {
       idPembelian: [],
       detail: [],
       limit: 1,
-      isLoading: false
+      isLoading: false,
+    
     }
   },
-  
 
-  methods: {
-  
-  
-  },
+  methods: {},
   components: {
     ModalComponent,
     LoadingComponent
