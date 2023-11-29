@@ -53,7 +53,7 @@
 
 <script>
 export default {
-  // ... properti dan method lainnya ...
+
 
     methods: {
       downloadFile () {
