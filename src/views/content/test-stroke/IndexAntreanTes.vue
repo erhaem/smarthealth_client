@@ -227,7 +227,7 @@ export default {
       stepper: null,
       isLoading: false,
       stepTitles: [
-        { title: 'Buat Antran Tes', subtitle: 'Bagaimana kami dapat membantu Anda?' },
+        { title: 'Buat Antrean Tes', subtitle: 'Bagaimana kami dapat membantu Anda?' },
         {
           title: 'Anda telah memasuki Antrean Tes',
           subtitle: 'Tunggu hingga dokter memvalidasi kehadiran Anda'
@@ -285,8 +285,13 @@ export default {
       this.stepper.next()
       this.currentStep++
 
+      if (this.currentStep === 5) {
+      // Redirect to the specified page
+      this.$router.push({ name: 'Skrining Penyakit Stroke' });
+    }
+
       this.$nextTick(() => {
-        for (let i = 1; i <= 4; i++) {
+        for (let i = 1; i <= 5; i++) {
           const contentRef = this.$refs[`part${i}`]
           if (contentRef) {
             contentRef.style.display = this.currentStep === i ? 'block' : 'none'
@@ -299,9 +304,7 @@ export default {
 </script>
 
 <style>
-h2,
-h3,
-h5,
+
 h6 {
   color: #002761;
 }
