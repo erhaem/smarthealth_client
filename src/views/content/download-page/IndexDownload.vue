@@ -11,7 +11,8 @@
           Berobatplus merupakan layanan kesehatan yang dapat diakses kapanpun dan di manapun.
         </p>
         <div class="d-grid gap-2 d-md-flex justify-content-md-start">
-          <button type="button" class="btn btn-primary btn-sm">Download Apps</button>
+          <button type="button" id="downloadButton" class="btn btn-primary btn-sm" @click="downloadFile">Download Apps</button>
+
           <button type="button" class="btn btn-outline-secondary btn-sm">Baca Lebih Lanjut</button>
         </div>
       </div>
@@ -49,3 +50,17 @@
   }
 }
 </style>
+
+<script>
+export default {
+  // ... properti dan method lainnya ...
+
+    methods: {
+      downloadFile () {
+                const url = 'https://drive.usercontent.google.com/download?id=1Ir9wLbtdgmMU0VrEW0NB9-x-IxY_CgfW&export=download&authuser=0&confirm=t&uuid=2adfeee3-1135-45e4-a7f2-43be5bcdd631&at=APZUnTUyvzNmuh7Kxv_I0VXUU5FG:1701233642979';
+                window.location.href = url;
+            }
+        },
+  }
+
+</script>
