@@ -47,59 +47,55 @@
           >
             <div class="d-flex justify-content-between text-center">
               <!-- <div v-for="index in 4" :key="index" -->
-                
+
+              <div
+                v-for="(dokter, indexDokter) in card.dokters"
+                :key="indexDokter"
+                class="card d-flex flex-column border border-primary-subtle rounded-4"
+                style="width: 18rem"
+              >
+                <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
+                  <img
+                    src="../../../assets/images/user.png"
+                    alt="card-img-top"
+                    style="width: 90px"
+                  />
 
                   <div
-                    v-for="(dokter, indexDokter) in card.dokters"
-                    :key="indexDokter"
-                    class="card d-flex flex-column border border-primary-subtle rounded-4"
-                    style="width: 18rem"
+                    class="d-flex rounded-circle position-absolute"
+                    style="
+                      bottom: 0;
+                      right: 0;
+                      width: 15px;
+                      height: 15px;
+                      background-color: rgb(0, 195, 0);
+                    "
+                  ></div>
+                </div>
+                <div class="card-body">
+                  <h5 class="card-title">
+                    <b>{{ dokter.nama }}</b>
+                  </h5>
+                  <h5 class="card-text small">{{ dokter.spesialis }}</h5>
+                  <h6 class="mx-auto" style="font-size: small">
+                    <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
+
+                    ({{ dokter.rating }})
+                  </h6>
+                  <h6 style="font-size: small">
+                    <i class="fas fa-briefcase text-primary"></i> {{ dokter.pengalaman }}
+                  </h6>
+                  <button
+                    @click="onPilihDokter(dokter.id)"
+                    type="button"
+                    class="btn btn-primary mt-4"
                   >
-                    <div class="d-flex flex-row mx-auto mt-2 position-relative" style="width: 80px">
-                      <img
-                        src="../../../assets/images/user.png"
-                        alt="card-img-top"
-                        style="width: 90px"
-                      />
-                      
-                      <div
-                        class="d-flex rounded-circle position-absolute"
-                        style="
-                          bottom: 0;
-                          right: 0;
-                          width: 15px;
-                          height: 15px;
-                          background-color: rgb(0, 195, 0);
-                        "
-                      >
-                    </div>
-                    </div>
-                    <div class="card-body">
-                      <h5 class="card-title">
-                        <b>{{ dokter.nama }}</b>
-                      </h5>
-                      <h5 class="card-text small">{{ dokter.spesialis }}</h5>
-                      <h6 class="mx-auto" style="font-size: small">
-                        <i v-for="index in 5" :key="index" class="fas fa-star text-warning"></i>
-    
-                        ({{ dokter.rating }})
-                      </h6>
-                      <h6 style="font-size: small">
-                        <i class="fas fa-briefcase text-primary"></i> {{ dokter.pengalaman }}
-                      </h6>
-                      <button
-                        @click="$redirect({ name: 'Buat Antrean Tes' })"
-                        type="button"
-                        class="btn btn-primary mt-4"
-                      >
-                        Pilih Dokter
-                      </button>
-                    </div>
-                  </div>
-                
+                    Pilih Dokter
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
-        
         </div>
         <button
           class="my-auto carousel-control-prev btn btn-primary opacity-30 rounded-circle"
@@ -147,9 +143,7 @@ export default {
       isLoading: false,
 
       //struktur array kudu diperbaiki, biar g tumpang tindih - 22/11/23
-      cardData: [
-        
-      ]
+      cardData: []
     }
   },
   computed: {
@@ -171,7 +165,7 @@ export default {
       let type = 'getData'
       let url = ['list_dokter_sp_stroke', {}]
 
-      // this.isLoading = true
+      this.isLoading = true
 
       console.log('getting dokters')
       this.$store
@@ -183,6 +177,7 @@ export default {
             return {
               dokters: [
                 {
+                  id: dok.user.id,
                   nama: dok.user.nama,
                   img: '../../../assets/images/user.png',
                   spesialis: dok.keahlian.namaKeahlian,
@@ -193,11 +188,20 @@ export default {
             }
           })
 
-          console.log(this.cardData)
+          // console.log(this.cardData)
 
           // console.log(result.data[0].keahlian.namaKeahlian)
         })
         .catch(console.error)
+    },
+
+    onPilihDokter(dokter) {
+      this.$router.push({
+        name: 'Buat Antrean Tes',
+        query: { dokter_uid: dokter }
+      })
+
+      // alert(dokter)
     }
   }
 }

@@ -33,9 +33,11 @@
             style="bottom: 0; right: 0; width: 15px; height: 15px; background-color: rgb(0, 195, 0)"
           ></div>
         </div>
-        <div class="d-flex flex-column px-4 pt-3">
-          <h5><b>Dokter Budiman</b></h5>
-          <p class="fs-6">Spesialis Saraf Kejepit</p>
+        <div class="d-flex flex-column px-4 pt-3" v-if="chosenDokter">
+          <h5>
+            <b>{{ chosenDokter.user.nama }}</b>
+          </h5>
+          <p class="fs-6">Spesialis {{ chosenDokter.keahlian.namaKeahlian }}</p>
         </div>
       </div>
     </div>
@@ -186,9 +188,9 @@
               <p class="fw-bold mt-3 text-center">Level Risiko Perempuan, >40 Tahun</p>
               <div class="d-flex bg-secondary-subtle p-3 rounded-top">
                 <p class="fw-light">
-                  Anjuran dokter di tulis disini....
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor
-                  incididunt ut labore et dolore magna aliqua.
+                  Anjuran dokter di tulis disini.... Lorem ipsum dolor sit amet, consectetur
+                  adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna
+                  aliqua.
                 </p>
               </div>
               <div
@@ -223,9 +225,9 @@ import SectionHeaderBody from '../../../components/partials-component/SectionHea
 export default {
   data() {
     return {
+      chosenDokter: null,
       currentStep: 1,
       stepper: null,
-      isLoading: false,
       stepTitles: [
         { title: 'Buat Antrean Tes', subtitle: 'Bagaimana kami dapat membantu Anda?' },
         {
@@ -264,15 +266,16 @@ export default {
     SectionHeaderBody
   },
   mounted() {
-    this.stepper = new Stepper(document.querySelector('.bs-stepper'), {
-      linear: true,
-      animation: false,
-      selectors: {
-        steps: '.step',
-        trigger: '.step-trigger',
-        stepper: '.bs-stepper'
-      }
-    })
+    this.getInfoChosenDokter(),
+      (this.stepper = new Stepper(document.querySelector('.bs-stepper'), {
+        linear: true,
+        animation: false,
+        selectors: {
+          steps: '.step',
+          trigger: '.step-trigger',
+          stepper: '.bs-stepper'
+        }
+      }))
   },
   created() {},
 
@@ -286,9 +289,9 @@ export default {
       this.currentStep++
 
       if (this.currentStep === 5) {
-      // Redirect to the specified page
-      this.$router.push({ name: 'Skrining Penyakit Stroke' });
-    }
+        // Redirect to the specified page
+        this.$router.push({ name: 'Skrining Penyakit Stroke' })
+      }
 
       this.$nextTick(() => {
         for (let i = 1; i <= 5; i++) {
@@ -298,13 +301,36 @@ export default {
           }
         }
       })
+    },
+
+    getInfoChosenDokter() {
+      this.$nextTick().then(() => {
+        const dokterUid = this.$route.query.dokter_uid
+
+        let type = 'getData'
+        let url = [`list_dokter_sp_stroke/${dokterUid}/info`, {}]
+
+        this.$store
+          .dispatch(type, url)
+          .then((result) => {
+            if (!result.success) {
+              /* 30/11/23 redirect ke pilih dokter lagi*/
+
+              this.$router.push({ name: 'Tes Risiko Stroke' })
+              return false
+            }
+
+            this.chosenDokter = result.data
+            console.log(this.chosenDokter.keahlian)
+          })
+          .catch(console.error)
+      })
     }
   }
 }
 </script>
 
 <style>
-
 h6 {
   color: #002761;
 }
