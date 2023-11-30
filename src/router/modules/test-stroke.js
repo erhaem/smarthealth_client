@@ -30,6 +30,14 @@ export default [
     component: () => import('@/views/content/test-stroke/IndexAntreanTes.vue'),
     meta: {
       requiresAuth: true
+    },
+    beforeEnter: (to, from, next) => {
+      /*page antrean requires query `dokter_id`*/
+      if (!to.query.dokter_uid) {
+        next('/stroke-analysis/test')
+      } else {
+        next()
+      }
     }
   }
 ]
