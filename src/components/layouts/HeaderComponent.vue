@@ -54,6 +54,12 @@
                 <router-link :to="{ name: 'Riwayat Pembelian' }" class="dropdown-item" href="#"
                   >Pesanan Saya</router-link
                 >
+                <router-link :to="{ name: 'Riwayat Tes Stroke' }" class="dropdown-item" href="#"
+                  >Tes Risiko Stroke</router-link
+                >
+                <!-- <router-link :to="{ name: 'Riwayat Tes Stroke' }" class="dropdown-item" href="#"
+                  >Tes Risiko Stroke</router-link
+                > -->
               </template>
             </DropdownItem>
           </li>

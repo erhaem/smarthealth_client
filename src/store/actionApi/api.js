@@ -5,7 +5,8 @@ import snakecaseKeys from 'snakecase-keys'
 
 const Api = {
   init() {
-    axios.defaults.baseURL = 'http://127.0.0.1:8000/api'
+    axios.defaults.baseURL = 'http://192.168.100.56:8000/api'
+    // 'https://api.rafliseptiannn25.web.ti.polindra.ac.id/smarthealth_api/public/api'
 
     axios.defaults.headers.post['Content-Type'] = 'multipart/form-data'
     axios.defaults.headers.common.Authorization = 'Bearer ' + Cookies.get('token')
@@ -74,4 +75,4 @@ const Api = {
   }
 }
 
-export default Api
+export default Api;

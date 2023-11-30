@@ -1,6 +1,5 @@
-body{
+body {
   font-family: 'Lato';
-
 }
 .section-bg {
   background-color: #f1f7fd;
@@ -8,7 +7,7 @@ body{
 
 #hero {
   width: 100%;
-  background: url("../../assets/images/hero-bg.jpg") top center;
+  background: url('../../assets/images/hero-bg.jpg') top center;
   background-size: cover;
 }
 
@@ -18,7 +17,6 @@ body{
 
 #services {
   padding: 30px 0 40px 0;
-
 }
 
 #services .card {
@@ -30,7 +28,6 @@ body{
   transition: all ease-in-out 0.3s;
   height: 100%;
   border: none;
-
 }
 
 #services .card:hover {
@@ -41,7 +38,6 @@ body{
   font-weight: 500;
   margin-bottom: 3px;
   font-size: 18px;
-  
 }
 
 #services .description {
