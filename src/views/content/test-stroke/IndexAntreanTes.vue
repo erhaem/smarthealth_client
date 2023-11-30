@@ -320,8 +320,19 @@ export default {
               return false
             }
 
+            if (result.data.dokter.sedangOnline == 0) {
+              this.$swal({
+                icon: 'error',
+                title: 'Dokter sedang tidak online',
+                text: 'Silakan pilih ulang.'
+              })
+
+              this.$router.push({ name: 'Tes Risiko Stroke' })
+              return false
+            }
+
             this.chosenDokter = result.data
-            console.log(this.chosenDokter.keahlian)
+            // console.log(this.chosenDokter.keahlian)
           })
           .catch(console.error)
       })
