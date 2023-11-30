@@ -15,6 +15,11 @@ export default [
         component: ()=>import('@/views/content/riwayat/IndexRiwayatPembelian.vue')
     },
     {
+        path: '/riwayat-tes',
+        name: 'Riwayat Tes Stroke',
+        component: ()=>import('@/views/content/riwayat/IndexRiwayatTesStroke.vue')
+    },
+    {
     path: '/produk',
         name: 'Data Produk',
         component: () => import('@/views/content/obat-produk/IndexProduk.vue')

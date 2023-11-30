@@ -7,11 +7,16 @@
           <InputField v-model="form.email" placeholder="masukkan email anda yang terdaftar" />
           <div class="d-flex justify-content-start">
             <div class="me-3 border rounded ps-3 pe-3">
-              <p>{{ captchaText }}
-              </p>
+              <p>{{ captchaText }}</p>
             </div>
             <div>
-              <input type="text" class="form-control" placeholder="captcha" v-model="userInput" @input="checkCaptcha">
+              <input
+                type="text"
+                class="form-control"
+                placeholder="captcha"
+                v-model="userInput"
+                @input="checkCaptcha"
+              />
             </div>
           </div>
           <div class="d-flex justify-content-start">
@@ -19,9 +24,7 @@
             <p v-if="showMessage" :class="messageClass">{{ message }}</p>
           </div>
           <div class="d-flex justify-content-end">
-            <button class="btn btn-sm btn-primary" type="submit" @click="postEmail">
-              submit
-            </button>
+            <button class="btn btn-sm btn-primary" type="submit" @click="postEmail">submit</button>
           </div>
         </div>
       </div>
@@ -29,64 +32,64 @@
   </div>
 </template>
 <script>
-import InputField from '@/components/partials-component/InputField.vue';
-import iziToast from 'izitoast';
+import InputField from '@/components/partials-component/InputField.vue'
+import iziToast from 'izitoast'
 
 export default {
   data() {
     return {
       form: {
-        email: '',
+        email: ''
       },
       captchaText: this.generateCaptchaText(),
       userInput: '',
       showMessage: false,
       message: '',
       messageClass: '',
-      captchaValid: false,
-    };
+      captchaValid: false
+    }
   },
   components: {
-    InputField,
+    InputField
   },
   methods: {
     reload() {
       window.location = '/forgot_password'
     },
     generateCaptchaText() {
-      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-      let captcha = '';
+      const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+      let captcha = ''
       for (let i = 0; i < 6; i++) {
-        captcha += characters.charAt(Math.floor(Math.random() * characters.length));
+        captcha += characters.charAt(Math.floor(Math.random() * characters.length))
       }
-      return captcha;
+      return captcha
     },
     checkCaptcha() {
       if (this.userInput === this.captchaText) {
-        this.showMessage = true;
-        this.message = 'Captcha benar!';
-        this.messageClass = 'success';
-        this.captchaValid = true;
+        this.showMessage = true
+        this.message = 'Captcha benar!'
+        this.messageClass = 'success'
+        this.captchaValid = true
       } else {
-        this.showMessage = true;
-        this.message = 'Captcha salah. Silahkan coba lagi';
-        this.messageClass = 'error';
-        this.captchaValid = false;
+        this.showMessage = true
+        this.message = 'Captcha salah. Silahkan coba lagi'
+        this.messageClass = 'error'
+        this.captchaValid = false
       }
     },
     postEmail() {
-      let type = 'postData';
-      let url = ['autentikasi/confirm_email', this.form, {}];
+      let type = 'postData'
+      let url = ['autentikasi/confirm_email', this.form, {}]
 
-      this.checkCaptcha();
+      this.checkCaptcha()
 
       if (!this.captchaValid) {
         this.$swal({
           icon: 'error',
           title: 'Invalid CAPTCHA',
-          text: 'Please enter the correct CAPTCHA value.',
-        });
-        return;
+          text: 'Please enter the correct CAPTCHA value.'
+        })
+        return
       }
 
       this.$store
@@ -95,25 +98,25 @@ export default {
           if (result.status == false) {
             this.$swal({
               icon: 'error',
-              title: 'Check Your Email',
-              text: result.pesan,
-            });
-          } else if(result.pesan === 'Berhasil') {
+              title: 'Gagal untuk mengirim email',
+              text: result.pesan
+            })
+          } else if (result.pesan === 'Berhasil') {
             this.$swal({
               icon: 'success',
-              title: 'cek email anda yaaa',
+              title: 'Silakan cek email anda',
               text: result.pesan
-            }).then(()=>{
-              this.$router.push({name: 'LoginUser'})
+            }).then(() => {
+              this.$router.push({ name: 'LoginUser' })
             })
           }
         })
         .catch((err) => {
-          console.log(err);
-        });
-    },
-  },
-};
+          console.log(err)
+        })
+    }
+  }
+}
 </script>
 
 <style>

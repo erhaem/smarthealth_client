@@ -15,7 +15,7 @@
             <div class="input-group">
                 <span class="input-group-text border-0 bg-warning" id="search-addon"><i
                         class="fas fa-magnifying-glass text-light"></i></span>
-                <input type="search" class="form-control rounded p-2" placeholder="Cari nama obat atau vitamin" />
+                <input type="search" class="form-control rounded-end p-2" placeholder="Cari nama obat atau vitamin" />
             </div>
         </template>
     </SectionHeaderBody>
