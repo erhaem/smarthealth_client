@@ -40,6 +40,7 @@
       <div id="customCarousel" class="carousel slide">
         <div class="carousel-inner">
           <div
+            v-if="cardData.length > 0"
             v-for="(card, index) in cardData"
             :key="index"
             class="carousel-item"
@@ -167,30 +168,35 @@ export default {
 
       this.isLoading = true
 
-      console.log('getting dokters')
+      // console.log('getting dokters')
       this.$store
         .dispatch(type, url)
         .then((result) => {
           this.isLoading = false
 
-          this.cardData = result.data.map((dok) => {
-            return {
-              dokters: [
-                {
-                  id: dok.user.id,
-                  nama: dok.user.nama,
-                  img: '../../../assets/images/user.png',
-                  spesialis: dok.keahlian.namaKeahlian,
-                  rating: 20,
-                  pengalaman: '20 tahun pengalaman'
-                }
-              ]
+          if (!result.success) {
+            console.log('Failed to get dokter')
+            return false
+          }
+
+          for (const dok of result.data) {
+            /*30/11/23 - dokter yang online online aja*/
+            if (dok.dokter != null && dok.dokter.sedangOnline == 1) {
+              this.cardData.push({
+                dokters: [
+                  {
+                    id: dok.user.id,
+                    nama: dok.user.nama,
+                    img: '../../../assets/images/user.png',
+                    spesialis: dok.keahlian.namaKeahlian,
+                    rating: 20,
+                    pengalaman: '20 tahun pengalaman'
+                  }
+                ]
+              })
             }
-          })
-
+          }
           // console.log(this.cardData)
-
-          // console.log(result.data[0].keahlian.namaKeahlian)
         })
         .catch(console.error)
     },
