@@ -27,7 +27,7 @@
       </slot>
       <div class="d-flex flex-row mx-auto py-3 mt-4 align-items-center">
         <div class="d-flex position-relative" style="width: 80px">
-          <img src="../../../assets/images/user.png" alt="" style="width: 90px" />
+          <img src="../../../assets/images/user.png" class="w-100" alt="" />
           <div
             class="d-flex rounded-circle position-absolute"
             style="bottom: 0; right: 0; width: 15px; height: 15px; background-color: rgb(0, 195, 0)"
@@ -51,7 +51,7 @@
         <b>{{ stepTitles[currentStep - 1].subtitle }}</b>
       </h6>
       <!-- STEPPER HERE -->
-      <div class="bs-stepper text-wrap mx-auto" style="width: 40rem">
+      <div class="bs-stepper mx-auto w-50">
         <div class="bs-stepper-header" role="tablist">
           <!-- your steps here -->
           <div class="step" data-target="#part1">
