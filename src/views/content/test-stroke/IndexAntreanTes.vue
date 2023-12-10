@@ -146,9 +146,9 @@
             aria-labelledby="logins-part-trigger"
             v-show="isCurrentStep(2)"
           >
-            <div class="d-flex flex-column text-center">
+            <div class="d-flex flex-column text-center" v-if="antreanNumber !== null">
               <h6><b>Nomor Antrean Anda:</b></h6>
-              <h3 class="fw-bold">10</h3>
+              <h3 class="fw-bold">{{ antreanNumber }}</h3>
             </div>
           </div>
           <div
@@ -225,6 +225,9 @@ import SectionHeaderBody from '../../../components/partials-component/SectionHea
 export default {
   data() {
     return {
+      antreanNumber: null,
+      currentUser: null,
+      dokterUid: this.$route.query.dokter_uid,
       chosenDokter: null,
       currentStep: 1,
       stepper: null,
@@ -266,27 +269,48 @@ export default {
     SectionHeaderBody
   },
   mounted() {
-    this.getInfoChosenDokter(),
-      (this.stepper = new Stepper(document.querySelector('.bs-stepper'), {
-        linear: true,
-        animation: false,
-        selectors: {
-          steps: '.step',
-          trigger: '.step-trigger',
-          stepper: '.bs-stepper'
-        }
-      }))
+    this.stepper = new Stepper(document.querySelector('.bs-stepper'), {
+      linear: true,
+      animation: false,
+      selectors: {
+        steps: '.step',
+        trigger: '.step-trigger',
+        stepper: '.bs-stepper'
+      }
+    })
   },
-  created() {},
+  created() {
+    this.getInfoChosenDokter()
+    this.getInfoCurrentUser()
+  },
 
   methods: {
     changeStep(step) {
       this.currentStep = step
     },
-    getAntrean() {
-      console.log('Antrean Diperoleh')
+
+    nextStep() {
       this.stepper.next()
       this.currentStep++
+    },
+
+    prevStep() {
+      this.stepper.previous()
+      this.currentStep--
+    },
+
+    getAntrean() {
+      // console.log('Antrean Diperoleh')
+
+      if (this.currentStep === 1) {
+        this.addToAntrean()
+      }
+
+      if (this.currentStep == 3) {
+        this.$router.push({ name: 'Riwayat Tes Stroke' })
+      }
+
+      this.nextStep()
 
       if (this.currentStep === 5) {
         // Redirect to the specified page
@@ -305,16 +329,22 @@ export default {
 
     getInfoChosenDokter() {
       this.$nextTick().then(() => {
-        const dokterUid = this.$route.query.dokter_uid
+        // const dokterUid = this.dokterUid
 
         let type = 'getData'
-        let url = [`list_dokter_sp_stroke/${dokterUid}/info`, {}]
+        let url = [`list_dokter_sp_stroke/${this.dokterUid}/info`, {}]
 
         this.$store
           .dispatch(type, url)
           .then((result) => {
             if (!result.success) {
               /* 30/11/23 redirect ke pilih dokter lagi*/
+
+              this.$swal({
+                icon: 'error',
+                title: 'Dokter tidak tersedia!',
+                text: 'Silakan pilih ulang.'
+              })
 
               this.$router.push({ name: 'Tes Risiko Stroke' })
               return false
@@ -336,6 +366,66 @@ export default {
           })
           .catch(console.error)
       })
+    },
+
+    getInfoCurrentUser() {
+      let type = 'getData'
+      let url = ['akun/profil/konsumen/profil', {}]
+
+      this.$store
+        .dispatch(type, url)
+        .then((result) => {
+          if (!result.data) {
+            console.log('failed to get info current user')
+            return false
+          }
+
+          this.currentUser = result.data
+
+          // console.log(this.currentUser, '\n', this.currentUser.user.id)
+        })
+        .catch(console.error)
+    },
+
+    addToAntrean() {
+      let type = 'postData'
+      let url = [
+        `antre_test_stroke`,
+        {
+          id_user_konsumen: this.currentUser.user.id,
+          id_user_dokter: this.dokterUid
+        }
+      ]
+
+      this.$store
+        .dispatch(type, url)
+        .then((result) => {
+          if (!result.success) {
+            this.$swal({
+              icon: 'error',
+              title: 'Gagal mendapatkan antrean',
+              text: result.message
+            })
+
+            if (result.message.match(/sudah memiliki antrean/i)) {
+              this.nextStep()
+            } else {
+              this.prevStep()
+            }
+
+            return false
+          }
+
+          this.antreanNumber = result.noUrut
+
+          // console.log(this.antreanNumber)
+          this.$swal({
+            icon: 'success',
+            title: 'Berhasil mendapatkan antrean',
+            text: 'Silakan ke tahap selanjutnya'
+          })
+        })
+        .catch(console.error)
     }
   }
 }
