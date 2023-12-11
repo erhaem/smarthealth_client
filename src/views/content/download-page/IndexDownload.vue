@@ -53,8 +53,6 @@
 
 <script>
 export default {
-
-
     methods: {
       downloadFile () {
                 const url = 'https://drive.usercontent.google.com/download?id=1Ir9wLbtdgmMU0VrEW0NB9-x-IxY_CgfW&export=download&authuser=0&confirm=t&uuid=2adfeee3-1135-45e4-a7f2-43be5bcdd631&at=APZUnTUyvzNmuh7Kxv_I0VXUU5FG:1701233642979';
