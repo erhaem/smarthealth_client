@@ -40,7 +40,6 @@
                   <option :value="`${item.id}+-0.8`">Hampir pasti tidak</option>
                   <option :value="`${item.id}+-0.6`">Kemungkinan besar tidak</option>
                   <option :value="`${item.id}+-0.4`">Mungkin tidak</option>
-                  <option value="" selected>Tidak tahu</option>
                   <option :value="`${item.id}+0.4`">Mungkin</option>
                   <option :value="`${item.id}+0.6`">Sangat mungkin</option>
                   <option :value="`${item.id}+0.8`">Hampir pasti</option>
