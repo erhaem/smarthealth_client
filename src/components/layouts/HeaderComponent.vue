@@ -57,6 +57,7 @@
                 <router-link :to="{ name: 'Riwayat Tes Stroke' }" class="dropdown-item" href="#"
                   >Tes Risiko Stroke</router-link
                 >
+                <router-link class="dropdown-item" to="/hasil_screening_penyakit">Lihat Hasil Skrining</router-link>
                 <!-- <router-link :to="{ name: 'Riwayat Tes Stroke' }" class="dropdown-item" href="#"
                   >Tes Risiko Stroke</router-link
                 > -->
