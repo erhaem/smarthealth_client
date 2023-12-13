@@ -46,7 +46,8 @@ router.beforeEach((to, from, next) => {
     'Halaman Stroke Analysis',
     'Tes Risiko Stroke',
     'Buat Antrean Tes',
-    'skrining_penyakit'
+    'skrining_penyakit',
+    'hasil_skrining'
   ]
 
   if (routeName.includes(to.name)) {
