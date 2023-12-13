@@ -107,11 +107,15 @@ export default {
         formData.append('file', capturedPhotoFile)
 
         // Make the POST request using Axios
-        let response = await axios.post('http://127.0.0.1:8000/api/send-stroke-face', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        let response = await axios.post(
+          'https://rafliseptiannn25.web.ti.polindra.ac.id/smarthealth_api/public/api/send-stroke-face',
+          formData,
+          {
+            headers: {
+              'Content-Type': 'multipart/form-data'
+            }
           }
-        })
+        )
 
         if (response.status === 200) {
           // Handle the successful response
@@ -119,8 +123,8 @@ export default {
 
           let data = JSON.parse(response.data.response)
 
-          this.result = data.message
-          this.percentage = data.percentage
+          this.result = data.prediction
+          this.percentage = data.confidence
 
           izitoast.success({
             icon: 'success',
