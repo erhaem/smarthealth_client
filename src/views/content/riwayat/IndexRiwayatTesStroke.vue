@@ -188,7 +188,7 @@ export default {
     },
 
     getLabelClass(persentase) {
-      const persentaseTotal = persentase
+      const persentaseTotal = parseInt(persentase)
 
       if (persentaseTotal > 75) {
         return 'danger'
