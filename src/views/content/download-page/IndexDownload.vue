@@ -55,7 +55,7 @@
 export default {
     methods: {
       downloadFile () {
-        const url = 'https://drive.usercontent.google.com/download?id=1MBHO0K3tdpO20mMAEp-eqvfDs2E9KdAL&export=download&authuser=0&confirm=t&uuid=7329ff00-f260-4a99-84ec-226f7750b7d1&at=APZUnTULxuJxVsGu_ZePcQ64LUy2:1702558167388';
+        const url = 'https://drive.usercontent.google.com/download?id=1ufKhIBf41-RYnUPFbZkm5wupTrPCQoAw&export=download&authuser=0&confirm=t&uuid=50d87b3c-892e-4985-9fd0-3286e0f325fe&at=APZUnTXb7YkEgmDO8Rg_X5w4pfiq:1703057232477';
                 window.location.href = url;
             }
         },
