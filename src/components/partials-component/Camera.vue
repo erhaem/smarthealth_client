@@ -154,6 +154,9 @@ export default {
       if (this.isCameraOpen) {
         this.isCameraOpen = false
         this.stopCameraStream()
+
+        this.result = null
+        this.percentage = null
       } else {
         this.isCameraOpen = true
         this.startCameraStream()
